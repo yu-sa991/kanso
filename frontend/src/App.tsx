@@ -1,121 +1,95 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen bg-slate-50 text-gray-800 antialiased font-sans">
+      
+      {/* 1. ⚙️ ヘッダーエリア */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+        <div className="text-2xl font-black tracking-wider text-slate-900">
+          kanso<span className="text-green-500">.</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+        <button className="bg-slate-900 text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-slate-800 transition">
+          ログイン / 登録
         </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <main className="max-w-md mx-auto px-4 pb-24">
+        
+                 {/* 2. 🚀 メイン（ヒーロー）エリア */}
+        <section className="text-center pt-12 pb-16">
+          <span className="bg-red-50 text-red-600 border border-red-200 text-xs font-black px-3 py-1.5 rounded-full tracking-wider animate-pulse">
+            「まだ大丈夫」を許さない振り返りアプリ
+          </span>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-5 leading-tight">
+            健康になりたいのであって、<br />
+            <span className="text-red-500 underline decoration-wavy">完璧な食事データ</span>を<br />
+            作リたいわけじゃない。
+          </h1>
+          <p className="mt-5 text-slate-600 text-sm leading-relaxed px-2">
+            体重計に乗る勇気がなく「まだ大丈夫」と現実から目を背けて都合よく錯覚していませんか？<br />
+            <span className="font-bold text-slate-900">がんばる人ほど燃え尽きてしまう既存アプリの入力の手間を、徹底的に断捨離。</span><br />
+            アプリを開いて1秒、巨大な3択ボタンを押すだけで、クスッと笑いながら現実を直視し、本来の健康管理行動を定着させます。
+          </p>
+        </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* 3. 🟢🟡🔴 巨大3択ボタンのイメージセクション */}
+        <section className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm mb-12">
+          <h2 className="text-center text-sm font-bold text-gray-400 tracking-widest uppercase mb-6">
+            アプリの実際の操作画面
+          </h2>
+          <div className="flex flex-col gap-4">
+            <button className="w-full bg-green-500 text-white font-extrabold text-xl py-5 rounded-2xl shadow-md transform active:scale-95 transition">
+              少なすぎ 🟢
+            </button>
+            <button className="w-full bg-amber-400 text-slate-900 font-extrabold text-xl py-5 rounded-2xl shadow-md transform active:scale-95 transition">
+              普通 🟡
+            </button>
+            <button className="w-full bg-red-500 text-white font-extrabold text-xl py-5 rounded-2xl shadow-md transform active:scale-95 transition">
+              食べすぎ 🔴
+            </button>
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-4">
+            ※文字入力は1ミリも必要ありません。アプリを開いて1秒で完結。
+          </p>
+        </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {/* 4. 📝 使い方セクション */}
+        <section className="pt-4">
+          <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
+            使い方は驚くほどシンプル
+          </h3>
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-slate-900 text-white font-bold rounded-xl w-8 h-8 flex items-center justify-center shrink-0">
+                1
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900">ご飯を食べる</h4>
+                <p className="text-sm text-gray-500 mt-1">スマホを取り出して文字を入力する面倒な手間は、すべて忘れてください。</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-slate-900 text-white font-bold rounded-xl w-8 h-8 flex items-center justify-center shrink-0">
+                2
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900">アプリを開いて3択ボタンを1秒タップ</h4>
+                <p className="text-sm text-gray-500 mt-1">主観で構いません。「少なすぎ」「普通」「食べすぎ」の巨大ボタンをポンと押すだけ。</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-slate-900 text-white font-bold rounded-xl w-8 h-8 flex items-center justify-center shrink-0">
+                3
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900">カレンダーに色が塗られ、現実を直視</h4>
+                <p className="text-sm text-gray-500 mt-1">自動でカレンダーが🟢🟡🔴に染まります。「都合のいい錯覚」をシャットアウトし、行動を振り返ります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
   )
 }
 
