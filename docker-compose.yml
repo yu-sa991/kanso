@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 🐳 ローカル開発用データベース（PostgreSQL）の箱
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  # 🧠 バックエンド（Ruby on Rails）の箱
+  backend:
+    build: ./backend
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Asia/Tokyo
+      - RAILS_ENV=development
+      # ★ここが究極の解決策！設定ファイルを無視して、Railsのシステムへ直接「dbコンテナに繋げ！」と最優先コマンドを注入します
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/kanso_development
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+
+  # 🎨 フロントエンド（React / Vite）の箱
+  frontend:
+    build: ./frontend
+    command: npm run dev -- --host
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules 
+    ports:
+      - "5173:5173"
+    environment:
+      - TZ=Asia/Tokyo
+    tty: true
+    stdin_open: true
+
+volumes:
+  db_data:
