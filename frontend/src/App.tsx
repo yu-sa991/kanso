@@ -1,5 +1,3 @@
-
-
 function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-gray-800 antialiased font-sans">
@@ -16,18 +14,20 @@ function App() {
 
       <main className="max-w-md mx-auto px-4 pb-24">
         
-        {/* 2. 🚀 メイン（ヒーロー）エリア */}
+                 {/* 2. 🚀 メイン（ヒーロー）エリア */}
         <section className="text-center pt-12 pb-16">
-          <span className="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">
-            忙しいアラフォー世代のための超ずぼら管理
+          <span className="bg-red-50 text-red-600 border border-red-200 text-xs font-black px-3 py-1.5 rounded-full tracking-wider animate-pulse">
+            「まだ大丈夫」を許さない振り返りアプリ
           </span>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mt-4 leading-tight">
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight mt-5 leading-tight">
             健康になりたいのであって、<br />
-            <span className="text-red-500 underline decoration-wavy">完璧なデータ</span>を作りたいわけじゃない。
+            <span className="text-red-500 underline decoration-wavy">完璧な食事データ</span>を<br />
+            作リたいわけじゃない。
           </h1>
-          <p className="mt-4 text-gray-600 text-base leading-relaxed">
-            グラム単位のカロリー入力で燃え尽きたあなたへ。<br />
-            手間の断捨離を徹底した、1秒食事レコーディング。
+          <p className="mt-5 text-slate-600 text-sm leading-relaxed px-2">
+            体重計に乗る勇気がなく「まだ大丈夫」と現実から目を背けて都合よく錯覚していませんか？<br />
+            <span className="font-bold text-slate-900">がんばる人ほど燃え尽きてしまう既存アプリの入力の手間を、徹底的に断捨離。</span><br />
+            アプリを開いて1秒、巨大な3択ボタンを押すだけで、クスッと笑いながら現実を直視し、本来の健康管理行動を定着させます。
           </p>
         </section>
 
