@@ -10,7 +10,9 @@ export default defineConfig({
   ],
   server: {
     watch: {
-      usePolling: true // Docker環境で画面の自動更新をサクサク動かすためのお守り
+      //usePolling: true // Docker環境で画面の自動更新をサクサク動かすためのお守り
+     // 本番環境（Render）のときはオフ、手元のパソコンのときだけオンにする魔法の切り替えです
+      usePolling: !process.env.RENDER
     }
   }
 })
