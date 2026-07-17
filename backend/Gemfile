@@ -40,10 +40,9 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://rubyonrails.org
   gem 'debug', platforms: %i[mri windows]
-  gem 'rubocop', require: false
   gem 'rspec-rails' # ここにテスト係のRSpecを追加します！
+  gem 'rubocop', require: false
 end
-
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]

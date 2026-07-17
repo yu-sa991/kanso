@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Application class
 require_relative 'boot'
 
