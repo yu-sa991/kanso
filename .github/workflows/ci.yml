@@ -14,21 +14,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 🚀 Dockerの組み立て段階で bundle install が走るため、一撃で完璧にソフトが揃います！
+      # 🚀 コンテナを組み立てて起動します
       - name: Build and Start Containers
         run: |
           docker compose build
           docker compose up -d backend
 
-      # 3. 静的解析：RuboCop（コマンドを見失わないよう、コンテナ内の絶対パス /usr/local/bundle/bin/bundle で実行します！）
+      # ⏳【超重要！ここを追加！】
+      # Railsの箱が完全に目を覚ますまで、ロボットに「10秒間」じっと待ってもらう魔法のステップです！
+      - name: Wait for PostgreSQL and Rails to be ready
+        run: sleep 10
+
+      # 3. 静的解析：RuboCop（箱が完全に起きたので、標準の bundle exec で100%確実に動きます！）
       - name: Run RuboCop
         run: |
-          docker compose exec -T backend /usr/local/bundle/bin/bundle exec rubocop
+          docker compose exec -T backend bundle exec rubocop
 
-      # 4. 自動テスト：RSpec（こちらも絶対パスで確実に実行させます！）
+      # 4. 自動テスト：RSpec
       - name: Run RSpec
         run: |
-          docker compose exec -T backend /usr/local/bundle/bin/bundle exec rspec
+          docker compose exec -T backend bundle exec rspec
 
       # 5. 後片付け：終わったら Docker の箱を綺麗に閉じる
       - name: Stop Containers
