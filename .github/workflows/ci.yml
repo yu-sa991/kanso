@@ -14,18 +14,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 🚀 コンテナを組み立てて起動します
+      # 🚀 コンテナを立ち上げる際、環境変数を「development」にして本番用のお掃除（除外）を強制ストップさせます！
       - name: Build and Start Containers
+        env:
+          RAILS_ENV: development
+          RACK_ENV: development
         run: |
           docker compose build
           docker compose up -d backend
 
-      # ⏳【超重要！ここを追加！】
-      # Railsの箱が完全に目を覚ますまで、ロボットに「10秒間」じっと待ってもらう魔法のステップです！
+      # ⏳ Railsの箱が完全に目を覚ますまで、ロボットに「10秒間」じっと待ってもらいます
       - name: Wait for PostgreSQL and Rails to be ready
         run: sleep 10
 
-      # 3. 静的解析：RuboCop（箱が完全に起きたので、標準の bundle exec で100%確実に動きます！）
+      # 🛠️【ここが最大のポイント！】
+      # 「--without production」を解除し、コンテナの中でRuboCopやRSpecを強制的に全てフルインストールさせます！
+      - name: Install All Gems (Include Dev/Test)
+        run: |
+          docker compose exec -T backend bundle config unset without
+          docker compose exec -T backend bundle install
+
+      # 3. 静的解析：RuboCop（すべてのソフトが100%揃ったので、今度こそ絶対に動きます！）
       - name: Run RuboCop
         run: |
           docker compose exec -T backend bundle exec rubocop
