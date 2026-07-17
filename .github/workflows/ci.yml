@@ -14,9 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # 🛠️【超重要！ここを追加！】GitHubのロボットの中に、Docker Composeのコマンド本体を完璧にインストールする魔法の部品
+      - name: Set up Docker Compose
+        uses: KengoTogo/setup-docker-compose@v1
 
+      # 🚀 これで docker-compose コマンドが100%確実に使えるようになります！
       - name: Build and Start Containers
         run: |
           docker-compose build
