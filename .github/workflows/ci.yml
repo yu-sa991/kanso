@@ -17,6 +17,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+          # 🛠️【ここを追加！】GitHubActionsのロボットに Docker Compose を合体させる設定
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # 2. ロボットの中に Docker Compose を立ち上げる
       - name: Build and Start Containers
         run: |
