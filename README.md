@@ -801,3 +801,31 @@ https://github.com/users/yu-sa991/projects/11/views/1
 5. **お問い合わせフォームの実装**（メイン画面最下部のその他メニュー（モーダル）内への画面追加）
 6. **マイページプロフィール編集機能の実装**（その他メニュー（モーダル）内からの登録情報編集画面）
 
+
+
+
+
+## 💡 本番環境デプロイ時のトラブルシューティング
+
+本番環境（Render / Neon）への初期デプロイ時に発生したエラーと、その解決アプローチの記録です。
+
+### 1. Docker Build Context の重複によるディレクトリ迷子
+* **エラー**: `error: invalid local: resolve : lstat ... no such file or directory`
+* **原因**: Renderの設定で `Root Directory` と `Docker Build Context` の両方に `backend` を指定したため、Renderが `backend/backend` という存在しない階層を探してしまっていた。
+* **解決策**: `Docker Build Context` 側を `.`（カレントディレクトリ）に修正し、コンテキストの重複を解消。
+
+### 2. 本番環境における Vite の無限ポーリング（無限ループ）
+* **エラー**: フロントエンドのビルドが終了せず、ログが無限にループする。
+* **原因**: 開発環境用のホットリロード設定である `usePolling: true` が本番サーバー上でも動作し続け、プロセスの終了を妨げていた。
+* **解決策**: `vite.config.ts` を修正し、本番環境（`process.env.RENDER` が存在する場合）では自動的にポーリングがオフになるよう動的切り替えを実装。
+
+### 3. production環境における secret_key_base の不足
+* **エラー**: `ArgumentError: Missing secret_key_base for 'production' environment`
+* **原因**: Railsを production モードで安全に起動するために必要な、暗号化用の秘密鍵（合言葉）が本番環境の環境変数に設定されていなかった。
+* **解決策**: セキュリティと秘匿性を担保するため、ソースコードには直接記述せず、Renderの `Environment Variables` に `SECRET_KEY_BASE` としてトークンを安全に登録。
+
+##4 . 環境変数を利用した鉄壁のセキュリティ対策
+本番環境での安全性を担保するため、以下のプロ仕様の防犯対策を講じています。
+* **データベースURLの秘匿化**: Neon（クラウドデータベース）の接続用パスワード付きURLは、ソースコード（GitHub）に直接記述せず、Renderの `Environment Variables` に格納して強力に暗号化。
+* **本番防御モードの有効化**: `RAILS_ENV = production` を指定し、万が一のエラー発生時も内部のシステム構造（デバッグ情報）が外部（ハッカー等）に漏洩しないようガード。
+* **秘密鍵（SECRET_KEY_BASE）の厳重管理**: ユーザーデータを安全に暗号化するための合言葉（トークン）をRender側の金庫にのみ設定。ソースコード上から機密情報を100%排除した安全なデプロイを実現しました。
