@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+#  トリガー：mainブランチや各種ブランチに push またはプルリクが送られたら自動起動
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 【バックエンドの自動チェック】
+  backend-ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. GitHubのロボットにあなたのコードをダウンロードさせる
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. ロボットの中に Docker Compose を立ち上げる
+      - name: Build and Start Containers
+        run: |
+          docker compose build
+          docker compose up -d backend
+
+      # 3.  静的解析：RuboCop（コードの書き方の乱れ）を自動チェックさせる
+      - name: Run RuboCop
+        run: |
+          docker compose exec -T backend bundle exec rubocop
+
+      # 4.  自動テスト：RSpec（プログラムが正しく動くか）を自動実行させる
+      - name: Run RSpec
+        run: |
+          docker compose exec -T backend bundle exec rspec
+
+      # 5. 後片付け：終わったら Docker の箱を綺麗に閉じる
+      - name: Stop Containers
+        if: always()
+        run: docker compose down
