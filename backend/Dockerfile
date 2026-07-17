@@ -20,5 +20,5 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 # CMD ["rails", "server", "-b", "0.0.0.0"]
-# 🚀【本番用】起動する直前に、インターネット上の金庫（データベース）を自動作成して立ち上げる無敵のコマンドです！
+# 【本番用】起動する直前に、インターネット上の金庫（データベース）を自動作成して立ち上げる無敵のコマンドです！
 CMD ["sh", "-c", "bundle exec rails db:create db:migrate && exec rails server -b 0.0.0.0"]
