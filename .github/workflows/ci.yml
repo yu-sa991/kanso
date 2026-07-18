@@ -14,13 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 🚀 GitHub公式の標準コマンドを使って組み立てます
+      # GitHub公式の標準コマンドを使って組み立てます
       - name: Build and Start Containers
         run: |
           docker compose build
           docker compose up -d backend
           
-      # ⏳ Railsの箱が完全に目を覚ますまで、ロボットに「10秒間」じっと待ってもらいます
+      #  Railsの箱が完全に目を覚ますまで、ロボットに「10秒間」じっと待ってもらいます
       - name: Wait for Rails to be ready
         run: sleep 10
 
@@ -29,17 +29,17 @@ jobs:
         run: |
           docker compose exec -T backend bundle exec rails db:create db:migrate
 
-      # 🧹 静的解析：RuboCop（Gemfileに名前が載ったので、今度こそ100%確実に動きます！）
+      #  静的解析：RuboCop（Gemfileに名前が載ったので、今度こそ100%確実に動きます！）
       - name: Run RuboCop
         run: |
           docker compose exec -T backend bundle exec rubocop
 
-      # 🧪 自動テスト：RSpec
+      #  自動テスト：RSpec
       - name: Run RSpec
         run: |
           docker compose exec -T backend bundle exec rspec
 
-      # 🔒 後片付け
+      #  後片付け
       - name: Stop Containers
         if: always()
         run: docker compose down
