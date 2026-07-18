@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# CreateUsers migration class
 class CreateUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :users do |t|
@@ -10,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    # 🛡️ データベースの底で、同じメールアドレスの重複登録を100%完全にブロックする最強のガードです！
+    # データベースの底で、同じメールアドレスの重複登録を100%完全にブロックする最強のガードです！
     add_index :users, :email, unique: true
   end
 end
