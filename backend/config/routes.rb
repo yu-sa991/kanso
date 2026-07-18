@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  #  バックエンドAPIの通り道を設定します
+  namespace :api do
+    namespace :v1 do
+      #  ユーザー登録・ログイン認証用の専用URL窓口です
+      post 'register', to: 'authentications#register'
+      post 'login', to: 'authentications#login'
+    end
+  end
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  #  アプリが元気に動いているかチェックするための生存確認用URLです
   get 'up' => 'rails/health#show', as: :rails_health_check
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
