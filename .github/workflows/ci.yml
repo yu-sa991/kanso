@@ -24,6 +24,11 @@ jobs:
       - name: Wait for Rails to be ready
         run: sleep 10
 
+         # ロボット工場の中にまっさらなデータベースを自動生成させる魔法の命令
+      - name: Create Database
+        run: |
+          docker compose exec -T backend bundle exec rails db:create db:migrate
+
       # 🧹 静的解析：RuboCop（Gemfileに名前が載ったので、今度こそ100%確実に動きます！）
       - name: Run RuboCop
         run: |
