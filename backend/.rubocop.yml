@@ -1,0 +1,10 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'db/schema.rb' #  ロボット工場の中で自動生成されるschema.rbを完全にスルー（除外）させます！
+
+#  クラスの一番上の説明コメント（Style/Documentation）のチェックを最初からオフにします！
+Style/Documentation:
+  Enabled: false
