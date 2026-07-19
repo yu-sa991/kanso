@@ -4,7 +4,7 @@
 module Api
   module V1
     class AuthenticationsController < ApplicationController
-      #  1. 【新規登録】アカウントを作りたい人が来たらここ！
+      # 📝 1. 【新規登録】アカウントを作りたい人が来たらここ！
       def register
         user = User.new(user_params)
 
@@ -16,7 +16,7 @@ module Api
         end
       end
 
-      #  2. 【ログイン】すでにアカウントを持っている人はここ！
+      # 🔑 2. 【ログイン】すでにアカウントを持っている人はここ！
       def login
         user = User.find_by(email: params[:email])
 
