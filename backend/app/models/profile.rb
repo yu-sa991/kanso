@@ -14,4 +14,3 @@ class Profile < ApplicationRecord
   validates :height, presence: true, numericality: { greater_than: 0 } # 身長は0より大きい数字のみ！
   validates :weight, presence: true, numericality: { greater_than: 0 } # 体重は0より大きい数字のみ！
 end
-
