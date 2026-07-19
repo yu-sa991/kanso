@@ -16,7 +16,7 @@ export default function Register() {
 
     try {
       // 🌐 axios を使って、大文字の Api/V1 窓口へお名前とパスワードを送信します！
-      const response = await axios.post('http://localhost:3000/api/V1/register', {
+      const response = await axios.post('http://localhost:3000/api/v1/register', {
         user: { name, email, password, password_confirmation: passwordConfirmation }
       });
 

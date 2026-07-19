@@ -14,7 +14,7 @@ export default function Login() {
 
     try {
       // 🌐 axios を使って、大文字の Api/V1 窓口へメールアドレスとパスワードを送信します！
-      const response = await axios.post('http://localhost:3000/api/V1/login', {
+      const response = await axios.post('http://localhost:3000/api/v1/login', {
         email, password
       });
 
