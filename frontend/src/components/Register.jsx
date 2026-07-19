@@ -15,19 +15,19 @@ export default function Register() {
     setError('');
 
     try {
-      // 🌐 axios を使って、大文字の Api/V1 窓口へお名前とパスワードを送信します！
+      //  axios を使って、大文字の Api/V1 窓口へお名前とパスワードを送信します！
       const response = await axios.post('http://localhost:3000/api/v1/register', {
         user: { name, email, password, password_confirmation: passwordConfirmation }
       });
 
       if (response.status === 201) {
-        // 📥 【連動成功！】Railsから届いた会員証（JWT）をブラウザの引き出し（localStorage）へ保存！
+        //  【連動成功！】Railsから届いた会員証（JWT）をブラウザの引き出し（localStorage）へ保存！
         localStorage.setItem('token', response.data.token);
         alert('アカウントの作成が完了しました！');
         navigate('/'); // ログイン状態のトップ画面へ自動ジャンプ
       }
     } catch (err) {
-      // 📋 Rails側からエラー理由が届いた場合は、それを親切に画面に表示します
+      //  Rails側からエラー理由が届いた場合は、それを親切に画面に表示します
       if (err.response && err.response.data && err.response.data.errors) {
         setError(err.response.data.errors.join('、'));
       } else {
