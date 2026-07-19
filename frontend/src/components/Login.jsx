@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,23 +13,23 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      // 🌐 axios を使って、大文字の Api/V1 窓口へメールアドレスとパスワードを送信します！
+      const response = await axios.post('http://localhost:3000/api/V1/login', {
+        email, password
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
+      if (response.status === 200) {
+        // 📥 【連動成功！】引き出し（localStorage）にデジタル会員証（トークン）をガチッと保存！
+        localStorage.setItem('token', response.data.token);
         alert('ログインしました！');
-        navigate('/');
-      } else {
-        setError(data.error || 'ログインに失敗しました');
+        navigate('/'); // ログイン状態のトップ画面へ自動ジャンプ
       }
     } catch (err) {
-      setError('サーバーとの通信に失敗しました');
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError('メールアドレスまたはパスワードが正しくありません');
+      }
     }
   };
 

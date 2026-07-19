@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // 🚀 いま入れた最新の通信ツールを読み込みます！
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -14,25 +15,24 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user: { name, email, password, password_confirmation: passwordConfirmation }
-        })
+      // 🌐 axios を使って、大文字の Api/V1 窓口へお名前とパスワードを送信します！
+      const response = await axios.post('http://localhost:3000/api/V1/register', {
+        user: { name, email, password, password_confirmation: passwordConfirmation }
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
+      if (response.status === 201) {
+        // 📥 【連動成功！】Railsから届いた会員証（JWT）をブラウザの引き出し（localStorage）へ保存！
+        localStorage.setItem('token', response.data.token);
         alert('アカウントの作成が完了しました！');
-        navigate('/');
-      } else {
-        setError(data.errors ? data.errors.join('、') : '登録に失敗しました');
+        navigate('/'); // ログイン状態のトップ画面へ自動ジャンプ
       }
     } catch (err) {
-      setError('サーバーとの通信に失敗しました');
+      // 📋 Rails側からエラー理由が届いた場合は、それを親切に画面に表示します
+      if (err.response && err.response.data && err.response.data.errors) {
+        setError(err.response.data.errors.join('、'));
+      } else {
+        setError('サーバーとの通信に失敗しました。パスワード一致や未登録アドレスか確認してください。');
+      }
     }
   };
 
