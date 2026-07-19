@@ -46,7 +46,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* 🔒 トップ画面（/）を誘導ロボット <RequireAuth> でガチッと囲みます！ */}
+        {/*  トップ画面（/）を誘導ロボット <RequireAuth> でガチッと囲みます！ */}
         {/* これにより、未登録の初回ユーザーがトップに来た瞬間、自動で /profile-setup へビューンとリダイレクトされます！ */}
         <Route path="/" element={
           <RequireAuth>
