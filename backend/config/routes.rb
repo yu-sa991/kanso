@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       #  ユーザー登録・ログイン認証用の専用URL窓口です
       post 'register', to: 'authentications#register'
       post 'login', to: 'authentications#login'
+
+      # プロフィールの保存（create）と確認（show）の通り道を完全開通！
+      resource :profile, only: %i[create show]
     end
   end
 
