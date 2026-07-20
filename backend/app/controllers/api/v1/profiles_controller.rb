@@ -20,7 +20,7 @@ module Api
       end
 
       #  2. 【確認窓口】Reactの誘導ロボット（RequireAuth）から「この人は初回登録済み？」と聞かれたら優しく返事します！
-      # 🔍 【確認窓口をアップデート！】Reactへ「登録済みフラグ」と一緒に「計算結果」もプレゼントします！
+      #  【確認窓口をアップデート！】Reactへ「登録済みフラグ」と一緒に「計算結果」もプレゼントします！
       def show
         profile = @current_user.profile
 
