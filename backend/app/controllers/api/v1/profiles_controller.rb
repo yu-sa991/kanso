@@ -20,12 +20,17 @@ module Api
       end
 
       #  2. 【確認窓口】Reactの誘導ロボット（RequireAuth）から「この人は初回登録済み？」と聞かれたら優しく返事します！
+      #  【確認窓口をアップデート！】Reactへ「登録済みフラグ」と一緒に「計算結果」もプレゼントします！
       def show
         profile = @current_user.profile
 
         if profile
           #  すでに登録済みの場合は、データをReactへ優しく渡します
-          render json: { registered: true, profile: profile }, status: :ok
+          #  登録済みの場合は、お兄ちゃんの脳みそで今すぐ自動計算した数値を添えて React へ送ります！
+          render json: {
+            registered: true, profile: profile,
+            target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight # 自動計算を呼び出す
+          }, status: :ok
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok
