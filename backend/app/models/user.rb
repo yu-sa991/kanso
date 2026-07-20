@@ -7,4 +7,10 @@ class User < ApplicationRecord
 
   # 【ここを追加！】ユーザーは「1つのプロフィール」を持っています（ユーザーが消えたら、プロフィールも一緒に全自動で消去（dependent: :destroy）されます！）
   has_one :profile, dependent: :destroy
+
+  # 🔗 【ここを追加！】ユーザーは「たくさんの食事記録（カレンダー）」を持っています
+  # （※ユーザーが退会したら、その人の過去の食事記録も全自動で一緒に綺麗に消去されます！）
+  has_many :meal_records, dependent: :destroy
+
+
 end
