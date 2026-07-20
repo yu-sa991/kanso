@@ -14,25 +14,28 @@ class Profile < ApplicationRecord
   validates :height, presence: true, numericality: { greater_than: 0 } # 身長は0より大きい数字のみ！
   validates :weight, presence: true, numericality: { greater_than: 0 } # 体重は0より大きい数字のみ！
 
-  # 🍏 1. 【標準体重の自動計算】 BMI 22の最も健康的な体重を割り出します
+  # 🍏 1. 【標準体重の自動計算】
   def calc_standard_weight
-    # 身長は cm で保存されているので、100で割り算して「メートル(m)」に変換してから計算します！
     height_m = height / 100.0
-    (height_m * height_m * 22).round(1) # 小数点第2位を四捨五入して、スッキリ「65.2kg」のようにします
+    (height_m * height_m * 22).round(1)
   end
 
-  # 🔥 2. 【目標摂取カロリーの自動計算】 ハリス・ベネディクト方程式 ＆ 消費-300kcal
+  # 🔥 2. 【目標摂取カロリーの自動計算】（※複雑度を抑えるため、基礎代謝の計算を別部屋へパスします！）
   def calc_target_calories
-    # 🕵️ if文による男女の式転換：男性(male)か女性(female)かで基礎代謝の計算式をパチッと切り替えます！
-    bmr = if male?
-            66.47 + (13.75 * weight) + (5.0 * height) - (6.75 * age)
-          else
-            655.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
-          end
-
-    # 🎯 基礎代謝量に一般的な活動量（1.5倍）を掛け算し、そこから健康的に痩せるための「-300kcal」を引き算！
+    bmr = male? ? bmr_for_male : bmr_for_female
     target = (bmr * 1.5) - 300
-    target.round # 画面に表示しやすいよう、端数は四捨五入して綺麗な整数（例: 1850kcal）にします！
+    target.round
+  end
+
+  private
+
+  # 🙋‍♂️ 男性の基礎代謝（BMR）を計算する専門の小部屋
+  def bmr_for_male
+    66.47 + (13.75 * weight) + (5.0 * height) - (6.75 * age)
+  end
+
+  # 🙋‍♀️ 女性の基礎代謝（BMR）を計算する専門の小部屋
+  def bmr_for_female
+    655.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
   end
 end
-
