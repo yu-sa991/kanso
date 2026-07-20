@@ -17,4 +17,3 @@ class MealRecord < ApplicationRecord
   # （※同じ日付(date)が、同じユーザー(user_id)の中で重複するのを優しく弾いてReactにメッセージを返します）
   validates :date, uniqueness: { scope: :user_id, message: 'の食事記録はすでに登録されています。' }
 end
-

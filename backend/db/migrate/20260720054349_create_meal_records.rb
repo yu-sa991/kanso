@@ -12,8 +12,8 @@ class CreateMealRecords < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    # 🛡️ 【今回の最重要防犯！】 
+    # 🛡️ 【今回の最重要防犯！】
     # 「同じユーザー(user_id)が、同じ日付(date)に、2つ以上データを保存すること」をデータベースの最深部で絶対に許さない複合ユニーク設定です！
-    add_index :meal_records, [:user_id, :date], unique: true
+    add_index :meal_records, %i[user_id date], unique: true
   end
 end
