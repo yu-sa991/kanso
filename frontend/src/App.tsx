@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// ⭕ 修正後：未使用の React を消して、使う道具（useStateら）だけをスマートに読み込みます！
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 import Register from './components/Register';
