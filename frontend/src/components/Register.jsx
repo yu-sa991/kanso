@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 いま入れた最新の通信ツールを読み込みます！
 
