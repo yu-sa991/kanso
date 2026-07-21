@@ -26,5 +26,7 @@ EXPOSE 3000
 # 【CI環境完全対応】コンテナを組み立てる段階で、RuboCopやRSpecに必要なソフトをすべて確実に内部に焼き付けます！
 RUN bundle install
 
-# 🚀 ローカル環境とGitHub Actionsで完璧に中身を同期させる標準の起動命令です
-CMD ["rails", "server", "-b", "0.0.0.0"]
+#  ローカル環境とGitHub Actionsで完璧に中身を同期させる標準の起動命令です
+# CMD ["rails", "server", "-b", "0.0.0.0"]
+# 🎨 修正後：サーバーが目覚める一瞬の隙に、データベース工事と Puma 起動を同時に強制実行させます！
+CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec puma -C config/puma.rb"]
