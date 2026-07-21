@@ -7,6 +7,9 @@ import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
+// 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+
 // 🏠 トップページ兼マイページのコンポーネント（ヘッダー表示を追加！）
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,7 +25,8 @@ function Home() {
 
     if (token) {
       // 🌐 ログイン中の場合、Railsの確認窓口からオマケの計算数値をダウンロードします！
-      axios.get('http://localhost:3000/api/v1/profile', {
+      // ⭕ 修正後（URLの頭をスイッチに変えます！）：
+      axios.get(`${API_BASE_URL}/api/v1/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {

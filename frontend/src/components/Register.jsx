@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 いま入れた最新の通信ツールを読み込みます！
 
+// 🌟 1. ファイルの上のほうにこの自動切り替えスイッチをコピペします
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +19,9 @@ export default function Register() {
 
     try {
       //  axios を使って、大文字の Api/V1 窓口へお名前とパスワードを送信します！
-      const response = await axios.post('http://localhost:3000/api/v1/register', {
+      // ❌ 修正前： const response = await axios.post('http://localhost:3000/api/v1/register', {
+      // ⭕ 修正後（URLの頭をスイッチの名前に変えます！）：
+  const response = await axios.post(`${API_BASE_URL}/api/v1/register`, {
         user: { name, email, password, password_confirmation: passwordConfirmation }
       });
 

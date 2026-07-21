@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
+// 🌟 1. ファイルの上のほうにこの自動切り替えスイッチをコピペします
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,8 @@ export default function Login() {
 
     try {
       // 🌐 axios を使って、大文字の Api/V1 窓口へメールアドレスとパスワードを送信します！
-      const response = await axios.post('http://localhost:3000/api/v1/login', {
+       // ⭕ 修正後（URLの頭をスイッチに変えます！）：
+  const response = await axios.post(`${API_BASE_URL}/api/v1/login`, {
         email, password
       });
 
