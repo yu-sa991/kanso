@@ -8,7 +8,7 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
 // 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
 
 // 🏠 トップページ兼マイページのコンポーネント（ヘッダー表示を追加！）
 function Home() {
@@ -52,9 +52,9 @@ function Home() {
     const today = new Date().toISOString().split('T')[0];
 
     try {
-      // 🌐 前回のイシューで作ったばかりの、カレンダー食事記録保存窓口へ電波を飛ばします！
+      // 🌐 【本物のお直し！】URLの頭を手元・本番自動切り替えスイッチ（${API_BASE_URL}）に変更しました！
       const response = await axios.post(
-        'http://localhost:3000/api/v1/meal_records',
+        `${API_BASE_URL}/api/v1/meal_records`,
         {
           meal_record: { date: today, status: statusValue }
         },
@@ -75,7 +75,7 @@ function Home() {
     }
   };
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setTargetCalories(null);
