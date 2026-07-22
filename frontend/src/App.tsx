@@ -8,7 +8,7 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
 // 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 // 🏠 トップページ兼マイページのコンポーネント（ヘッダー表示を追加！）
 function Home() {
