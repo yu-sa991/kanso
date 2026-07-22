@@ -8,9 +8,9 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
 // 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
 
-// 🏠 トップページ兼マイページのコンポーネント（ヘッダー表示を追加！）
+// 🏠 トップページ兼マイページ（ヘッダー表示を追加！）
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // 🧠 Railsから届く計算数値をしまっておく箱（ステート）を用意します！
@@ -18,6 +18,12 @@ function Home() {
   const [standardWeight, setStandardWeight] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // ⚖️ 【ここを追加！】体重入力用の箱（ステート）を用意します！
+  const [weightInput, setWeightInput] = useState('');
+  const [weightSuccessMessage, setWeightSuccessMessage] = useState('');
+  // 🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
+  const [weightError, setWeightError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,9 +37,13 @@ function Home() {
       })
       .then(response => {
         if (response.data.registered) {
-          // 📥 Rails側で自動計算された数値を、Reactの箱へガチッと格納！
+          // 📥 Rails側で自動計算された数値を、React of の箱へガチッと格納！
           setTargetCalories(response.data.target_calories);
           setStandardWeight(response.data.standard_weight);
+          // 💡 初期値として、標準体重を入力欄にうっすら入れておく優しさ設計
+          if (response.data.standard_weight) {
+            setWeightInput(response.data.standard_weight.toString());
+          }
         }
       })
       .catch(error => {
@@ -42,14 +52,16 @@ function Home() {
     }
   }, []);
 
-
   // 📥 🟢🟡🔴 【最重要！】巨大ボタンを押したときにRailsへ瞬時にデータを送信する関数
   const handleMealRecord = async (statusValue) => {
     setError('');
     const token = localStorage.getItem('token');
     
     // 📅 今日配置する日付を「YYYY-MM-DD」の形式で正確に取得します
+    //const today = new Date().toISOString().split('T');
+    // ⭕ 修正後（お尻に [0] をピカッと付け足します！）：
     const today = new Date().toISOString().split('T')[0];
+
 
     try {
       // 🌐 【本物のお直し！】URLの頭を手元・本番自動切り替えスイッチ（${API_BASE_URL}）に変更しました！
@@ -75,6 +87,48 @@ function Home() {
     }
   };
 
+  // ⚖️ 【最重要！】「＋1kg / ー1kg」のアシストボタンが押されたときに、現在の入力値を全自動で計算して連動させる関数
+  const handleAdjustWeight = (amount) => {
+    const currentWeight = parseFloat(weightInput) || 0;
+    const newWeight = (currentWeight + amount).toFixed(1);
+    setWeightInput(newWeight);
+  };
+
+  // ⚖️ 【最重要！】「体重を記録する」ボタンを押したときにRailsの体重用金庫へ電波を飛ばす関数
+  const handleWeightSubmit = async (e) => {
+    e.preventDefault();
+    // 💡 ボタンを押した瞬間に、古いエラーと成功メッセージを綺麗にリセットします！
+    setWeightError('');
+    setWeightSuccessMessage('');
+    const token = localStorage.getItem('token');
+    // ⭕ 修正後（お尻に [0] をピカッと付け足します！）：
+    const today = new Date().toISOString().split('T')[0];
+
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/v1/weight_records`,
+        {
+          weight_record: { date: today, weight: parseFloat(weightInput) }
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.status === 201) {
+        setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
+        alert('今日の体重を記録しました！');
+      }
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.errors) {
+        // 🎯 重複エラー（1日1件）の文字は、画面上部ではなく体重ボタンの下の箱（setWeightError）にセットします！
+        setWeightError(err.response.data.errors.join('、'));
+      } else {
+        setWeightError('体重の保存に失敗しました。1日1件の制限、または通信状態を確認してください。');
+      }
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -83,7 +137,6 @@ function Home() {
     alert('ログアウトしました！');
     navigate('/login');
   };
-
   return (
     <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
       {/* 👑 上部の初期設定データヘッダー */}
@@ -107,19 +160,17 @@ function Home() {
       <h1>kanso アプリへようこそ！</h1>
       <p style={{ color: '#555', marginBottom: '40px' }}>「まだ大丈夫」を記録して、心に余白を作る場所。</p>
 
-      {/* 🚨 二重登録や通信のエラーメッセージ表示 */}
+      {/* 🚨 食事記録のエラーメッセージ（画面上部） */}
       {error && <p style={{ color: 'red', fontWeight: 'bold', marginBottom: '20px' }}>{error}</p>}
 
-      {/* 🌟 【 1秒・3択巨大ボタン ＆ 客観的一言目安表示エリア */}
+      {/* 🌟 【食事記録】 3選択巨大ボタン ＆ 目安表示エリア */}
       {isLoggedIn && (
-        <div style={{ maxWidth: '600px', margin: '0 auto 40px auto', padding: '20px' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto 20px auto', padding: '20px', borderBottom: '1px solid #eee' }}>
           <h2 style={{ fontSize: '20px', marginBottom: '25px', color: '#333' }}>🍴 今日の食事はどうだった？（1秒タップ記録）</h2>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', alignItems: 'center' }}>
-            
-            {/* 🟢 ボタン1：少なすぎ（not_enough）を「緑色」で親切に表示！ */}
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.2)', transition: 'transform 0.1s' }}>
+              <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.2)' }}>
                 🟢 少なすぎ （まだ大丈夫）
               </button>
               <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
@@ -127,9 +178,8 @@ function Home() {
               </span>
             </div>
 
-            {/* 🟡 ボタン2：普通（normal）を「黄色」で優しく表示！ */}
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('normal')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#ffc107', color: '#212529', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(255,193,7,0.2)', transition: 'transform 0.1s' }}>
+              <button onClick={() => handleMealRecord('normal')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#ffc107', color: '#212529', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(255,193,7,0.2)' }}>
                 🟡 普 通 ・ 腹 八 分 目
               </button>
               <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
@@ -137,17 +187,64 @@ function Home() {
               </span>
             </div>
 
-            {/* 🔴 ボタン3：食べすぎ（overeating）を「赤色」で直感的に警告！ */}
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('overeating')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.2)', transition: 'transform 0.1s' }}>
+              <button onClick={() => handleMealRecord('overeating')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.2)' }}>
                 🔴 食 べ す ぎ（やばい）
               </button>
               <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
                 ※目安：満腹まで食べた、夜遅くに重い食事をした、間食にお菓子を食べすぎたなど
               </span>
             </div>
-
           </div>
+        </div>
+      )}
+
+      {/* 🌟 【Baraさん完全監修！】 体重記録・直接入力 ＆ 増減アシストUIエリア */}
+      {isLoggedIn && (
+        <div style={{ maxWidth: '600px', margin: '30px auto 40px auto', padding: '20px' }}>
+          <h2 style={{ fontSize: '20px', marginBottom: '20px', color: '#333' }}>⚖️ 今日の現在の体重は？（1タップ微調整記録）</h2>
+          
+          <form onSubmit={handleWeightSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', maxWidth: '400px', justifyContent: 'center' }}>
+              
+              {/* ➖ 1kgマイナスアシストボタン */}
+              <button type="button" onClick={() => handleAdjustWeight(-1.0)} style={{ padding: '15px 20px', fontSize: '18px', background: '#e0e0e0', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#333' }}>
+                ー 1 kg
+              </button>
+
+              {/* ⌨️ 数字専用キーボードフォーム */}
+              <div style={{ textAlign: 'left', position: 'relative' }}>
+                <input 
+                  type="number" 
+                  id="today-weight"
+                  name="weight"
+                  autoComplete="off"
+                  step="0.1" 
+                  min="1"
+                  max="300"
+                  value={weightInput} 
+                  onChange={(e) => setWeightInput(e.target.value)} 
+                  required 
+                  style={{ width: '130px', padding: '12px', fontSize: '22px', textAlign: 'center', border: '2px solid #28a745', borderRadius: '8px', fontWeight: 'bold' }} 
+                />
+                <span style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '8px', color: '#333' }}>kg</span>
+              </div>
+
+              {/* ➕ 1kgプラスアシストボタン */}
+              <button type="button" onClick={() => handleAdjustWeight(1.0)} style={{ padding: '15px 20px', fontSize: '18px', background: '#e0e0e0', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#333' }}>
+                ＋ 1 kg
+              </button>
+            </div>
+
+            {/* 🚀 主役の体重保存ボタン */}
+            <button type="submit" style={{ width: '100%', maxWidth: '400px', padding: '15px', fontSize: '18px', background: '#007bff', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,123,255,0.2)' }}>
+              ⚖️ 体重を記録する
+            </button>
+
+            {/* 🎯 【ここがこだわり大成功！】体重専用のエラー ＆ 成功メッセージをボタンのすぐ真下に配置！ */}
+            {weightError && <p style={{ color: 'red', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>⚠️ {weightError}</p>}
+            {weightSuccessMessage && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>🎉 {weightSuccessMessage}</p>}
+          </form>
         </div>
       )}
 
