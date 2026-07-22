@@ -6,10 +6,10 @@ class WeightRecord < ApplicationRecord
   belongs_to :user
 
   # 🛡️ 入力チェック（バリデーション）：空っぽの不正な登録をRailsの砦で完全にブロックします！
-  validates :date, presence: true
-  validates :weight, presence: true
+  # 🎯 【ここをお直し！】presence: true の後ろに message を追加して、親切な日本語に変身させます！
+  validates :date, presence: { message: 'を入力してください。' }
+  validates :weight, presence: { message: 'を入力してください。' }
 
-  # 🔒 【重要！】Railsのプログラム層でも「1日1件制限」のチェックを二重にかけます
-  # （※同じ日付(date)が、同じユーザー(user_id)の中で重複するのを優しく弾いてReactにメッセージを返します）
+  # 🔒 【重複チェック】Railsのプログラム層でも「1日1件制限」のチェックを二重にかけます
   validates :date, uniqueness: { scope: :user_id, message: 'の体重記録はすでに登録されています。' }
 end
