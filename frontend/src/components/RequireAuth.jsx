@@ -20,8 +20,8 @@ export default function RequireAuth({ children }) {
     const checkProfile = async () => {
       try {
         //  さっき Rails 側に作った「確認窓口（show）」へ、会員証を添えて電波を飛ばします！
-        # ❌ 修正前： 'http://localhost:3000/api/v1/profile'
-        # ⭕ 修正後（URLの頭を無敵の自動切り替えスイッチに変更しました！）：
+        //❌ 修正前： 'http://localhost:3000/api/v1/profile'
+        //⭕ 修正後（URLの頭を無敵の自動切り替えスイッチに変更しました！）：
         const response = await axios.get(`${API_BASE_URL}/api/v1/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
