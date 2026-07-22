@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
 // 🌟 1. ファイルの上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -43,15 +43,16 @@ export default function Login() {
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       <form onSubmit={handleLogin}>
 
-        {/* 📧 1. メールアドレス入力エリア（htmlFor, id, name を安全にドッキング！） */}
+        {/* 📧 1. メールアドレス入力エリア（htmlFor, id, name, そして本番必須の autoComplete を安全にドッキング！） */}
         <div style={{ marginBottom: '15px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id("login-email") とガチッと結びつけます！ */}
           <label htmlFor="login-email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>メールアドレス</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を正確に追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id, name 、そして自動入力を助ける username 属性を正確に追加しました！ */}
           <input 
             type="email" 
             id="login-email"
             name="email"
+            autoComplete="username"
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
@@ -59,15 +60,16 @@ export default function Login() {
           />
         </div>
 
-        {/* 🔒 2. パスワード入力エリア（htmlFor, id, name を安全にドッキング！） */}
+        {/* 🔒 2. パスワード入力エリア（htmlFor, id, name, そして本番必須の autoComplete を安全にドッキング！） */}
         <div style={{ marginBottom: '20px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id("login-password") とガチッと結びつけます！ */}
           <label htmlFor="login-password" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>パスワード</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を正確に追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id, name 、そして既存のパスワードを証明する current-password 属性を正確に追加しました！ */}
           <input 
             type="password" 
             id="login-password"
             name="password"
+            autoComplete="current-password"
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 

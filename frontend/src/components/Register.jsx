@@ -51,11 +51,12 @@ export default function Register() {
         <div style={{ marginBottom: '15px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id と結びつけます */}
           <label htmlFor="register-name" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>お名前</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name 、そして本番必須の autocomplete を追加しました！ */}
           <input 
             type="text" 
             id="register-name"
             name="name"
+            autoComplete="name"
             value={name} 
             onChange={(e) => setName(e.target.value)} 
             required 
@@ -67,11 +68,12 @@ export default function Register() {
         <div style={{ marginBottom: '15px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id と結びつけます */}
           <label htmlFor="register-email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>メールアドレス</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name 、精度向上の autocomplete を追加しました！ */}
           <input 
             type="email" 
             id="register-email"
             name="email"
+            autoComplete="email"
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
@@ -83,11 +85,12 @@ export default function Register() {
         <div style={{ marginBottom: '15px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id と結びつけます */}
           <label htmlFor="register-password" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>パスワード</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name 、身元証明の autocomplete を追加しました！ */}
           <input 
             type="password" 
             id="register-password"
             name="password"
+            autoComplete="new-password"
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
@@ -99,11 +102,12 @@ export default function Register() {
         <div style={{ marginBottom: '20px' }}>
           {/* 🔒 htmlFor を追加して、下の input の id と結びつけます */}
           <label htmlFor="register-password-confirmation" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>パスワード（確認用）</label>
-          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name を追加しました！ */}
+          {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id と name 、身元証明の autocomplete を追加しました！ */}
           <input 
             type="password" 
             id="register-password-confirmation"
             name="password_confirmation"
+            autoComplete="new-password"
             value={passwordConfirmation} 
             onChange={(e) => setPasswordConfirmation(e.target.value)} 
             required 
