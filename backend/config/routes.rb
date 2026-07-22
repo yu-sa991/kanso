@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
       # 食事記録の一覧（index）と保存（create）の通り道を完全開通！
       resources :meal_records, only: %i[index create]
+
+      #  【ここを追加！】体重記録の一覧（index）と保存（create）の通り道を完全開通！
+      resources :weight_records, only: %i[index create]
     end
   end
 

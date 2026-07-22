@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_20_054349) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_22_130947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_20_054349) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "weight_records", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.float "weight", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "date"], name: "index_weight_records_on_user_id_and_date", unique: true
+    t.index ["user_id"], name: "index_weight_records_on_user_id"
+  end
+
   add_foreign_key "meal_records", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "weight_records", "users"
 end
