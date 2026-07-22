@@ -7,8 +7,8 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    #  門番のホワイトリスト：手元の localhost と、宇宙の本番用URLの両方からの電波を完璧に許可します！
-    origins 'http://localhost:5173', 'https://onrender.com'
+    # 【本物のお直し！】右側の本番URLを、Baraさんの本物のフロントエンド住所（お尻のスラッシュなし）に完璧に修正しました！
+    origins 'http://localhost:5173', 'https://kanso-frontend.onrender.com'
 
     resource '*',
              headers: :any,
