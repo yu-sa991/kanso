@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
+// 🌟 1. 【ここを追加！】手元と本番のURLを全自動で切り替えるスイッチを設置します！
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+
 export default function RequireAuth({ children }) {
   const [loading, setLoading] = useState(true);
   const [isRegistered, setIsRegistered] = useState(false);
@@ -17,7 +20,9 @@ export default function RequireAuth({ children }) {
     const checkProfile = async () => {
       try {
         //  さっき Rails 側に作った「確認窓口（show）」へ、会員証を添えて電波を飛ばします！
-        const response = await axios.get('http://localhost:3000/api/v1/profile', {
+        # ❌ 修正前： 'http://localhost:3000/api/v1/profile'
+        # ⭕ 修正後（URLの頭を無敵の自動切り替えスイッチに変更しました！）：
+        const response = await axios.get(`${API_BASE_URL}/api/v1/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// 🌟 1. 【ここを追加！】手元と本番のURLを全自動で切り替えるスイッチを設置します！
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+
 export default function ProfileSetup() {
   //  各入力項目を管理する箱（ステート）を用意します
   const [gender, setGender] = useState('male'); // 初期値は男性
@@ -20,8 +23,10 @@ export default function ProfileSetup() {
 
     try {
       //  さっき Rails 側に作ったばかりの、小文字のプロフィール保存窓口（api/v1/profile）へ電波を飛ばします
+      // ❌ 修正前： 'http://localhost:3000/api/v1/profile'
+      // ⭕ 修正後（URLの頭を無敵の自動切り替えスイッチに変更しました！）：
       const response = await axios.post(
-        'http://localhost:3000/api/v1/profile',
+        `${API_BASE_URL}/api/v1/profile`,
         {
           profile: { gender, age: parseInt(age), height: parseFloat(height), weight: parseFloat(weight) }
         },
@@ -54,7 +59,7 @@ export default function ProfileSetup() {
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
       <form onSubmit={handleSubmit}>
-        {/* 🚻 1. 性別の選択（2選択ラジオボタン） */}
+        {/* 🚻 1. 性別のご案内（2選択ラジオボタン） */}
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>性別（どちらかを選択してください）</label>
           <div style={{ display: 'flex', gap: '20px' }}>
@@ -69,22 +74,22 @@ export default function ProfileSetup() {
           </div>
         </div>
 
-        {/* 🎂 2. 年齢の入力（必須） */}
+        {/* 🎂 2. 年齢の入力（htmlFor, id, name を安全に追加！） */}
         <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>年齢（必須）</label>
-          <input type="number" value={age} onChange={(e) => setAge(e.target.value)} required min="1" placeholder="例: 25" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
+          <label htmlFor="setup-age" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>年齢（必須）</label>
+          <input type="number" id="setup-age" name="age" value={age} onChange={(e) => setAge(e.target.value)} required min="1" placeholder="例: 25" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
         </div>
 
-        {/* 📏 3. 身長の入力 */}
+        {/* 📏 3. 身長の入力（htmlFor, id, name を安全に追加！） */}
         <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>身長 (cm)</label>
-          <input type="number" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required min="1" placeholder="例: 170.5" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
+          <label htmlFor="setup-height" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>身長 (cm)</label>
+          <input type="number" id="setup-height" name="height" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required min="1" placeholder="例: 170.5" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
         </div>
 
-        {/* ⚖️ 4. 初期体重の入力 */}
+        {/* ⚖️ 4. 初期体重の入力（htmlFor, id, name を安全に追加！） */}
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>現在の体重 (kg)</label>
-          <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required min="1" placeholder="例: 65.2" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
+          <label htmlFor="setup-weight" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>現在の体重 (kg)</label>
+          <input type="number" id="setup-weight" name="weight" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required min="1" placeholder="例: 65.2" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
         </div>
 
         <button type="submit" style={{ width: '100%', padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }}>データを登録して始める</button>
