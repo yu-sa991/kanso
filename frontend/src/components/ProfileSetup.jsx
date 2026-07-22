@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // 🌟 1. 【ここを追加！】手元と本番のURLを全自動で切り替えるスイッチを設置します！
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+
 
 export default function ProfileSetup() {
   //  各入力項目を管理する箱（ステート）を用意します

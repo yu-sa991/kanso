@@ -5,6 +5,7 @@ import axios from 'axios'; // 🚀 いま入れた最新の通信ツールを読
 // 🌐 1. 【本物のお直し！】右側の本番URLを、Baraさん専用のRailsの住所「kanso-8m4l.onrender.com」に完璧に修正しました！
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
+
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
