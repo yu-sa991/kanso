@@ -8,7 +8,7 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
 // 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' :'https://kanso-8m4l.onrender.com';
 
 // 🏠 トップページ兼マイページ（ヘッダー表示を追加！）
 function Home() {
@@ -22,7 +22,7 @@ function Home() {
   // ⚖️ 【ここを追加！】体重入力用の箱（ステート）を用意します！
   const [weightInput, setWeightInput] = useState('');
   const [weightSuccessMessage, setWeightSuccessMessage] = useState('');
-  // 🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
+  // 🎯 【】体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
   useEffect(() => {
@@ -37,17 +37,40 @@ function Home() {
       })
       .then(response => {
         if (response.data.registered) {
-          // 📥 Rails側で自動計算された数値を、React of の箱へガチッと格納！
+          // 📥 Rails側で自動計算された数値を、Reactの箱へガチッと格納！
           setTargetCalories(response.data.target_calories);
           setStandardWeight(response.data.standard_weight);
-          // 💡 初期値として、標準体重を入力欄にうっすら入れておく優しさ設計
-          if (response.data.standard_weight) {
-            setWeightInput(response.data.standard_weight.toString());
-          }
         }
       })
       .catch(error => {
         console.error('データの取得に失敗しました', error);
+      });
+
+      // ⚖️ 【Baraさん完全監修の超親切機能！】
+      // グラフ・履歴用の一覧窓口（index）から、このユーザーが「一番最後に記録した最新の体重」を1タップで全自動引き出し！
+      axios.get(`${API_BASE_URL}/api/v1/weight_records`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        // もし過去に1回でも体重を記録したデータが金庫に残っていたら
+        if (response.data && response.data.length > 0) {
+          // 配列の一番最後（一番最新のデータ）を自動で取得します！
+          const latestRecord = response.data[response.data.length - 1];
+          // 💻 入力欄の中に、前回入力した体重を全自動で最初から表示させておきます！
+          setWeightInput(latestRecord.weight.toString());
+        } else {
+          // 万が一、まだ一回も体重を記録したことがない初回ユーザーの場合は、初期設定の体重（標準体重など）をうっすら入れておく優しさ設計
+          axios.get(`${API_BASE_URL}/api/v1/profile`, {
+            headers: { Authorization: `Bearer ${token}` }
+          }).then(res => {
+            if (res.data && res.data.weight) {
+              setWeightInput(res.data.weight.toString());
+            }
+          });
+        }
+      })
+      .catch(error => {
+        console.error('最新の体重データの引き出しに失敗しました', error);
       });
     }
   }, []);
@@ -58,10 +81,7 @@ function Home() {
     const token = localStorage.getItem('token');
     
     // 📅 今日配置する日付を「YYYY-MM-DD」の形式で正確に取得します
-    //const today = new Date().toISOString().split('T');
-    // ⭕ 修正後（お尻に [0] をピカッと付け足します！）：
     const today = new Date().toISOString().split('T')[0];
-
 
     try {
       // 🌐 【本物のお直し！】URLの頭を手元・本番自動切り替えスイッチ（${API_BASE_URL}）に変更しました！
@@ -101,7 +121,6 @@ function Home() {
     setWeightError('');
     setWeightSuccessMessage('');
     const token = localStorage.getItem('token');
-    // ⭕ 修正後（お尻に [0] をピカッと付け足します！）：
     const today = new Date().toISOString().split('T')[0];
 
     try {
@@ -199,7 +218,7 @@ function Home() {
         </div>
       )}
 
-      {/* 🌟 【Baraさん完全監修！】 体重記録・直接入力 ＆ 増減アシストUIエリア */}
+      {/* 🌟  体重記録・直接入力 ＆ 増減アシストUIエリア */}
       {isLoggedIn && (
         <div style={{ maxWidth: '600px', margin: '30px auto 40px auto', padding: '20px' }}>
           <h2 style={{ fontSize: '20px', marginBottom: '20px', color: '#333' }}>⚖️ 今日の現在の体重は？（1タップ微調整記録）</h2>
@@ -241,7 +260,7 @@ function Home() {
               ⚖️ 体重を記録する
             </button>
 
-            {/* 🎯 【ここがこだわり大成功！】体重専用のエラー ＆ 成功メッセージをボタンのすぐ真下に配置！ */}
+            {/* 🎯 【重要】体重記録のエラー ＆ 成功メッセージをボタンのすぐ真下に配置！ */}
             {weightError && <p style={{ color: 'red', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>⚠️ {weightError}</p>}
             {weightSuccessMessage && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>🎉 {weightSuccessMessage}</p>}
           </form>
@@ -268,11 +287,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        } />
+        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
