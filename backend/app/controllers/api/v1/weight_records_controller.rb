@@ -9,7 +9,8 @@ module Api
       # 📊 1. 【一覧ゲート】グラフ画面を開いた瞬間、このユーザーの「過去の全体重記録」をまとめて日付順に送り返します！
       def index
         weight_records = @current_user.weight_records.order(date: :asc)
-        render json: weight_records, status: :ok
+        # 🎯 送り返すデータを、Reactの「YYYY-MM-DD」の形と1ミリの狂いもなく完全同期させます！
+        render json: weight_records.as_json(methods: :date), status: :ok
       end
 
       # 📥 2. 【保存ゲート】Reactから届いた毎日の体重（kg）をデータベースの底へガチッと保存します！
