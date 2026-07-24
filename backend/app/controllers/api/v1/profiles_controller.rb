@@ -27,10 +27,13 @@ module Api
         if profile
           #  すでに登録済みの場合は、データをReactへ優しく渡します
           #  登録済みの場合は、お兄ちゃんの脳みそで今すぐ自動計算した数値を添えて React へ送ります！
-          render json: {
-            registered: true, profile: profile,
-            target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight # 自動計算を呼び出す
-          }, status: :ok
+          # render json: {
+          #  registered: true, profile: profile,
+          # target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight # 自動計算を呼び出す
+          # }, status: :ok
+          # 🎯 【本物のお直し！】Baraさんが以前作った最強の自動計算脳みそ（calc_）を呼び出し、Reactが待ち構えている体重（weight）も一緒に完璧に包んで送り返します！
+          render json: { registered: true, target_calories: profile.calc_target_calories,
+                         standard_weight: profile.calc_standard_weight, weight: profile.weight }
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok
