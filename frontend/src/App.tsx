@@ -1,6 +1,7 @@
 // ⭕ 修正後：未使用の React を消して、使う道具（useStateら）だけをスマートに読み込みます！
 import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置を指さすための「useRef」を新しく読み込みます！
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+//import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 import Register from './components/Register';
 import Login from './components/Login';
