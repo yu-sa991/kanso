@@ -31,9 +31,9 @@ module Api
           #  registered: true, profile: profile,
           # target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight # 自動計算を呼び出す
           # }, status: :ok
-          # 🎯 【本物のお直し！】Reactくんが待ち構えている weight のデータも、一緒に優しく包んで送り返してあげます！
-          render json: { registered: true, target_calories: profile.target_calories,
-                         standard_weight: profile.standard_weight, weight: profile.weight }
+          # 🎯 【本物のお直し！】Baraさんが以前作った最強の自動計算脳みそ（calc_）を呼び出し、Reactが待ち構えている体重（weight）も一緒に完璧に包んで送り返します！
+          render json: { registered: true, target_calories: profile.calc_target_calories,
+                         standard_weight: profile.calc_standard_weight, weight: profile.weight }
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok

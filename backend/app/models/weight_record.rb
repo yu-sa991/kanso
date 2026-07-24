@@ -12,4 +12,8 @@ class WeightRecord < ApplicationRecord
 
   # 🔒 【重複チェック】Railsのプログラム層でも「1日1件制限」のチェックを二重にかけます
   validates :date, uniqueness: { scope: :user_id, message: 'の体重記録はすでに登録されています。' }
+  # 🎨 【本物のお直し！】RailsがReactへデータを送る際、日付を「YYYY-MM-DD」の形に100%固定して手渡す無敵の翻訳機です！
+  def date
+    read_attribute(:date)&.to_s
+  end
 end
