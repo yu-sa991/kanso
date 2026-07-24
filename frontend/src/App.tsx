@@ -7,25 +7,25 @@ import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
-// 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+//🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
-// 🏠 トップページ兼マイページ（ヘッダー表示を追加！）
+//🏠 トップページ兼マイページ（ヘッダー表示を追加！）
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // 🧠 Railsから届く計算数値をしまっておく箱（ステート）を用意します！
+  //🧠 Railsから届く計算数値をしまっておく箱（ステート）を用意します！
   const [targetCalories, setTargetCalories] = useState(null);
   const [standardWeight, setStandardWeight] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // ⚖️ 体重入力用の箱（ステート）を用意します！
+  //⚖️ 体重入力用の箱（ステート）を用意します！
   const [weightInput, setWeightInput] = useState('');
   const [weightSuccessMessage, setWeightSuccessMessage] = useState('');
-  // 🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
+  //🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
-  // 📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
+  //📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
   // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
@@ -178,7 +178,7 @@ function Home() {
     alert('ログアウトしました！');
     navigate('/login');
   };
-  
+
   return (
     // 📱 外側の枠組み：フッターが最下部に固定されるため、お尻にゆとり（paddingBottom）を持たせます
     <div style={{ padding: '90px 20px 100px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
