@@ -25,7 +25,7 @@ function Home() {
   //🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
-  // 📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
+  //📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
   // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
