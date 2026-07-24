@@ -1,5 +1,5 @@
 // ⭕ 修正後：未使用の React を消して、使う道具（useStateら）だけをスマートに読み込みます！
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置を指さすための「useRef」を新しく読み込みます！
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 import Register from './components/Register';
@@ -8,7 +8,7 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
 // 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
 
 // 🏠 トップページ兼マイページ（ヘッダー表示を追加！）
 function Home() {
@@ -25,8 +25,16 @@ function Home() {
   // 🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
-  // 📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）を新しく追加します！
+  // 📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
+
+  // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
+  // 画面内の「食事記録エリア」と「体重記録エリア」の場所を、システムに正確に指さして教えるためのピン（Ref）を用意します！
+  const mealSectionRef = useRef(null);
+  const weightSectionRef = useRef(null);
+
+  // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
+  const [activeMenu, setActiveMenu] = useState('meal');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -80,11 +88,11 @@ function Home() {
     }
   }, []);
 
-  // 📥 🟢🟡🔴 【最重要！】巨大ボタンを押したときにRailsへ瞬時にデータを送信する関数
+  // 📥 🟢🟡🔴 巨大ボタンを押したときにRailsへ瞬時にデータを送信する関数
   const handleMealRecord = async (statusValue) => {
     setError('');
     const token = localStorage.getItem('token');
-    const today = new Date().toISOString().split('T')[0]; // ⭕ 鍵の閉め忘れも完璧に修正されています！
+    const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
 
     try {
       const response = await axios.post(
@@ -122,7 +130,7 @@ function Home() {
     setWeightError('');
     setWeightSuccessMessage('');
     const token = localStorage.getItem('token');
-    const today = new Date().toISOString().split('T')[0]; // ⭕ 鍵の閉め忘れも完璧に修正されています！
+    const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
 
     try {
       const response = await axios.post(
@@ -148,6 +156,20 @@ function Home() {
     }
   };
 
+  // 📱 【Baraさん完全監修！】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
+  const scrollToSection = (sectionRef, menuName) => {
+    setActiveMenu(menuName); // 押しボタンの緑色をピカッと切り替える
+
+    if (sectionRef && sectionRef.current) {
+      // 🚀 ヘッダーの固定分（少し上）を考慮して、ターゲットの場所まで優しくスルルーッと自動スクロール！
+      const yOffset = -110; 
+      const element = sectionRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      window.scrollTo({ top: y, behavior: 'smooth' }); // smooth を指定することで極上の滑らかさに！
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -156,63 +178,67 @@ function Home() {
     alert('ログアウトしました！');
     navigate('/login');
   };
- 
-    return (
-    <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
-      {/* 👑 上部の初期設定データヘッダー */}
+  
+  return (
+    // 📱 外側の枠組み：フッターが最下部に固定されるため、お尻にゆとり（paddingBottom）を持たせます
+    <div style={{ padding: '90px 20px 100px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
+      
+      {/* 👑 👑 👑 【上部固定ヘッダーエリア：position: fixed で画面上にガチッと固定！】 */}
       {isLoggedIn && targetCalories && (
-        <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px', marginBottom: '30px', border: '1px solid #e9ecef', display: 'inline-block', minWidth: '350px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#333', fontSize: '16px' }}>🎯 あなたの現在の初期設定データ</h3>
-          <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
-            <div>
-              <span style={{ fontSize: '14px', color: '#666', display: 'block' }}>目標摂取カロリー</span>
-              <strong style={{ fontSize: '20px', color: '#ffc107' }}>{targetCalories} <span style={{ fontSize: '14px', color: '#333' }}>kcal / 日</span></strong>
-            </div>
-            <div style={{ borderLeft: '1px solid #dee2e6' }}></div>
-            <div>
-              <span style={{ fontSize: '14px', color: '#666', display: 'block' }}>BMI 22 標準体重</span>
-              <strong style={{ fontSize: '20px', color: '#28a745' }}>{standardWeight} <span style={{ fontSize: '14px', color: '#333' }}>kg</span></strong>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #e2e8f0', padding: '10px 15px', zIndex: 1000, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+          <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#4a5568' }}>🎯 現在の目標設定</span>
+            <div style={{ display: 'flex', gap: '15px', fontSize: '14px' }}>
+              <span style={{ background: '#fffaf0', padding: '4px 10px', borderRadius: '20px', border: '1px solid #feebc8', color: '#dd6b20', fontWeight: 'bold' }}>
+                🔥 {targetCalories} kcal
+              </span>
+              <span style={{ background: '#f0fff4', padding: '4px 10px', borderRadius: '20px', border: '1px solid #c6f6d5', color: '#38a169', fontWeight: 'bold' }}>
+                ⚖️ 標準 {standardWeight} kg
+              </span>
             </div>
           </div>
         </div>
       )}
 
-      <h1>kanso アプリへようこそ！</h1>
-      <p style={{ color: '#555', marginBottom: '40px' }}>「まだ大丈夫」を記録して、心に余白を作る場所。</p>
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <h1>kanso アプリへようこそ！</h1>
+        <p style={{ color: '#555', marginBottom: '30px' }}>「まだ大丈夫」を記録して、心に余白を作る場所。</p>
 
-      {/* 🚨 食事記録のエラーメッセージ（画面上部） */}
-      {error && <p style={{ color: 'red', fontWeight: 'bold', marginBottom: '20px' }}>{error}</p>}
+        {/* 🚨 エラー ＆ 成功メッセージ表示 */}
+        {error && <p style={{ color: 'red', fontWeight: 'bold', marginBottom: '20px' }}>{error}</p>}
+      </div>
 
-      {/* 🌟 【食事記録】 3選択巨大ボタン ＆ 目安表示エリア */}
+      {/* 🌟 🌟 🌟 【食事記録エリア：ref でシステムに場所を教えます！】 */}
       {isLoggedIn && (
-        <div style={{ maxWidth: '600px', margin: '0 auto 20px auto', padding: '20px', borderBottom: '1px solid #eee' }}>
-          {/* 📅 【Baraさん完全監修！】タイトル部分に本日の日付が浮かび上がって自動連動します！ */}
-          <h2 style={{ fontSize: '20px', marginBottom: '25px', color: '#333' }}>🍴 本日【{displayDate}】の食事はどうだった？（1秒タップ記録）</h2>
+        <div ref={mealSectionRef} style={{ maxWidth: '600px', margin: '0 auto 30px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
+          <h2 style={{ fontSize: '18px', marginBottom: '25px', color: '#2d3748', fontWeight: 'bold' }}>
+            📅 本日【{displayDate}】の食事はどうだった？
+          </h2>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.2)' }}>
+              <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '18px', fontSize: '20px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.15)' }}>
                 🟢 少なすぎ （まだ大丈夫）
               </button>
-              <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
+              <span style={{ display: 'block', marginTop: '6px', fontSize: '13px', color: '#718096' }}>
                 ※目安：朝食や昼食を抜いた、忙しくて1食をゼリーだけで済ませたなど
               </span>
             </div>
 
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('normal')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#ffc107', color: '#212529', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(255,193,7,0.2)' }}>
+              <button onClick={() => handleMealRecord('normal')} style={{ width: '100%', padding: '20px', fontSize: '20px', background: '#ffc107', color: '#212529', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(255,193,7,0.15)' }}>
                 🟡 普 通 ・ 腹 八 分 目
               </button>
-              <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
+              <span style={{ display: 'block', marginTop: '6px', fontSize: '13px', color: '#718096' }}>
                 ※目安：いつもの量、腹八分目で抑えられた、バランス良く食べられたなど
               </span>
             </div>
 
             <div style={{ width: '100%', maxWidth: '400px' }}>
-              <button onClick={() => handleMealRecord('overeating')} style={{ width: '100%', padding: '20px', fontSize: '22px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.2)' }}>
+              <button onClick={() => handleMealRecord('overeating')} style={{ width: '100%', padding: '20px', fontSize: '20px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.15)' }}>
                 🔴 食 べ す ぎ（やばい）
               </button>
-              <span style={{ display: 'block', marginTop: '6px', fontSize: '14px', color: '#666', fontWeight: '500' }}>
+              <span style={{ display: 'block', marginTop: '6px', fontSize: '13px', color: '#718096' }}>
                 ※目安：満腹まで食べた、夜遅くに重い食事をした、間食にお菓子を食べすぎたなど
               </span>
             </div>
@@ -220,21 +246,19 @@ function Home() {
         </div>
       )}
 
-      {/* 🌟 【体重記録】 体重記録・直接入力 ＆ 増減アシストUIエリア */}
+      {/* 🌟 🌟 🌟 【体重記録エリア：ref でシステムに場所を教えます！】 */}
       {isLoggedIn && (
-        <div style={{ maxWidth: '600px', margin: '30px auto 40px auto', padding: '20px' }}>
-          {/* 📅 【Baraさん完全監修！】体重側にも本日の日付が優しく自動表示されます！ */}
-          <h2 style={{ fontSize: '20px', marginBottom: '20px', color: '#333' }}>⚖️ 本日【{displayDate}】の現在の体重は？（1タップ微調整記録）</h2>
+        <div ref={weightSectionRef} style={{ maxWidth: '600px', margin: '0 auto 40px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
+          <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#2d3748', fontWeight: 'bold' }}>
+            ⚖️ 本日【{displayDate}】の現在の体重は？
+          </h2>
           
           <form onSubmit={handleWeightSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', maxWidth: '400px', justifyContent: 'center' }}>
-              
-              {/* ➖ 1kgマイナスアシストボタン */}
-              <button type="button" onClick={() => handleAdjustWeight(-1.0)} style={{ padding: '15px 20px', fontSize: '18px', background: '#e0e0e0', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#333' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', maxWidth: '400px', justifyContent: 'center' }}>
+              <button type="button" onClick={() => handleAdjustWeight(-1.0)} style={{ padding: '12px 18px', fontSize: '16px', background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569' }}>
                 ー 1 kg
               </button>
 
-              {/* ⌨️ 数字専用キーボードフォーム */}
               <div style={{ textAlign: 'left', position: 'relative' }}>
                 <input 
                   type="number" 
@@ -247,41 +271,58 @@ function Home() {
                   value={weightInput} 
                   onChange={(e) => setWeightInput(e.target.value)} 
                   required 
-                  style={{ width: '130px', padding: '12px', fontSize: '22px', textAlign: 'center', border: '2px solid #28a745', borderRadius: '8px', fontWeight: 'bold' }} 
+                  style={{ width: '120px', padding: '12px', fontSize: '22px', textAlign: 'center', border: '2px solid #28a745', borderRadius: '8px', fontWeight: 'bold', outline: 'none' }} 
                 />
                 <span style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '8px', color: '#333' }}>kg</span>
               </div>
 
-              {/* ➕ 1kgプラスアシストボタン */}
-              <button type="button" onClick={() => handleAdjustWeight(1.0)} style={{ padding: '15px 20px', fontSize: '18px', background: '#e0e0e0', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#333' }}>
+              <button type="button" onClick={() => handleAdjustWeight(1.0)} style={{ padding: '12px 18px', fontSize: '16px', background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569' }}>
                 ＋ 1 kg
               </button>
             </div>
 
-            {/* 🚀 主役の体重保存ボタン */}
-            <button type="submit" style={{ width: '100%', maxWidth: '400px', padding: '15px', fontSize: '18px', background: '#007bff', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,123,255,0.2)' }}>
+            <button type="submit" style={{ width: '100%', maxWidth: '400px', padding: '15px', fontSize: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)' }}>
               ⚖️ 体重を記録する
             </button>
 
-            {/* 🎯 体重記録のエラー ＆ 成功メッセージをボタンのすぐ真下に配置！ */}
             {weightError && <p style={{ color: 'red', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>⚠️ {weightError}</p>}
             {weightSuccessMessage && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>🎉 {weightSuccessMessage}</p>}
           </form>
         </div>
       )}
 
-      <div style={{ marginTop: '20px' }}>
-        {isLoggedIn ? (
-          <button onClick={handleLogout} style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-            ログアウト
-          </button>
-        ) : (
-          <div>
-            <Link to="/login" style={{ marginRight: '15px', padding: '10px 20px', background: '#28a745', color: 'white', textDecoration: 'none', borderRadius: '4px' }}>ログイン</Link>
-            <Link to="/register" style={{ padding: '10px 20px', background: '#007bff', color: 'white', textDecoration: 'none', borderRadius: '4px' }}>新規登録</Link>
+      {/* 🟢 🟢 🟢 【最下部固定：共通グリーンフッターメニューエリア！】 */}
+      {isLoggedIn && (
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#f4fbf7', borderTop: '1px solid #d1ebd9', padding: '10px 0', zIndex: 1000, boxShadow: '0 -2px 10px rgba(40,167,69,0.06)' }}>
+          <div style={{ maxWidth: '500px', margin: '0 auto', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+            
+            {/* 1. 食事ボタン（押すと食事エリアへワープ！） */}
+            <button onClick={() => scrollToSection(mealSectionRef, 'meal')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'meal' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
+              <span style={{ fontSize: '20px' }}>🍴</span>
+              <span>食事記録</span>
+            </button>
+
+            {/* 2. 体重ボタン（押すと体重エリアへワープ！） */}
+            <button onClick={() => scrollToSection(weightSectionRef, 'weight')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'weight' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
+              <span style={{ fontSize: '20px' }}>⚖️</span>
+              <span>体重記録</span>
+            </button>
+
+            {/* 3. 履歴ボタン（今後のカレンダードッキングへの布石！） */}
+            <button onClick={() => alert('Week 3の次のイシューで、ここに大感動の「カレンダーカレンダー履歴」がドッキングします！お楽しみに！')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#718096', fontWeight: 'bold', fontSize: '13px' }}>
+              <span style={{ fontSize: '20px' }}>📅</span>
+              <span>履歴カレンダー</span>
+            </button>
+
+            {/* 4. 設定ボタン（ログアウト引き金。次回のその他モーダルへの布石！） */}
+            <button onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#e53e3e', fontWeight: 'bold', fontSize: '13px' }}>
+              <span style={{ fontSize: '20px' }}>⚙️</span>
+              <span>ログアウト</span>
+            </button>
+
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
