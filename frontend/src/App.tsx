@@ -7,7 +7,7 @@ import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 
-// 🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
+//🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 //🏠 トップページ兼マイページ（ヘッダー表示を追加！）
@@ -22,7 +22,7 @@ function Home() {
   //⚖️ 体重入力用の箱（ステート）を用意します！
   const [weightInput, setWeightInput] = useState('');
   const [weightSuccessMessage, setWeightSuccessMessage] = useState('');
-  // 🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
+  //🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
   // 📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
