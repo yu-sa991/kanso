@@ -41,6 +41,10 @@ function Home() {
   // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
   const [activeMenu, setActiveMenu] = useState('meal');
 
+  // ⚙️ その他（設定）モーダルが「今開いているか（true）」「閉じているか（false）」を管理する箱！
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
@@ -61,7 +65,7 @@ function Home() {
           setTargetCalories(response.data.target_calories);
           setStandardWeight(response.data.standard_weight);
            
-          // 👤 【ここを追加！】Rails側から届いた「お名前」を React の頭脳に記憶します！
+          // 👤 Rails側から届いた「お名前」を React の頭脳に記憶します！
           if (response.data.profile && response.data.profile.user) {
             setUserName(response.data.profile.user.name);
           } else {
@@ -169,7 +173,7 @@ function Home() {
     }
   };
 
-  // 📱 【Baraさん完全監修！】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
+  // 📱 】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
   const scrollToSection = (sectionRef, menuName) => {
     setActiveMenu(menuName); // 押しボタンの緑色をピカッと切り替える
 
@@ -310,6 +314,62 @@ function Home() {
         </div>
       )}
 
+   {/* ⚙️ 👥 🔒 📝 🛡️ 【Baraさん完全監修：メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
+      {isLoggedIn && isModalOpen && (
+        <>
+          {/* 👥 背景の黒い半透明のクッション */}
+          <div onClick={() => setIsModalOpen(false)} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999 }}></div>
+          
+          {/* 🤍 白い引き出し本体（メニューが増えたため、高さをスマホで見やすいように自動調整します！） */}
+          <div style={{ position: 'fixed', bottom: '70px', left: '10px', right: '10px', background: 'white', borderRadius: '20px', padding: '20px', zIndex: 1000, boxShadow: '0 -4px 20px rgba(0,0,0,0.15)', maxWidth: '580px', margin: '0 auto', textAlign: 'left', maxHeight: '75vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid #eee', paddingBottom: '10px' }}>
+              <strong style={{ fontSize: '16px', color: '#2d3748' }}>⚙️ 設定 ＆ アカウント管理</strong>
+              <button onClick={() => setIsModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#aaa' }}>×</button>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              {/* 🔧 1. アカウント設定グループ */}
+              <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px', marginTop: '5px' }}>ACCOUNT SETTINGS</span>
+              <button onClick={() => alert('Week 3の後半で、ここに「👤 プロフィール編集画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                👤 プロフィール・目標設定の編集
+              </button>
+              
+              {/* 📧 【Baraさん監修！】メールアドレスの再設定ボタン */}
+              <button onClick={() => alert('Week 3の後半で、ここに安全な「📧 メールアドレス再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                📧 メールアドレスの再設定
+              </button>
+              
+              <button onClick={() => alert('Week 3の後半で、ここに「🔒 パスワードの再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                🔒 パスワードの再変更
+              </button>
+
+              <div style={{ borderTop: '1px solid #f1f5f9', margin: '5px 0' }}></div>
+
+              {/* 📝 2. アプリの法的信頼性グループ（利用規約・プライバシーポリシー） */}
+              <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px' }}>LEGAL & POLICY</span>
+              
+              {/* 📝 【Baraさん監修！】利用規約ボタン */}
+              <button onClick={() => alert('【kanso 利用規約】\n当アプリはユーザーの心の余白を作るための食事・体重管理サービスです。データはご本人の承認なしに第三者へ公開されることはありません。安心してご利用ください。')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                📝 アプリ利用規約の確認
+              </button>
+
+              {/* 🛡️ 【Baraさん監修！】プライバシーポリシーボタン */}
+              <button onClick={() => alert('【プライバシーポリシー】\n入力された年齢・身長・体重などのプライベートな身体データ、および日々の食事判定データは、最新の暗号化技術を用いてRails金庫内で安全に保護されます。')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                🛡️ プライバシーポリシーの確認
+              </button>
+
+              <div style={{ borderTop: '1px solid #f1f5f9', margin: '8px 0' }}></div>
+              
+              <button onClick={handleLogout} style={{ width: '100%', padding: '14px 10px', background: '#fff5f5', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#e53e3e', borderRadius: '8px', fontWeight: 'bold' }}>
+                🚪 アプリから安全にログアウトする
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+      
+
+
       {/* 🟢 🟢 🟢 【最下部固定：共通グリーンフッターメニューエリア！】 */}
       {isLoggedIn && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#f4fbf7', borderTop: '1px solid #d1ebd9', padding: '10px 0', zIndex: 1000, boxShadow: '0 -2px 10px rgba(40,167,69,0.06)' }}>
@@ -333,10 +393,10 @@ function Home() {
               <span>履歴カレンダー</span>
             </button>
 
-            {/* 4. 設定ボタン（ログアウト引き金。次回のその他モーダルへの布石！） */}
-            <button onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#e53e3e', fontWeight: 'bold', fontSize: '13px' }}>
+           {/* ⚙️ 【ここが大進化！】下から引き出しをフワッと出現させるトリガー */}
+            <button onClick={() => { setIsModalOpen(!isModalOpen); setActiveMenu('settings'); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'settings' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px' }}>
               <span style={{ fontSize: '20px' }}>⚙️</span>
-              <span>ログアウト</span>
+              <span>設定・その他</span>
             </button>
 
           </div>
