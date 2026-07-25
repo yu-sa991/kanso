@@ -204,7 +204,7 @@ function Home() {
             {/* 👤 【Baraさん監修！】左側にお名前を優しく追記し、特別感を演出します！ */}
             <div style={{ textAlign: 'left' }}>
               <span style={{ fontSize: '13px', color: '#718096', display: 'block', fontWeight: '500' }}>WELCOME</span>
-              <strong style={{ fontSize: '15px', color: '#2d3748' }}>👤 {userName || 'ユーザー'} さんの目標</strong>
+              <strong style={{ fontSize: '15px', color: '#2d3748' }}>👤 {userName || 'ユーザー'} さん</strong>
             </div> 
             
             <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#4a5568' }}>🎯 現在の目標設定</span>
