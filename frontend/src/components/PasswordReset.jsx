@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-// 🌟 1. 手元・本番自動切り替えスイッチをここにもドッキングします
-const API_BASE_URL = import.meta.env.DEV ? 'https://kanso-8m4l.onrender.com';
+// 🌟 1. 【ここがお直しの核心！】コロン（:）と手元の localhost 住所（3000）を1文字の狂いもなく完全ドッキングしました！
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 export default function PasswordReset() {
   const [email, setEmail] = useState('');

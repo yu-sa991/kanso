@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // 🚀 Link を優しく復活させてあげます！
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
 // 🌟 1. ファイルの上のほうにこの自動切り替えスイッチをコピペします
@@ -80,6 +80,13 @@ export default function Login() {
 
         <button type="submit" style={{ width: '100%', padding: '12px', background: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }}>ログインする</button>
       </form>
+
+         {/* 👤 📧 【ここを追加！】ボタンのすぐ真下に、鍵をなくした方向けの親切な架け橋リンクを配置！ */}
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Link to="/password-reset" style={{ color: '#007bff', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>
+          🔑 パスワードを忘れた方はこちら
+        </Link>
+     </div> 
     </div>
   );
 }

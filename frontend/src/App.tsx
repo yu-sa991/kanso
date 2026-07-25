@@ -7,6 +7,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
+// 新設したパスワード再設定画面をアプリに読み込みます！
+import PasswordReset from './components/PasswordReset';
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
@@ -414,6 +416,8 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
+       {/* 🔗 ログイン前の誰でも来られる安全な再設定ルートを開通！ */}
+        <Route path="/password-reset" element={<PasswordReset />} /> 
       </Routes>
     </Router>
   );
