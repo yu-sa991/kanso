@@ -20,13 +20,17 @@ function Home() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // 👤 ログインしているユーザーのお名前をしまっておく箱（ステート）を用意します！
+  const [userName, setUserName] = useState('');
+
+
   //⚖️ 体重入力用の箱（ステート）を用意します！
   const [weightInput, setWeightInput] = useState('');
   const [weightSuccessMessage, setWeightSuccessMessage] = useState('');
-  //🎯 【Baraさん監修！】体重専用のエラーメッセージを入れる箱を新しく用意します！
+  //🎯 体重専用のエラーメッセージを入れる箱を新しく用意します！
   const [weightError, setWeightError] = useState('');
 
-  //📅 【Baraさん完全監修！】本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
+  //📅 本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
   // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
@@ -56,13 +60,21 @@ function Home() {
           // 📥 Rails側で自動計算された数値を、Reactの箱へガチッと格納！
           setTargetCalories(response.data.target_calories);
           setStandardWeight(response.data.standard_weight);
+           
+          // 👤 【ここを追加！】Rails側から届いた「お名前」を React の頭脳に記憶します！
+          if (response.data.profile && response.data.profile.user) {
+            setUserName(response.data.profile.user.name);
+          } else {
+            // 万が一の予備用として、お名前データが別ルートで届いた場合もキャッチ
+            setUserName(response.data.user_name || 'ユーザー');
+          }
         }
       })
       .catch(error => {
         console.error('データの取得に失敗しました', error);
       });
 
-      // ⚖️ 【Baraさん完全監修の超親切機能！】
+      // ⚖️ 【超親切機能！】
       // グラフ・履歴用の一覧窓口（index）から、このユーザーが「一番最後に記録した最新の体重」を1タップで全自動引き出し！
       axios.get(`${API_BASE_URL}/api/v1/weight_records`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -188,7 +200,13 @@ function Home() {
       {isLoggedIn && targetCalories && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #e2e8f0', padding: '10px 15px', zIndex: 1000, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
           <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#4a5568' }}>🎯 現在の目標設定</span>
+
+            {/* 👤 【Baraさん監修！】左側にお名前を優しく追記し、特別感を演出します！ */}
+            <div style={{ textAlign: 'left' }}>
+              <span style={{ fontSize: '13px', color: '#718096', display: 'block', fontWeight: '500' }}>WELCOME</span>
+              <strong style={{ fontSize: '15px', color: '#2d3748' }}>👤 {userName || 'ユーザー'} さんの目標</strong>
+            </div> 
+            
             <div style={{ display: 'flex', gap: '15px', fontSize: '14px' }}>
               <span style={{ background: '#fffaf0', padding: '4px 10px', borderRadius: '20px', border: '1px solid #feebc8', color: '#dd6b20', fontWeight: 'bold' }}>
                 🔥 {targetCalories} kcal
