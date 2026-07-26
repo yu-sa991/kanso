@@ -360,8 +360,8 @@ function Home() {
               </button>
 
               {/* ✉️ 【お問合せボタン：将来Googleフォームやメールリンクを貼るための布石！】 */}
-              <button onClick={() => alert('【お問合せ窓口】\nアプリへのご意見・ご要望、または不具合のご報告は、開発者（Bara）のサポート窓口までお気軽にお寄せください。\n※今後のアップデートで専用のお問合せフォームがここにドッキングします！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
-                ✉️ 開発者へのお問合せ窓口
+              <button onClick={() => alert('【お問合せ窓口】\nアプリへのご意見・ご要望、または不具合のご報告は、サポート窓口までお気軽にお寄せください。\n※今後のアップデートで専用のお問合せフォームがここにドッキングします！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                ✉️ お問合せ窓口
               </button>
 
               <div style={{ borderTop: '1px solid #f1f5f9', margin: '5px 0' }}></div>
