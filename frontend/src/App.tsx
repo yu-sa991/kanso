@@ -200,9 +200,14 @@ function Home() {
     setIsLoggedIn(false);
     setTargetCalories(null);
     setStandardWeight(null);
+    setUserName('');
+    setIsModalOpen(false);
     alert('ログアウトしました！');
-    navigate('/login');
-  };
+  
+    // 🎯 【本物のお直し！】アプリの本当の玄関である、最高のTop紹介ページ（/welcome）へ優しく着地させます！
+    navigate('/welcome'); 
+};
+
 
   return (
     // 📱 外側の枠組み：フッターが最下部に固定されるため、お尻にゆとり（paddingBottom）を持たせます
