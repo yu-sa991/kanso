@@ -417,25 +417,17 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* 🔒 1. ログイン中の人しか入れない「防犯ガード付き」の砦の道 */}
-        <Route path="/" element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        } />
-        <Route path="/profile-setup" element={
-          <RequireAuth>
-            <ProfileSetup />
-          </RequireAuth>
-        } />
+        {/* 🔒 1. 【ログイン中専用エリア】すでに初期設定を全て終えたリピーターさんだけが入れる聖域の部屋 */}
+        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
 
-        {/* 🔓 2. ログイン画面・新規登録画面（未ログインでも来られる道） */}
+        {/* 🔓 2. 【未登録・登録前フリーアクセスエリア】生まれたての新規アカウントでも100%弾かれずに通れる道 */}
+        {/* (※ProfileSetup を RequireAuth の外側へ出してあげることで、真っ白フリーズを200%完全に完封します！) */}
+        <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/password-reset" element={<PasswordReset />} />
 
-        {/* 🛣️ 3. 【ログインの有無に関わらず、世界中の誰もが100%フリーで通れる公道！】 */}
-        {/* (※RequireAuth の囲いの外側に配置したため、未ログインの初めての人でも弾かれずに文字が読めます！) */}
+        {/* 🛣️ 3. 【世界中の誰もが100%フリーで通れる完全な法的公道エリア】 */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>

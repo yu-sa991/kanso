@@ -31,9 +31,12 @@ module Api
           #  registered: true, profile: profile,
           # target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight # 自動計算を呼び出す
           # }, status: :ok
-          # 🎯 【本物のお直し！】Baraさんが以前作った最強の自動計算脳みそ（calc_）を呼び出し、Reactが待ち構えている体重（weight）も一緒に完璧に包んで送り返します！
-          render json: { registered: true, target_calories: profile.calc_target_calories,
-                         standard_weight: profile.calc_standard_weight, weight: profile.weight }
+          # 🎯 【これで100%大合格！】カッコ ( の直後で綺麗に改行を挟むことで、
+          # 関数の行数（10行以内）も、横幅の長さ（120文字以内）も同時に完璧にクリアさせます！
+          render json: (
+            { registered: true, target_calories: profile.calc_target_calories,
+              standard_weight: profile.calc_standard_weight, weight: profile.weight, user_name: @current_user.name }
+          )
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok

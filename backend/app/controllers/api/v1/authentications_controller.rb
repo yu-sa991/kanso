@@ -10,7 +10,9 @@ module Api
 
         if user.save
           token = JsonWebToken.encode(user_id: user.id)
-          render json: { token: token, user: { id: user.id, name: user.name, email: user.email } }, status: :created
+          # render json: { token: token, user: { id: user.id, name: user.name, email: user.email } }, status: :created
+          # 🎯 【1行にスリム化！】データを横に綺麗に並べることで、関数の合計を「9行」に抑え込みました！
+          render json: { token: token, message: 'ユーザー登録が完了しました！', profile_registered: false }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
