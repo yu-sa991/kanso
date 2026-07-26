@@ -340,13 +340,28 @@ function Home() {
                 👤 プロフィール・目標設定の編集
               </button>
               
-              {/* 📧 【Baraさん監修！】メールアドレスの再設定ボタン */}
+              {/* 📧 メールアドレスの再設定ボタン */}
               <button onClick={() => alert('Week 3の後半で、ここに安全な「📧 メールアドレス再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
                 📧 メールアドレスの再設定
               </button>
               
               <button onClick={() => alert('Week 3の後半で、ここに「🔒 パスワードの再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
                 🔒 パスワードの再変更
+              </button>
+              
+               <div style={{ borderTop: '1px solid #f1f5f9', margin: '5px 0' }}></div>
+
+              {/* 💡 2. 【ここを追加！】ユーザーサポート案内グループ */}
+              <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px' }}>SUPPORT & GUIDE</span>
+              
+              {/* 💡 【使い方ガイドボタン】 */}
+              <button onClick={() => alert('【kanso アプリの使い方】\n① 食事記録：毎日の食事量に合わせて「🟢🟡🔴」の巨大ボタンを1タップで記録！\n② 体重記録：毎日の体重を入力するか、「＋1kg / ー1kg」ボタンでサクッと微調整して保存！\n③ 履歴：溜まった記録は今後のカレンダーでいつでも楽しく振り返れます。')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                💡 アプリの使い方の確認
+              </button>
+
+              {/* ✉️ 【お問合せボタン：将来Googleフォームやメールリンクを貼るための布石！】 */}
+              <button onClick={() => alert('【お問合せ窓口】\nアプリへのご意見・ご要望、または不具合のご報告は、開発者（Bara）のサポート窓口までお気軽にお寄せください。\n※今後のアップデートで専用のお問合せフォームがここにドッキングします！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                ✉️ 開発者へのお問合せ窓口
               </button>
 
               <div style={{ borderTop: '1px solid #f1f5f9', margin: '5px 0' }}></div>
