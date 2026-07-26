@@ -1,7 +1,7 @@
 // ⭕ 修正後：未使用の React を消して、使う道具（useStateら）だけをスマートに読み込みます！
 import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置を指さすための「useRef」を新しく読み込みます！
 //import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'; // 🚀 Link を優しく大復活！
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 import Register from './components/Register';
 import Login from './components/Login';
@@ -354,15 +354,16 @@ function Home() {
               {/* 📝 2. アプリの法的信頼性グループ（利用規約・プライバシーポリシー） */}
               <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px' }}>LEGAL & POLICY</span>
               
-              {/* 📝 【Baraさん監修！】利用規約ボタン */}
-              <button onClick={() => alert('【kanso 利用規約】\n当アプリはユーザーの心の余白を作るための食事・体重管理サービスです。データはご本人の承認なしに第三者へ公開されることはありません。安心してご利用ください。')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
-                📝 アプリ利用規約の確認
-              </button>
+              {/* 📝 【利用規約ボタン】➔ 今回作った Terms.jsx ページへ、別タブで優しく使い回し表示させます！ */}
+              <Link to="/terms" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', padding: '12px 10px', boxSizing: 'border-box', textDecoration: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500', transition: 'background 0.2s' }}>
+               📝 アプリ利用規約の確認
+              </Link>
 
-              {/* 🛡️ 【Baraさん監修！】プライバシーポリシーボタン */}
-              <button onClick={() => alert('【プライバシーポリシー】\n入力された年齢・身長・体重などのプライベートな身体データ、および日々の食事判定データは、最新の暗号化技術を用いてRails金庫内で安全に保護されます。')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
-                🛡️ プライバシーポリシーの確認
-              </button>
+              {/* 🛡️ 【プライバシーポリシーボタン】➔ 今回作った Privacy.jsx ページへ、別タブで優しく使い回し表示させます！ */}
+              <Link to="/privacy" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', padding: '12px 10px', boxSizing: 'border-box', textDecoration: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500', transition: 'background 0.2s' }}>
+               🛡️ プライバシーポリシーの確認
+              </Link>
+
 
               <div style={{ borderTop: '1px solid #f1f5f9', margin: '8px 0' }}></div>
               
