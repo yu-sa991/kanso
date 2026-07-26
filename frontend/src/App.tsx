@@ -9,9 +9,11 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 // 新設したパスワード再設定画面をアプリに読み込みます！
 import PasswordReset from './components/PasswordReset';
-// 🔗 【ここを追加！】新設した2つの静的画面をアプリへ公式に読み込みます！
+// 🔗 新設した2つの静的画面をアプリへ公式に読み込みます！
 import Terms from './components/Terms'; 
 import Privacy from './components/Privacy'; 
+// 🔗 新設した漆黒のストイック紹介ページをアプリへ公式に読み込みます！
+import Welcome from './components/Welcome'; 
 
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
@@ -445,6 +447,10 @@ export default function App() {
         {/* 🛣️ 3. 【世界中の誰もが100%フリーで通れる完全な法的公道エリア】 */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
+      
+        {/* 🗺️ 4. 【今回のMVPの主役：ログイン前の初めての人が一番最初に来る「Top紹介ページ」を開通！】 */}
+        {/* (※RequireAuth の外側に独立させ、専用の通り道を開いたため、未ログインの初めての人でも絶対にフリーズしません！) */}
+        <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </Router>
   );
