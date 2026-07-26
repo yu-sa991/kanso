@@ -9,6 +9,10 @@ import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 // 新設したパスワード再設定画面をアプリに読み込みます！
 import PasswordReset from './components/PasswordReset';
+// 🔗 【ここを追加！】新設した2つの静的画面をアプリへ公式に読み込みます！
+import Terms from './components/Terms'; 
+import Privacy from './components/Privacy'; 
+
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
@@ -412,12 +416,27 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+        {/* 🔒 1. ログイン中の人しか入れない「防犯ガード付き」の砦の道 */}
+        <Route path="/" element={
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        } />
+        <Route path="/profile-setup" element={
+          <RequireAuth>
+            <ProfileSetup />
+          </RequireAuth>
+        } />
+
+        {/* 🔓 2. ログイン画面・新規登録画面（未ログインでも来られる道） */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile-setup" element={<ProfileSetup />} />
-       {/* 🔗 ログイン前の誰でも来られる安全な再設定ルートを開通！ */}
-        <Route path="/password-reset" element={<PasswordReset />} /> 
+        <Route path="/password-reset" element={<PasswordReset />} />
+
+        {/* 🛣️ 3. 【ログインの有無に関わらず、世界中の誰もが100%フリーで通れる公道！】 */}
+        {/* (※RequireAuth の囲いの外側に配置したため、未ログインの初めての人でも弾かれずに文字が読めます！) */}
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </Router>
   );
