@@ -119,7 +119,7 @@ export default function Welcome() {
           </Link>
           <span style={{ color: '#cbd5e0' }}>•</span>
           
-          <button onClick={() => alert('【お問合せ窓口】\nkansoアプリへのご意見・ご要望、または不具合のご報告は開発者（Bara）までお寄せください。\n※本番リリース後、ここに専用のお問合せフォームがドッキングします！')} style={{ background: 'none', border: 'none', padding: 0, color: '#718096', cursor: 'pointer', fontSize: '13px', fontWeight: '500', fontFamily: 'sans-serif' }}>
+          <button onClick={() => alert('【お問合せ窓口】\nkansoアプリへのご意見・ご要望、または不具合のご報告は開発者までお寄せください。\n※本番リリース後、ここに専用のお問合せフォームがドッキングします！')} style={{ background: 'none', border: 'none', padding: 0, color: '#718096', cursor: 'pointer', fontSize: '13px', fontWeight: '500', fontFamily: 'sans-serif' }}>
             お問合せ
           </button>
         </div>
