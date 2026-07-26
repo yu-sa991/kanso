@@ -24,7 +24,7 @@ export default function Welcome() {
       </div>
 
       {/* 🔴 主役の巨大戦闘開始ボタン */}
-      <div style={{ padding: '0 20px', marginBottom: '50px' }}>
+      <div style={{ padding: '0 20px', marginBottom: '40px' }}>
         <Link to="/register" style={{ display: 'block', maxWidth: '400px', margin: '0 auto', padding: '18px', background: '#dc2626', color: 'white', textDecoration: 'none', borderRadius: '14px', fontSize: '18px', fontWeight: 'bold', textAlign: 'center', boxShadow: '0 6px 20px rgba(220,38,38,0.25)', transition: 'transform 0.2s', letterSpacing: '1px' }}>
           🔥 言い訳を捨てて、今すぐ現実と戦う
         </Link>
@@ -32,20 +32,40 @@ export default function Welcome() {
           ※本気で自分を追い込み、引き締めたい方専用のシステムです
         </span>
       </div>
-      {/* 💡 言い訳を許さない「3つの強固なシステム」の解説 */}
-      <div style={{ maxWidth: '500px', margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left' }}>
-        <h2 style={{ fontSize: '14px', fontWeight: 'bold', color: '#718096', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '5px', textAlign: 'center' }}>⚡ 甘えを断つ 3つの鉄則機能</h2>
+      {/* 🌟 🌟 🌟 【Baraさん監修：実際の食事3判定ボタンをLPに完全出現させました！】 */}
+      <div style={{ maxWidth: '500px', margin: '0 auto 50px auto', padding: '0 20px', textAlign: 'center' }}>
+        <div style={{ background: '#f8fafc', padding: '25px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.02)' }}>
+          <h2 style={{ fontSize: '16px', marginBottom: '20px', color: '#1a202c', fontWeight: 'bold' }}>
+            ⚡ 実際のアプリ画面を先行体験（食事の3選択ボタン）
+          </h2>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center' }}>
+            <div style={{ width: '100%', maxWidth: '400px' }}>
+              <button onClick={() => alert('【体験モード】\nこの「🟢 少なすぎ」を押した瞬間に、今日の厳しい食事制限の現実が1秒で記録されます。無料登録後に本番環境でお使いください！')} style={{ width: '100%', padding: '14px', fontSize: '18px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.15)' }}>
+                🟢 少なすぎ （まだ大丈夫）
+              </button>
+            </div>
 
-        {/* 特長カード1 */}
-        <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.02)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '24px' }}>🔴</span>
-            <strong style={{ fontSize: '16px', color: '#1a202c', fontWeight: 'bold' }}>容赦ない食事3判定（🟢🟡🔴）</strong>
+            <div style={{ width: '100%', maxWidth: '400px' }}>
+              <button onClick={() => alert('【体験モード】\nこの「🟡 普通」を押した瞬間に、腹八分目で抑えられた現実が1秒で記録されます。無料登録後に本番環境でお使いください！')} style={{ width: '100%', padding: '16px', fontSize: '18px', background: '#ffc107', color: '#212529', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(255,193,7,0.15)' }}>
+                🟡 普 通 ・ 腹 八 分 目
+              </button>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '400px' }}>
+              <button onClick={() => alert('【体験モード】\n自分に甘えて食べてしまった時は、この「🔴 食べすぎ」で現実を白黒ハッキリ直視させます。無料登録後に本番環境でお使いください！')} style={{ width: '100%', padding: '16px', fontSize: '18px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.15)' }}>
+                🔴 食 べ す ぎ（やばい）
+              </button>
+            </div>
           </div>
-          <p style={{ fontSize: '13px', color: '#4a5568', margin: 0, lineHeight: '1.6' }}>
-            面倒なカロリーの言い訳は一切受け付けません。今日のあなたの食事が「少なすぎ」でストイックに耐え抜いたか、「普通」か、それとも「食べすぎ（やばい）」で自分に甘えたかを、3つのボタンで白黒ハッキリと強制ジャッジします。
-          </p>
+          <span style={{ display: 'block', marginTop: '15px', fontSize: '12px', color: '#718096' }}>
+            ※文字入力や面倒なカロリー計算は一切排除。3つのボタンを1タップするだけ。
+          </span>
         </div>
+      </div>
+      {/* 💡 言い訳を許さない残りの強固なシステムの解説 */}
+      <div style={{ maxWidth: '500px', margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left' }}>
+        <h2 style={{ fontSize: '14px', fontWeight: 'bold', color: '#718096', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '5px', textAlign: 'center' }}>⚡ 甘えを断つ さらに2つの鉄則機能</h2>
 
         {/* 特長カード2 */}
         <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.02)' }}>
