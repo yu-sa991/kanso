@@ -11,16 +11,22 @@ export default function Welcome() {
         <Link to="/login" style={{ color: '#4a5568', textDecoration: 'none', fontSize: '13px', fontWeight: 'bold', border: '1px solid #cbd5e1', padding: '6px 18px', borderRadius: '20px', background: '#f8fafc', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>ログイン</Link>
       </div>
 
-      {/* 🎯 白背景に強烈に映える、現実突きつけ・キャッチコピーエリア */}
+      {/* 🎯 】白背景に強烈に映える、現実突きつけ・キャッチコピーエリア */}
       <div style={{ maxWidth: '500px', margin: '40px auto 30px auto', padding: '0 20px', textAlign: 'center' }}>
         <h1 style={{ fontSize: '26px', fontWeight: '900', lineHeight: '1.5', color: '#1a202c', marginBottom: '20px', letterSpacing: '1px' }}>
-          「まだ大丈夫」を、<br />
-          <span style={{ color: '#dc2626', borderBottom: '3px solid #dc2626', paddingBottom: '2px' }}>絶対に許さない場所。</span>
+          「まだ大丈夫」を<br />
+          <span style={{ color: '#dc2626', borderBottom: '3px solid #dc2626', paddingBottom: '2px' }}>許さないアプリ</span>
         </h1>
-        <p style={{ fontSize: '14px', color: '#4a5568', lineHeight: '1.8', margin: '0 auto', maxWidth: '400px', fontWeight: '500' }}>
-          「明日からやろう」「これくらいなら、まだ大丈夫」...<br />
-          kansoは、そんな自分への甘えや言い訳を日常から1文字残さず完全粉砕するための、極限までストイックな現実直視型・減量記録アプリです。
-        </p>
+        
+        {/* 📢 【ここを追加！】Baraさんの魂のサービス概要を、ファーストビューの主役に据えました！ */}
+        <div style={{ background: '#fff5f5', borderLeft: '4px solid #dc2626', padding: '15px', borderRadius: '8px', textAlign: 'left', marginBottom: '25px', boxShadow: '0 4px 10px rgba(220,38,38,0.03)' }}>
+          <p style={{ fontSize: '14px', color: '#1a202c', lineHeight: '1.7', margin: 0, fontWeight: 'bold' }}>
+            🏃‍♂️ 食事記録の「めんどくさい」をすべて断捨離。
+          </p>
+          <p style={{ fontSize: '13px', color: '#4a5568', lineHeight: '1.6', marginTop: '6px', marginBottom: 0 }}>
+            1秒・3択のざっくり選択で、忙しい毎日にダイエットの意識づけを定着させ、運動など本来の健康管理に時間を使えるようにする振り返りアプリです。
+          </p>
+        </div>
       </div>
 
       {/* 🔴 主役の巨大戦闘開始ボタン */}
@@ -29,15 +35,19 @@ export default function Welcome() {
           🔥 言い訳を捨てて、今すぐ現実と戦う
         </Link>
         <span style={{ display: 'block', marginTop: '10px', fontSize: '12px', color: '#718096', textAlign: 'center' }}>
-          ※本気で自分を追い込み、引き締めたい方専用のシステムです
+          ※めんどくさい入力を省略
         </span>
       </div>
-      {/* 🌟 🌟 🌟 【Baraさん監修：実際の食事3判定ボタンをLPに完全出現させました！】 */}
+      {/* 🌟 🌟 🌟 【食事記録のめんどくささを断捨離した、本物の3連巨大ボタンの出現！】 */}
       <div style={{ maxWidth: '500px', margin: '0 auto 50px auto', padding: '0 20px', textAlign: 'center' }}>
         <div style={{ background: '#f8fafc', padding: '25px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.02)' }}>
-          <h2 style={{ fontSize: '16px', marginBottom: '20px', color: '#1a202c', fontWeight: 'bold' }}>
-            ⚡ 実際のアプリ画面を先行体験（食事の3選択ボタン）
+          <h2 style={{ fontSize: '15px', marginBottom: '8px', color: '#1a202c', fontWeight: 'bold' }}>
+            ⚡ 実際のアプリ画面を先行体験
           </h2>
+          {/* 📢 【ここにも追加！】ボタンの意図をユーザーへ親切に伝えます */}
+          <p style={{ fontSize: '13px', color: '#718096', marginTop: 0, marginBottom: '20px', lineHeight: '1.5' }}>
+            「これくらいなら、まだ大丈夫」という甘えを1秒で強制ジャッジ。
+          </p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center' }}>
             <div style={{ width: '100%', maxWidth: '400px' }}>
@@ -58,8 +68,8 @@ export default function Welcome() {
               </button>
             </div>
           </div>
-          <span style={{ display: 'block', marginTop: '15px', fontSize: '12px', color: '#718096' }}>
-            ※文字入力や面倒なカロリー計算は一切排除。3つのボタンを1タップするだけ。
+          <span style={{ display: 'block', marginTop: '15px', fontSize: '12px', color: '#dc2626', fontWeight: '600' }}>
+            ※文字入力やグラム数の計算は一切不要。3つのボタンを選ぶだけ。
           </span>
         </div>
       </div>
@@ -85,7 +95,7 @@ export default function Welcome() {
             <strong style={{ fontSize: '16px', color: '#1a202c', fontWeight: 'bold' }}>逃げ道を塞ぐ「厳格な目標＆標準体重」</strong>
           </div>
           <p style={{ fontSize: '13px', color: '#4a5568', margin: 0, lineHeight: '1.6' }}>
-            あなたの性別・身長・年齢を元に、お兄ちゃんの脳みそ（Rails）があなたに必要なリアルな限界カロリーと健康的標準体重を秒速で自動算出。画面上部に常時ロック表示され、あなたの毎日の進捗を監視し続けます。
+            あなたの性別・身長・年齢を元に、あなたに必要なリアルな限界カロリーと健康的標準体重を秒速で自動算出。画面上部に常時ロック表示され、あなたの毎日の進捗を監視し続けます。
           </p>
         </div>
       </div>
@@ -97,7 +107,7 @@ export default function Welcome() {
         </Link>
       </div>
 
-      {/* 🛣️ 📝 🛡️ ✉️ 【法的文書 ＆ お問合せを網羅した、白背景用の親切ライトフッター！】 */}
+      {/* 🛣️ 📝 🛡️ ✉️ 【法的文書 ＆ お問合せを網羅した、白背景用の親切ライトフッター】 */}
       <div style={{ borderTop: '1px solid #edf2f7', marginTop: '60px', paddingTop: '20px', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '15px', padding: '0 20px', marginBottom: '15px' }}>
           <Link to="/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#718096', textDecoration: 'none', fontSize: '13px', fontWeight: '500' }}>
