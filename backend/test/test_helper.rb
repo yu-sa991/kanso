@@ -11,7 +11,8 @@ module ActiveSupport
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
-
+    # 🤖 テストコードの中で「create(:user)」と唱えるだけで3Dプリンターが動くようにする魔法の設定です！
+    include FactoryBot::Syntax::Methods
     # Add more helper methods to be used by all tests here...
   end
 end
