@@ -45,6 +45,8 @@ group :development, :test do
   gem 'rubocop', require: false
   # 🤖 テスト用3Dプリンター（FactoryBot）を仕入れます！
   gem 'factory_bot_rails'
+  # 🤖 【ここを追加！】大喧嘩を起こすMinitest6を排除し、安定版の5系にカチッと固定します！
+  gem 'minitest', '~> 5.25'
 end
 
 group :development do
