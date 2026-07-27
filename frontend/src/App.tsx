@@ -20,7 +20,8 @@ import Welcome from './components/Welcome';
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 //🏠 トップページ兼マイページ（ヘッダー表示を追加！）
-function Home() {
+//function Home() {
+function MainHome() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   //🧠 Railsから届く計算数値をしまっておく箱（ステート）を用意します！
   const [targetCalories, setTargetCalories] = useState(null);
@@ -204,8 +205,8 @@ function Home() {
     setIsModalOpen(false);
     alert('ログアウトしました！');
   
-    // 🎯 【本物のお直し！】アプリの本当の玄関である、最高のTop紹介ページ（/welcome）へ優しく着地させます！
-    navigate('/welcome'); 
+     // 🎯 【ここが大進化！】ログアウトした後は、アプリの「顔」であるトップURL（/）へと綺麗に戻るようにしました！
+    navigate('/'); 
 };
 
 
@@ -439,8 +440,13 @@ export default function App() {
   return (
     <Router>
       <Routes>
+         {/* 🛣️ ① 【最重要！】一番最初のトップの住所（/）を開いたら、100%フリーで「あの紹介ページ」を出す大正解の形へ変更！ */}
+        <Route path="/" element={<Welcome />} />
         {/* 🔒 1. 【ログイン中専用エリア】すでに初期設定を全て終えたリピーターさんだけが入れる聖域の部屋 */}
-        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+        {/*<Route path="/" element={<RequireAuth><Home /></RequireAuth>} />*/}
+        {/* 🔒 ② 【メイン記録部屋】ログインに合格した本気の人だけが入れる、セキュリティの砦に守られた専用のお部屋！ */}
+        <Route path="/home" element={<RequireAuth><MainHome /></RequireAuth>} />
+
 
         {/* 🔓 2. 【未登録・登録前フリーアクセスエリア】生まれたての新規アカウントでも100%弾かれずに通れる道 */}
         {/* (※ProfileSetup を RequireAuth の外側へ出してあげることで、真っ白フリーズを200%完全に完封します！) */}
@@ -455,8 +461,8 @@ export default function App() {
       
         {/* 🗺️ 4. 【今回のMVPの主役：ログイン前の初めての人が一番最初に来る「Top紹介ページ」を開通！】 */}
         {/* (※RequireAuth の外側に独立させ、専用の通り道を開いたため、未ログインの初めての人でも絶対にフリーズしません！) */}
-        <Route path="/welcome" element={<Welcome />} />
-      </Routes>
+        {/*<Route path="/welcome" element={<Welcome />} />*/}
+     </Routes>
     </Router>
   );
 }

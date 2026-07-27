@@ -27,7 +27,9 @@ export default function Login() {
         // 📥 【連動成功！】引き出し（localStorage）にデジタル会員証（トークン）をガチッと保存！
         localStorage.setItem('token', response.data.token);
         alert('ログインしました！');
-        navigate('/'); // ログイン状態のトップ画面へ自動ジャンプ
+        // ログイン状態のトップ画面へ自動ジャンプ
+        // 🎯 【ここをお直し！】お名前バッジ付きの、新しい本物のメイン記録画面（/home）へ力強く誘導します！
+        navigate('/home'); 
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
