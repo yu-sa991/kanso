@@ -5,7 +5,7 @@ class User < ApplicationRecord
   # これだけで生のパスワードを世界一安全な暗号の塊に変形させるRails最強の防犯機能です！
   has_secure_password
 
-    # 🛡️ 【ここを追加！】名前を必須にし、メールアドレスの二重登録（重複）を完全にブロックする最強の防犯ロックです！
+  # 🛡️ 【ここを追加！】名前を必須にし、メールアドレスの二重登録（重複）を完全にブロックする最強の防犯ロックです！
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
 
