@@ -39,7 +39,8 @@ jobs:
       #  run: |
       #   docker compose exec -T backend bundle exec rspec
       - name: Run Minitest
-         run: docker compose exec -T backend bundle exec env RAILS_ENV=test ruby -I test -r minitest/autorun ./test/models/user_test.rb
+        run: |
+          docker compose exec -T backend bundle exec env RAILS_ENV=test ruby -I test -r minitest/autorun ./test/models/user_test.rb
 
       #  後片付け
       - name: Stop Containers
