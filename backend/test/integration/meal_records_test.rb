@@ -10,7 +10,11 @@ class MealRecordsTest < ActionDispatch::IntegrationTest
     @headers = { 'Authorization' => "Bearer #{@token}" }
   end
 
-  # 🟢 1. 食事ボタン（C: Create）の操作フローテスト
+  # =========================================================================
+  # 🍴 1. 食事記録（MealRecord）の操作フローテスト
+  # =========================================================================
+
+  # 🟢 食事ボタン（C: Create）の保存テスト
   test 'ログイン済みのユーザーは食事判定を正常に記録できること' do
     assert_difference('MealRecord.count', 1) do
       post '/api/v1/meal_records',
@@ -21,20 +25,48 @@ class MealRecordsTest < ActionDispatch::IntegrationTest
     assert_response :created
   end
 
-  # 🚨 2. 自分への甘えを許さない「1日1件の重複ガード」の鉄壁フローテスト
+  # 🚨 食事の「1日1件の重複ガード」の鉄壁テスト
   test '同じ日に2回以上の食事記録を送信した場合は422エラーで弾かれること' do
-    # 1回目のボタン押下（これは正常に金庫に保存されます）
     create(:meal_record, user: @user, date: Time.zone.today)
 
-    # 同じ日（今日）に、自分に甘えて2回目のボタンを押し込んだと仮定して突入させます！
     assert_no_difference('MealRecord.count') do
       post '/api/v1/meal_records',
            params: { meal_record: { date: Time.zone.today.to_s, status: 'overeating' } },
            headers: @headers,
            as: :json
     end
+    assert_response :unprocessable_entity
+  end
 
-    # 金庫番（Rails）が「1日1件制限だよ！」と完璧に422（unprocessable_entity）で弾くことを自動検証！
+  # =========================================================================
+  # ⚖️ 2. 体重記録（WeightRecord）の操作フローテスト
+  # =========================================================================
+
+  # 🟢 体重保存（C: Create）のテスト
+  test 'ログイン済みのユーザーは本日の体重を正常に記録できること' do
+    assert_difference('WeightRecord.count', 1) do
+      post '/api/v1/weight_records',
+           params: { weight_record: { date: Time.zone.today.to_s, weight: 65.5 } },
+           headers: @headers,
+           as: :json
+    end
+    assert_response :created
+  end
+
+  # 🚨 体重の「1日1件の重複ガード」の鉄壁テスト
+  test '同じ日に2回以上の体重記録を送信した場合は422エラーで弾かれること' do
+    # 3Dプリンターで、今日の1回目の体重（65.5kg）をすでに金庫に保存させます
+    create(:weight_record, user: @user, date: Time.zone.today, weight: 65.5)
+
+    # 同じ日（今日）に、ごまかそうとして2回目の別の体重数値を送信させます！
+    assert_no_difference('WeightRecord.count') do
+      post '/api/v1/weight_records',
+           params: { weight_record: { date: Time.zone.today.to_s, weight: 64.0 } },
+           headers: @headers,
+           as: :json
+    end
+
+    # 金庫番（Rails）が「体重も1日1件の制限だよ！」と完璧に422（unprocessable_entity）で弾くことを自動検証！
     assert_response :unprocessable_entity
   end
 end
