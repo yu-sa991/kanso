@@ -41,6 +41,35 @@ class MealRecordsTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+# =========================================================================
+  # 🔒 2. 【ここを追加！】パスワード再設定（Password Reset）の操作フローテスト
+  # =========================================================================
+
+   # ⭕ 暗号リセットトークンの発行テスト
+  test '登録済みのメールアドレスを送信した場合はパスワード再設定用のトークンが正常に発行されること' do
+    # 🎯 【本物のお直し！】Rails内蔵のhas_secure_passwordロックを通過させるため、
+    # ユーザーが現在持っている本物のパスワード（password123）をパラメーターに1文字添えて突入させます！
+    post '/api/v1/password_resets',
+         params: { email: 'auth_test@example.com', password: 'password123', password_confirmation: 'password123' },
+         as: :json
+
+    # 門番（Rails）が「リセット用URLの電波を飛ばしたよ！」と 200 OK を返すことを自動検証！
+    assert_response :success
+    json_response = JSON.parse(response.body)
+    assert_not_nil json_response['message']
+  end
+
+
+  # ❌ 存在しないアドレスの拒否テスト
+  test '登録されていないメールアドレスを送信した場合は404エラーでリセットを拒否されること' do
+    post '/api/v1/password_resets',
+         params: { email: 'ghost_user@example.com' },
+         as: :json
+
+    # 門番（Rails）が「そんなメールアドレスのユーザーは金庫にいないよ！」と 404 Not Found で弾くことを自動検証！
+    assert_response :not_found
+  end
+
   # =========================================================================
   # 🍴 1. 食事記録（MealRecord）の操作フローテスト
   # =========================================================================
