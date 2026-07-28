@@ -41,7 +41,7 @@ group :development, :test do
   # See https://rubyonrails.org
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'debug', platforms: %i[mri windows]
-  #gem 'rspec-rails' # ここにテスト係のRSpecを追加します！
+  # gem 'rspec-rails' # ここにテスト係のRSpecを追加します！
   gem 'rubocop', require: false
   # 🤖 テスト用3Dプリンター（FactoryBot）を仕入れます！
   gem 'factory_bot_rails'
