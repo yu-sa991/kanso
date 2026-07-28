@@ -27,8 +27,7 @@ class UserTest < ActiveSupport::TestCase
     assert_includes duplicate_user.errors[:email], 'has already been taken'
   end
 
-  
- # =========================================================================
+  # =========================================================================
   # 🔒 【ここから追加！】パスワード（has_secure_password）の厳格な防犯テスト
   # =========================================================================
 
@@ -36,7 +35,7 @@ class UserTest < ActiveSupport::TestCase
   test 'パスワードとパスワード確認が一致しないユーザーは保存できないこと' do
     # パスワード（password123）と確認用（abc456）をわざとすれ違わせて組み立てます
     user = build(:user, password: 'password123', password_confirmation: 'abc456')
-    
+
     # 金庫番に「確認用とズレているからダメだよ！」と完璧に弾かれることを自動検証！
     assert_not user.valid?
     assert_includes user.errors[:password_confirmation], "doesn't match Password"
@@ -53,7 +52,7 @@ class UserTest < ActiveSupport::TestCase
   test 'パスワードが短すぎる（6文字未満）ユーザーは保存できないこと' do
     # わざと4文字（abc1）という、危険で短すぎるパスワードで突入させます！
     user = build(:user, password: 'abc1', password_confirmation: 'abc1')
-    
+
     # 門番が「短すぎて危ないから保存禁止！」とガチッと弾き飛ばすことを自動検証！
     assert_not user.valid?
     assert_includes user.errors[:password], 'is too short (minimum is 6 characters)'

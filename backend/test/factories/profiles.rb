@@ -11,4 +11,3 @@ FactoryBot.define do
     # 🎯 保存する必要のない target_calories と standard_weight の行は綺麗に断捨離しました！
   end
 end
-
