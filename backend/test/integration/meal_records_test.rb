@@ -41,11 +41,11 @@ class MealRecordsTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-# =========================================================================
+  # =========================================================================
   # 🔒 2. 【ここを追加！】パスワード再設定（Password Reset）の操作フローテスト
   # =========================================================================
 
-   # ⭕ 暗号リセットトークンの発行テスト
+  # ⭕ 暗号リセットトークンの発行テスト
   test '登録済みのメールアドレスを送信した場合はパスワード再設定用のトークンが正常に発行されること' do
     # 🎯 【本物のお直し！】Rails内蔵のhas_secure_passwordロックを通過させるため、
     # ユーザーが現在持っている本物のパスワード（password123）をパラメーターに1文字添えて突入させます！
@@ -58,7 +58,6 @@ class MealRecordsTest < ActionDispatch::IntegrationTest
     json_response = JSON.parse(response.body)
     assert_not_nil json_response['message']
   end
-
 
   # ❌ 存在しないアドレスの拒否テスト
   test '登録されていないメールアドレスを送信した場合は404エラーでリセットを拒否されること' do
