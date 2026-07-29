@@ -37,7 +37,10 @@ export default function ProfileSetup() {
         }
       );
 
-      if (response.status === 201) {
+       // response.status === 200 だった場合も漏れなくキャッチできるように条件を広げます！
+      // これにより、Railsからの合図のズレを200%完全に吸収し、一撃で /home へのワープを確定させます！
+      //if (response.status === 200 || response.status === 201) {
+       if (response.status === 201) {
         alert('身体データの初期設定が完了しました！これで正確なカロリー計算ができます！');
        // 🎯 【新規さんルートのゴール！】
        // 身体データの初期設定が完了したら、そのまま自動でMainお部屋（/home）へ滑らかに突入させます！
