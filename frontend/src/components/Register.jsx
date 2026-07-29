@@ -27,10 +27,11 @@ export default function Register() {
       });
 
       if (response.status === 201) {
-        //  【連動成功！】Railsから届いた会員証（JWT）をブラウザの引き出し（localStorage）へ保存！
+         // 登録が成功した瞬間に会員証をポケットに入れつつ、
+        // トップ（/）ではなく、そのまま自動で初期設定画面（/profile-setup）へ突き進ませます！
         localStorage.setItem('token', response.data.token);
-        alert('アカウントの作成が完了しました！');
-        navigate('/'); // ログイン状態のトップ画面へ自動ジャンプ
+        alert('アカウントの作成が完了しました！続けて初期設定を行います。');
+        navigate('/profile-setup');
       }
     } catch (err) {
       //  Rails側からエラー理由が届いた場合は、それを親切に画面に表示します
