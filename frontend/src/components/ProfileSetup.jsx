@@ -39,7 +39,9 @@ export default function ProfileSetup() {
 
       if (response.status === 201) {
         alert('身体データの初期設定が完了しました！これで正確なカロリー計算ができます！');
-        navigate('/'); // 登録が終わったら、お祝いのトップ画面へ自動ジャンプ！
+       // 🎯 【新規さんルートのゴール！】
+       // 身体データの初期設定が完了したら、そのまま自動でMainお部屋（/home）へ滑らかに突入させます！
+      navigate('/home');
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
