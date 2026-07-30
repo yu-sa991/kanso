@@ -47,6 +47,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   # 🎯 【完全半角お直し！】すべて半角英数・半角記号で書き直し、サーバーの起動パニックを完全に粉砕します！
   gem 'minitest', '~> 5.25'
+  # 📊 プログラムのテスト網羅率を1%単位で可視化するカバレッジツールです！
+  gem 'simplecov', require: false
 end
 
 group :development do
