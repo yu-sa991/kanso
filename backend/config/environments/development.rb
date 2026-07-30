@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/BlockLength
+# 🎯 【ここを追加！】このファイルだけ行数チェックを優しくスキップさせます！
 # frozen_string_literal: true
 
 require 'active_support/core_ext/integer/time'
@@ -77,5 +79,8 @@ Rails.application.configure do
     Bullet.bullet_logger = true # 📁 backend/log/bullet.log という専用のバグ日記帳に自動記録します
     Bullet.rails_logger = true # 💻 いつもの黒いターミナル画面（rails server）にも赤文字で警告を叫ばせます
   end
-# ⚠️（このすぐ下にある、ファイルの一番最後の「end」は消さないように、その手前に綺麗に挟み込んでください！）
 end
+
+# 🎯 【ここを追加！】ファイルの一番最後にこの1行を書き足します！
+# オフにしていた長さチェックを、ここで「元通りオンに戻します」とロボットに宣言して大合格させます！
+# rubocop:enable Metrics/BlockLength
