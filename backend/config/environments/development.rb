@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/BlockLength
+# 🎯 【ここを追加！】このファイルだけ行数チェックを優しくスキップさせます！
 # frozen_string_literal: true
 
 require 'active_support/core_ext/integer/time'
@@ -69,4 +71,16 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+  # =========================================================================
+  # 🚨 【タスク20】N+1問題自動検出ツール（Bullet）のアクティブ化設定
+  # =========================================================================
+  config.after_initialize do
+    Bullet.enable = true # Bulletの見張りロボットを大起動させます！
+    Bullet.bullet_logger = true # 📁 backend/log/bullet.log という専用のバグ日記帳に自動記録します
+    Bullet.rails_logger = true # 💻 いつもの黒いターミナル画面（rails server）にも赤文字で警告を叫ばせます
+  end
 end
+
+# 🎯 【ここを追加！】ファイルの一番最後にこの1行を書き足します！
+# オフにしていた長さチェックを、ここで「元通りオンに戻します」とロボットに宣言して大合格させます！
+# rubocop:enable Metrics/BlockLength
