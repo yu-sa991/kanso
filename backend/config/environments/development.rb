@@ -69,4 +69,13 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+  # =========================================================================
+  # 🚨 【タスク20】N+1問題自動検出ツール（Bullet）のアクティブ化設定
+  # =========================================================================
+  config.after_initialize do
+    Bullet.enable = true # Bulletの見張りロボットを大起動させます！
+    Bullet.bullet_logger = true # 📁 backend/log/bullet.log という専用のバグ日記帳に自動記録します
+    Bullet.rails_logger = true # 💻 いつもの黒いターミナル画面（rails server）にも赤文字で警告を叫ばせます
+  end
+# ⚠️（このすぐ下にある、ファイルの一番最後の「end」は消さないように、その手前に綺麗に挟み込んでください！）
 end

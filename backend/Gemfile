@@ -49,6 +49,8 @@ group :development, :test do
   gem 'minitest', '~> 5.25'
   # 📊 プログラムのテスト網羅率を1%単位で可視化するカバレッジツールです！
   gem 'simplecov', require: false
+# 🚨 N+1問題というデータベースの無駄な往復アクセスを自動検知するプロ御用達のツールです！
+  gem 'bullet'
 end
 
 group :development do
