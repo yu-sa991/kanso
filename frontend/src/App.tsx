@@ -205,7 +205,7 @@ function MainHome() {
     setIsModalOpen(false);
     alert('ログアウトしました！');
   
-     // 🎯 【ここが大進化！】ログアウトした後は、アプリの「顔」であるトップURL（/）へと綺麗に戻るようにしました！
+     // 🎯 ログアウトした後は、アプリの「顔」であるトップURL（/）へと綺麗に戻るようにしました！
     navigate('/'); 
 };
 
@@ -219,7 +219,7 @@ function MainHome() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #e2e8f0', padding: '10px 15px', zIndex: 1000, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
           <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-            {/* 👤 【Baraさん監修！】左側にお名前を優しく追記し、特別感を演出します！ */}
+            {/* 👤 左側にお名前を優しく追記し、特別感を演出します！ */}
             <div style={{ textAlign: 'left' }}>
               <span style={{ fontSize: '13px', color: '#718096', display: 'block', fontWeight: '500' }}>WELCOME</span>
               <strong style={{ fontSize: '15px', color: '#2d3748' }}>👤 {userName || 'ユーザー'} さんの目標</strong>
@@ -328,7 +328,7 @@ function MainHome() {
         </div>
       )}
 
-   {/* ⚙️ 👥 🔒 📝 🛡️ 【Baraさん完全監修：メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
+   {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (
         <>
           {/* 👥 背景の黒い半透明のクッション */}
@@ -440,7 +440,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-         {/* 🛣️ ① 【最重要！】一番最初のトップの住所（/）を開いたら、100%フリーで「あの紹介ページ」を出す大正解の形へ変更！ */}
+         {/* 🛣️ ① 一番最初のトップの住所（/）を開いたら、100%フリーで「あの紹介ページ」を出す大正解の形へ変更！ */}
         <Route path="/" element={<Welcome />} />
         {/* 🔒 1. 【ログイン中専用エリア】すでに初期設定を全て終えたリピーターさんだけが入れる聖域の部屋 */}
         {/*<Route path="/" element={<RequireAuth><Home /></RequireAuth>} />*/}

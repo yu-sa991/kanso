@@ -24,7 +24,7 @@ export default function Welcome() {
             🏃‍♂️ 食事記録の「めんどくさい」をすべて断捨離。
           </p>
           <p style={{ fontSize: '13px', color: '#4a5568', lineHeight: '1.6', marginTop: '6px', marginBottom: 0 }}>
-            1秒・3択のざっくり選択で、忙しい毎日にダイエットの意識づけを定着させ、運動など本来の健康管理に時間を使えるようにする振り返りアプリです。
+            入力が目的になってしまったという事のない、1秒・3択のざっくり選択で、忙しい毎日にダイエットの意識づけを定着させ、運動など本来の健康管理に時間を使えるようにする振り返りアプリです。
           </p>
         </div>
       </div>
@@ -32,7 +32,7 @@ export default function Welcome() {
       {/* 🔴 主役の巨大戦闘開始ボタン */}
       <div style={{ padding: '0 20px', marginBottom: '40px' }}>
         <Link to="/register" style={{ display: 'block', maxWidth: '400px', margin: '0 auto', padding: '18px', background: '#dc2626', color: 'white', textDecoration: 'none', borderRadius: '14px', fontSize: '18px', fontWeight: 'bold', textAlign: 'center', boxShadow: '0 6px 20px rgba(220,38,38,0.25)', transition: 'transform 0.2s', letterSpacing: '1px' }}>
-          🔥 言い訳を捨てて、今すぐ現実と戦う
+          1秒3択のざっくり選択を始める
         </Link>
         <span style={{ display: 'block', marginTop: '10px', fontSize: '12px', color: '#718096', textAlign: 'center' }}>
           ※めんどくさい入力を省略
@@ -101,9 +101,9 @@ export default function Welcome() {
       </div>
       {/* 🚀 下部のアクションエリア */}
       <div style={{ maxWidth: '500px', margin: '60px auto 40px auto', padding: '0 20px', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', color: '#4a5568' }}>自分への「言い訳」を、今夜ここで終わらせる。</h3>
-        <Link to="/register" style={{ display: 'block', maxWidth: '400px', margin: '0 auto', padding: '16px', background: '#1e293b', color: 'white', textDecoration: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-          ➔ 言い訳禁止の kanso ライフを始める
+        <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', color: '#4a5568' }}>「これくらい、まだ大丈夫」という甘えは、今ここで捨てる。</h3>
+        <Link to="/register" style={{ display: 'block', maxWidth: '400px', margin: '0 auto', padding: '16px', background: '#0eb9c5', color: 'white', textDecoration: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+          ➔ 今日から「言い訳」を断捨離する
         </Link>
       </div>
 
