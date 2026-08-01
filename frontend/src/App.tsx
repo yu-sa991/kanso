@@ -344,16 +344,16 @@ function MainHome() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {/* 🔧 1. アカウント設定グループ */}
               <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px', marginTop: '5px' }}>ACCOUNT SETTINGS</span>
-              <button onClick={() => alert('Week 3の後半で、ここに「👤 プロフィール編集画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+              <button onClick={() => alert('ここに「👤 プロフィール編集画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
                 👤 プロフィール・目標設定の編集
               </button>
               
               {/* 📧 メールアドレスの再設定ボタン */}
-              <button onClick={() => alert('Week 3の後半で、ここに安全な「📧 メールアドレス再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+              <button onClick={() => alert('ここに安全な「📧 メールアドレス再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
                 📧 メールアドレスの再設定
               </button>
               
-              <button onClick={() => alert('Week 3の後半で、ここに「🔒 パスワードの再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+              <button onClick={() => alert('ここに「🔒 パスワードの再設定画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
                 🔒 パスワードの再変更
               </button>
               
