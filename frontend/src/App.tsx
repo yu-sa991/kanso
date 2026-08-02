@@ -136,7 +136,12 @@ function MainHome() {
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.join('、'));
+        // 🎯 【ここをお直し！】
+        // Railsから届いたエラーメッセージを結合（join）したあと、
+        // もし先頭に余計な「Date 」という英語が混ざっていたら、一瞬で綺麗に消去（空文字に置換）します！
+        let rawError = err.response.data.errors.join('、');
+        let cleanError = rawError.replace(/^Date\s*/i, ''); // 🧹 先頭の「Date 」を跡形もなく消し去る魔法です！
+        setError(cleanError);
       } else {
         setError('記録に失敗しました。1日1件の制限、または通信状態を確認してください。');
       }
@@ -173,9 +178,13 @@ function MainHome() {
         setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
         alert('今日の体重を記録しました！');
       }
-    } catch (err) {
+      } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
-        setWeightError(err.response.data.errors.join('、'));
+        // 🎯 【ここをお直し！】
+        // 体重側でも、届いたメッセージの先頭に余計な「Date 」という英語が混ざっていたら、一瞬で綺麗に消去します！
+        let rawError = err.response.data.errors.join('、');
+        let cleanError = rawError.replace(/^Date\s*/i, ''); // 🧹 先頭の「Date 」を抹殺する無敵のモップです！
+        setWeightError(cleanError);
       } else {
         setWeightError('体重の保存に失敗しました。1日1件の制限、または通信状態を確認してください。');
       }
