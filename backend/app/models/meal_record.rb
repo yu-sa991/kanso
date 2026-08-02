@@ -21,7 +21,7 @@ class MealRecord < ApplicationRecord
 
   private
 
-  # 🎯 【ここがプロの裏技！】
+  # 🎯 【裏技！】
   # uniqueness のままだと先頭に「Date」が強制的に入ってしまうため、
   # 独自のチェック関数（カスタムバリデーション）を作り、メッセージの全貌を「日付」から完全に直書きコントロールします！
   def date_uniqueness_without_english_prefix
