@@ -1,23 +1,32 @@
-# frozen_string_literal: true
+ # frozen_string_literal: true
 
-# JsonWebToken class
+# 🎫 会員証（JWTトークン）の発行・解読を専門に行うお仕事クラスです
 class JsonWebToken
+  SECRET_KEY = Rails.application.credentials.secret_key_base || ENV['SECRET_KEY_BASE']
   # Renderの金庫（環境変数）に登録した、あの暗号化の合言葉を読み込みます！
-  SECRET_KEY = Rails.application.credentials.secret_key_base || Rails.application.secret_key_base
+  # SECRET_KEY = Rails.application.credentials.secret_key_base || Rails.application.secret_key_base
 
-  # デジタル会員証（JWT）をガシャンと新しく「発行（エンコード）」
+
+
+  # ⚙️ 【ステップ1：発行(encode)の引き出し】
+  # 会員証を新しく作るとき、ユーザーの現在のハンコ（jwt_salt）も一緒に暗号の箱のなかに混ぜ込みます！
   def self.encode(payload, exp = 24.hours.from_now)
-    # チケットに「24時間後に自動で使えなくなる（有効期限）」という防犯タイマーをセット
+    # payload の中に、ログイン時にコントローラーから手渡された { user_id: 1, jwt_salt: "abc..." } が入っています
     payload[:exp] = exp.to_i
+    # Googleや銀行でも使われる強力な暗号技術で、1本の文字（トークン）にギュッと合体させます
     JWT.encode(payload, SECRET_KEY)
   end
 
-  # ユーザーから届いたチケットが偽造されていないか「解読（デコード）」
+  # ⚙️ 【ステップ2：解読(decode)の引き出し】
+  # ユーザーから会員証が届いたとき、それが本物か、期限切れじゃないかを解読（デコード）します
   def self.decode(token)
     body = JWT.decode(token, SECRET_KEY)[0]
-    HashWithIndifferentAccess.new(body)
+    # 解読に成功したら、中身を扱いやすいハッシュ形式（引き出し）にして門番に手渡します
+    HashWithIndifferentAccess.new body
   rescue JWT::ExpiredSignature, JWT::VerificationError
-    # 万が一、有効期限が切れていたり、ハッカーが1文字でも文字を書き換えていたら「無効（nil）」と判定
+    # 万が一、偽物だったり、24時間を過ぎていたら「nil（無効だよ）」と優しく答えて弾きます
     nil
   end
 end
+
+ 
