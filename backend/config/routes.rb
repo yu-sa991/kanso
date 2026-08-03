@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       post 'login', to: 'authentications#login'
 
       # 🔗 【ここを追加！】ログイン前のパスワード忘れた方向けの再設定ルートを完全開通！
-      post 'password_resets', to: 'password_resets#create'
+     # post 'password_resets', to: 'password_resets#create'
 
       # プロフィールの保存（create）と確認（show）の通り道を完全開通！
       resource :profile, only: %i[create show]
