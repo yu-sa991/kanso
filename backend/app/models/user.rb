@@ -22,4 +22,20 @@ class User < ApplicationRecord
   # 🔗 ユーザーは「たくさんの体重記録」を持っています
   # （※ユーザーが退会したら、その人の過去の体重記録もデータベース内から全自動で綺麗にお掃除されます！）
   has_many :weight_records, dependent: :destroy
+  
+# 🔑 1. パスワード再設定用の「使い切り暗号鍵」を生成してデータベースに保存する関数
+  def create_password_reset_token
+    # 他人に200%絶対に推測されない、ランダムな安全な文字列（トークン）を生成します
+    self.password_reset_token = SecureRandom.urlsafe_base64
+    # 「たった今、鍵を発行したよ」というタイムスタンプを刻みます（有効期限チェック用）
+    self.password_reset_sent_at = Time.current
+    # 新設した金庫（カラム）へ、バリデーションをスキップして高速保存します
+    save!(validate: false)
+  end
+
+  # ⏳ 2. 発行された暗号鍵が、今「有効期限内（例: 30分以内）」かどうかを厳格にチェックする関数
+  def password_reset_expired?
+    # 鍵が発行された時間（password_reset_sent_at）から、30分以上が経過していたら「true（期限切れだよ）」と答えます
+    password_reset_sent_at < 30.minutes.ago
+  end
 end
