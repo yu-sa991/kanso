@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # 📁 backend/app/mailers/user_mailer.rb
 class UserMailer < ApplicationMailer
   # 📧 送信元（差出人）のアドレスを設定します
@@ -9,4 +11,3 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: '【kanso】パスワード再設定のご案内（有効期限30分）'
   end
 end
-
