@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddJwtSaltToUsers < ActiveRecord::Migration[7.1]
   def change
     # 🎯 【ここをお直し！】

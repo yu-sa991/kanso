@@ -11,7 +11,6 @@ class User < ApplicationRecord
   # ② 【ハッカー完全撃退！】本人がパスワードを変更した瞬間、古いハンコを破壊して新しいハンコへ強制リセットします！
   before_update :reset_jwt_salt, if: :will_save_change_to_password_digest?
 
-
   # 🛡️ 名前を必須にし、メールアドレスの二重登録（重複）を完全にブロックする最強の防犯ロックです！
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
@@ -46,7 +45,7 @@ class User < ApplicationRecord
     password_reset_sent_at < 30.minutes.ago
   end
 
-   private # 🔒 ここから下は、Userモデルの内部だけで使う秘密の隠し部屋です！
+  private # 🔒 ここから下は、Userモデルの内部だけで使う秘密の隠し部屋です！
 
   # 🔑 アカウント作成時に最初のハンコを刻む関数
   def initialize_jwt_salt
@@ -58,4 +57,3 @@ class User < ApplicationRecord
     self.jwt_salt = SecureRandom.hex(16)
   end
 end
- 
