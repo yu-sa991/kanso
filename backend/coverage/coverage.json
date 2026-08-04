@@ -5,7 +5,7 @@
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-04T10:44:30.133+09:00",
+    "timestamp": "2026-08-04T10:56:34.820+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -17,10 +17,10 @@
     "lines": {
       "covered": 142,
       "missed": 53,
-      "omitted": 346,
+      "omitted": 350,
       "total": 195,
       "percent": 72.82051282051282,
-      "strength": 1.2666666666666666
+      "strength": 1.2615384615384615
     }
   },
   "coverage": {
@@ -55,7 +55,11 @@
         "        user = User.find_by(email: params[:email])",
         "",
         "        if user&.authenticate(params[:password])",
-        "          token = JsonWebToken.encode(user_id: user.id)",
+        "          # 🎯 【初学者向け超親切解説：ここがお直しの核心！】",
+        "          # 正しいパスワードを入力してログインに大成功したその瞬間、",
+        "          # 現在その人のデータベース金庫に保管されている本物のハンコ（jwt_salt: user.jwt_salt）を",
+        "          # カチッと1マス追加して、暗号の会員証の中に1文字の漏れもなくドッキングさせて発行（encode）します！！！",
+        "          token = JsonWebToken.encode(user_id: user.id, jwt_salt: user.jwt_salt)",
         "          render json: { token: token, user: { id: user.id, name: user.name, email: user.email } }, status: :ok",
         "        else",
         "          render json: { error: 'メールアドレスまたはパスワードが正しくありません' }, status: :unauthorized",
@@ -101,6 +105,10 @@
         2,
         null,
         2,
+        null,
+        null,
+        null,
+        null,
         1,
         1,
         null,
@@ -120,7 +128,7 @@
       "lines_covered_percent": 68.42105263157895,
       "covered_lines": 13,
       "missed_lines": 6,
-      "omitted_lines": 25,
+      "omitted_lines": 29,
       "total_lines": 19
     },
     "app/controllers/api/v1/meal_records_controller.rb": {
@@ -1080,7 +1088,7 @@
         null,
         null,
         1,
-        23,
+        22,
         null,
         null,
         null,
@@ -1255,7 +1263,7 @@
       "lines": {
         "covered": 74,
         "missed": 48,
-        "omitted": 197,
+        "omitted": 201,
         "total": 122,
         "percent": 60.65573770491803,
         "strength": 0.9344262295081968
@@ -1287,7 +1295,7 @@
         "omitted": 118,
         "total": 63,
         "percent": 95.23809523809524,
-        "strength": 1.4444444444444444
+        "strength": 1.4285714285714286
       },
       "files": [
         "app/models/application_record.rb",

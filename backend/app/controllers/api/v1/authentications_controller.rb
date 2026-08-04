@@ -27,7 +27,11 @@ module Api
         user = User.find_by(email: params[:email])
 
         if user&.authenticate(params[:password])
-          token = JsonWebToken.encode(user_id: user.id)
+          # 🎯 【初学者向け超親切解説：ここがお直しの核心！】
+          # 正しいパスワードを入力してログインに大成功したその瞬間、
+          # 現在その人のデータベース金庫に保管されている本物のハンコ（jwt_salt: user.jwt_salt）を
+          # カチッと1マス追加して、暗号の会員証の中に1文字の漏れもなくドッキングさせて発行（encode）します！！！
+          token = JsonWebToken.encode(user_id: user.id, jwt_salt: user.jwt_salt)
           render json: { token: token, user: { id: user.id, name: user.name, email: user.email } }, status: :ok
         else
           render json: { error: 'メールアドレスまたはパスワードが正しくありません' }, status: :unauthorized
