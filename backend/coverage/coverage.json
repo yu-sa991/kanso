@@ -5,7 +5,7 @@
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-04T09:43:12.430+09:00",
+    "timestamp": "2026-08-04T10:19:49.113+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -20,7 +20,7 @@
       "omitted": 346,
       "total": 195,
       "percent": 72.82051282051282,
-      "strength": 1.2512820512820513
+      "strength": 1.2666666666666666
     }
   },
   "coverage": {
@@ -1063,11 +1063,11 @@
         null,
         1,
         null,
-        1,
+        2,
         null,
-        1,
+        2,
         null,
-        1,
+        2,
         null,
         null,
         null,
@@ -1287,7 +1287,7 @@
         "omitted": 118,
         "total": 63,
         "percent": 95.23809523809524,
-        "strength": 1.3968253968253967
+        "strength": 1.4444444444444444
       },
       "files": [
         "app/models/application_record.rb",
