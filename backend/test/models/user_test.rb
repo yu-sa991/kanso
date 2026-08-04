@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
     create(:user, email: 'test_user@example.com')
     duplicate_user = build(:user, email: 'test_user@example.com')
     assert_not duplicate_user.valid?
-    
+
     # 🎯 【ここをお直し完了！】
     # 前回の user.errors から、本物の変数名である「duplicate_user.errors」へ完璧に修正しました！
     assert_includes duplicate_user.errors[:email], 'has already been taken'
