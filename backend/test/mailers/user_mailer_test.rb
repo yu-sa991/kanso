@@ -5,7 +5,8 @@ require 'test_helper'
 class UserMailerTest < ActionMailer::TestCase
   test 'password_reset' do
     # 🎯 テスト用のダミーユーザーを作って、Bara さん特製の暗号鍵をデータベースへ刻みます！
-    user = User.first || User.create!(name: 'テスト', email: 'test_mail@example.com', password: 'password', jwt_salt: SecureRandom.hex(16))
+    user = User.first || User.create!(name: 'テスト', email: 'test_mail@example.com', password: 'password',
+                                      jwt_salt: SecureRandom.hex(16))
     user.create_password_reset_token
 
     mail = UserMailer.password_reset(user)
