@@ -4,6 +4,11 @@
 module Api
   module V1
     class AuthenticationsController < ApplicationController
+      # 共通の門番（ApplicationController）による会員証チェックを、
+      # まだトークンを持っていない「register（新規登録）」と「login（ログイン）」の時だけ【完全にスキップ】させます！
+      skip_before_action :authenticate_request, only: %i[register login]
+
+
       # 📝 1. 【新規登録】アカウントを作りたい人が来たらここ！
       def register
         user = User.new(user_params)

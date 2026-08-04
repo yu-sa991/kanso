@@ -5,9 +5,13 @@ class User < ApplicationRecord
   # これだけで生のパスワードを世界一安全な暗号の塊に変形させるRails最強の防犯機能です！
   has_secure_password
 
-  # 🔒 【ここを追加！】 jwt_salt（暗号の塩）を自動リセット・管理する最強の防犯スイッチです
+  # jwt_salt（暗号の塩）を自動リセット・管理する最強の防犯スイッチです
   # ① 新規登録時に、世界に1つのランダムなハンコ（jwt_salt）を全自動で配ります
-  before_create :initialize_jwt_salt
+  #【ここをお直し！】
+  # validates（データチェック）が始まる本当の1番最初のタイミング（before_validation）で、
+  # あらかじめ jwt_salt ハンコを全自動で右手に持たせてあげることで、金庫の鍵を1発で大合格突破させます！
+  before_validation :initialize_jwt_salt, on: :create
+
   # ② 【ハッカー完全撃退！】本人がパスワードを変更した瞬間、古いハンコを破壊して新しいハンコへ強制リセットします！
   before_update :reset_jwt_salt, if: :will_save_change_to_password_digest?
 
