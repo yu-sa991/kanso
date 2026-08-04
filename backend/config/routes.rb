@@ -2,6 +2,13 @@
 
 Rails.application.routes.draw do
   #  バックエンドAPIの通り道を設定します
+  if Rails.env.development?
+  # 開発環境（development）の時だけ、ブラウザで「/letter_opener」という住所を叩くと、
+  # 送信されたメールを画面上でパッと確認できる、無敵のテスト用ポスト画面を大開通させます！
+  # =========================================================================
+   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+  end
+  
   namespace :api do
     namespace :v1 do
       #  ユーザー登録・ログイン認証用の専用URL窓口です

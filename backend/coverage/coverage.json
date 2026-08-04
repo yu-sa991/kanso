@@ -5,7 +5,7 @@
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-04T12:06:44.927+09:00",
+    "timestamp": "2026-08-04T13:17:37.422+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
