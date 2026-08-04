@@ -20,8 +20,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   # 🔒 パスワードの文字数を「最低6文字以上」に強制ロックする最強の防犯バリデーションです！
-  validates :password, length: { minimum: 6 }, allow_nil: true
-
+  # validates :password, length: { minimum: 6 }, allow_nil: true
+  validates :password, length: { minimum: 6, message: 'は6文字以上で入力してください。' }, allow_nil: true
   # ユーザーは「1つのプロフィール」を持っています（ユーザーが消えたら、プロフィールも一緒に全自動で消去（dependent: :destroy）されます！）
   has_one :profile, dependent: :destroy
 
