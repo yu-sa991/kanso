@@ -13,9 +13,9 @@ module Api
         user = User.new(user_params)
 
         if user.save
-          token = JsonWebToken.encode(user_id: user.id)
-          # render json: { token: token, user: { id: user.id, name: user.name, email: user.email } }, status: :created
-          # 🎯 【1行にスリム化！】データを横に綺麗に並べることで、関数の合計を「9行」に抑え込みました！
+          # 🎯 【ここをお直し完了！】
+          # 会員証を発行する際、新設したハンコ（jwt_salt: user.jwt_salt）も一緒に暗号のなかに混ぜ込みます！
+          token = JsonWebToken.encode(user_id: user.id, jwt_salt: user.jwt_salt)
           render json: { token: token, message: 'ユーザー登録が完了しました！', profile_registered: false }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
