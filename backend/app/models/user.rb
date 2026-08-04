@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   # jwt_salt（暗号の塩）を自動リセット・管理する最強の防犯スイッチです
   # ① 新規登録時に、世界に1つのランダムなハンコ（jwt_salt）を全自動で配ります
-  #【ここをお直し！】
+  # 【ここをお直し！】
   # validates（データチェック）が始まる本当の1番最初のタイミング（before_validation）で、
   # あらかじめ jwt_salt ハンコを全自動で右手に持たせてあげることで、金庫の鍵を1発で大合格突破させます！
   before_validation :initialize_jwt_salt, on: :create

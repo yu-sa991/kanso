@@ -2,7 +2,7 @@
 
 # 🎫 会員証（JWTトークン）の発行・解読を専門に行うお仕事クラスです
 class JsonWebToken
-  #SECRET_KEY = Rails.application.credentials.secret_key_base || ENV.fetch('SECRET_KEY_BASE', nil)
+  # SECRET_KEY = Rails.application.credentials.secret_key_base || ENV.fetch('SECRET_KEY_BASE', nil)
   # Renderの金庫（環境変数）に登録した、あの暗号化の合言葉を読み込みます！
   # SECRET_KEY = Rails.application.credentials.secret_key_base || Rails.application.secret_key_base
   # 🎯 【ここをお直し！】

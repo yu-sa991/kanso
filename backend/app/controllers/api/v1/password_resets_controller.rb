@@ -4,6 +4,13 @@ module Api
   module V1
     # 🔐 世界基準の安全な「使い切り暗号鍵（トークン）」によるパスワード再設定コントローラー
     class PasswordResetsController < ApplicationController
+      # 🎯 【初学者向け超親切解説：ここを追加！】
+      # パスワード再設定は、まだログインしていない（会員証を持っていない）人が使う窓口です。
+      # そのため、共通門番（ApplicationController）の一律チェックを、
+      # この部屋の「create（メール送信）」と「update（新しいパスワード登録）」の時だけ【優しくスキップ】させます。
+      # ※会員証チェックはスキップしますが、金庫の前で「メールに届いた本物の暗号鍵」を検証する二重ロックがかかるので100%安全です！
+      skip_before_action :authenticate_request, only: %i[create update]
+
       # 🛑 ログイン前の機能なので、トークン認証ガード（RequireAuthの裏側など）を優しくスキップします
       # (※もし元々何か別の認証スキップが書いてあった場合も、これで完全に安全に動作します)
 
