@@ -11,7 +11,13 @@ class AddJwtSaltToUsers < ActiveRecord::Migration[7.1]
     # null: false（空っぽ禁止制約）を綺麗に「断捨離（消去）」します！
     # これにより、本番の古いデータが空っぽのままであっても、1マスのエラーも起こさずに
     # 本番の金庫（Neon）の机が100%完全に大開通いたします！！！
-    add_column :users, :jwt_salt, :string
+    #add_column :users, :jwt_salt, :string
+    # 🎯 【ここをお直し完了！】
+    # unless column_exists?(:users, :jwt_salt) というお守りを後ろに1マス添えてあげます！
+    # これにより、「もしすでに jwt_salt が存在しているなら、add_column をスキップして合格扱いにする」
+    # というプロの現場の完璧な二重実行防止ガード（冪等性）が完成し、pending ロックが200%完全に解けます！！！
+    add_column :users, :jwt_salt, :string unless column_exists?(:users, :jwt_salt)
+  
 
     # 🔑 今データベースに登録されている既存の全ユーザーに、最初のハンコを一斉に配ります
     up_only do
