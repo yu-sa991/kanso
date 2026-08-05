@@ -44,7 +44,7 @@ export default function Register() {
         let cleanError = rawError
           .replace(/Password confirmation doesn't match Password/i, 'パスワード（確認用）とパスワードが一致しません。')
           .replace(/Password is too short \(minimum is 6 characters\)/i, 'パスワードは6文字以上で入力してください。')
-          .replace(/Password\s*/i, 'パスワード '); // 万が一他のパスワード英語があっても優しく日本語化します！
+          //.replace(/Password\s*/i, 'パスワード '); // 万が一他のパスワード英語があっても優しく日本語化します！
 
         setError(cleanError);
       } else {
