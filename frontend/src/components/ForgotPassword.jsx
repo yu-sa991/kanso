@@ -66,9 +66,29 @@ export default function ForgotPassword() {
 
             {error && <p style={{ color: '#dc3545', fontWeight: 'bold', backgroundColor: '#fff5f5', padding: '12px', borderRadius: '8px', border: '1px solid #fed7d7', fontSize: '14px', marginBottom: '15px' }}>{error}</p>}
 
+             {/* =========================================================================
+                🎯 【ここをお直し完了！】
+                label に htmlFor="email" を追加。input に id, name, autoComplete を追加しました。
+                これにより、ブラウザの「No label associated...」警告は100%完全に消滅します！
+               ========================================================================= */}
             <div style={{ marginBottom: '25px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>メールアドレス</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="example@kanso.com" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+              <label 
+                htmlFor="email" 
+                style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}
+              >
+                メールアドレス
+              </label>
+              <input 
+                type="email" 
+                id="email"
+                name="email"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+                placeholder="example@kanso.com" 
+                autoComplete="email"
+                style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+              />
             </div>
 
             <button type="submit" disabled={loading} style={{ width: '100%', padding: '16px', fontSize: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)', opacity: loading ? 0.7 : 1 }}>
