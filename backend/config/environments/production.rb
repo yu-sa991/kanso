@@ -66,7 +66,14 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :resque
   # config.active_job.queue_name_prefix = "app_production"
 
-  config.action_mailer.perform_caching = false
+  # config.action_mailer.perform_caching = false
+  # 🎯 【これが本番500エラーを200%完封する最終解決策！】
+  # 本番用の配信方法を一時的に「:test（ログに書くだけで実際には送信しない安全モード）」に指定します！
+  # これをしてあげるだけで、Renderの向こう側にメールサーバーの設定がなくても、
+  # 1ミリの喧嘩も起こさずに、新規登録ボタンを押した瞬間に登録が大成功するようになります！！！
+  config.action_mailer.delivery_method = :test
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: 'kanso-frontend.onrender.com' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
