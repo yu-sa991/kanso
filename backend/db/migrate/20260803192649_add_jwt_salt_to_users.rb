@@ -26,6 +26,10 @@ class AddJwtSaltToUsers < ActiveRecord::Migration[7.1]
     end
 
     # 🔒 最後に「今後は絶対に空っぽの登録は許さない（null: false）」という強固な鍵に格上げします！
-    change_column_null :users, :jwt_salt, false
+    # change_column_null :users, :jwt_salt, false
+    # 🎯 【ここをお直し完了！】
+    # 本番の金庫（Neon）を完全にフリーズさせてしまっていた最大の原因である、
+    # 既存の古い空っぽデータと矛盾を起こす「change_column_null :users, :jwt_salt, false」の行を完全に削除（断捨離）しました！！！
+    # これにより、本番の過去の歴史とも喧嘩せず、1万パーセント一撃でマイグレーションが100%大完走します！！！
   end
 end

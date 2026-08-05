@@ -5,7 +5,7 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-05T13:08:23.935+09:00",
+    "timestamp": "2026-08-05T14:06:00.688+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
