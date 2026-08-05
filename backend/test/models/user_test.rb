@@ -4,7 +4,6 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   # 🤖 1. 【正常ルートのテスト】
-  # FactoryBotで作った標準のダミー人間は、最初から100点満点で合格（valid）になるかを検証します！
   test '有効なファクトリを持つユーザーは正常に保存できること' do
     user = build(:user)
     assert user.valid?
@@ -14,7 +13,6 @@ class UserTest < ActiveSupport::TestCase
   test '名前が空っぽ（nil）のユーザーは保存できないこと' do
     user = build(:user, name: nil)
     assert_not user.valid?
-    # 🎯 【言葉の壁を解消！】Railsが英語で吐き出す "can't be blank" を完璧にキャッチします！
     assert_includes user.errors[:name], "can't be blank"
   end
 
@@ -23,21 +21,24 @@ class UserTest < ActiveSupport::TestCase
     create(:user, email: 'test_user@example.com')
     duplicate_user = build(:user, email: 'test_user@example.com')
     assert_not duplicate_user.valid?
-    # 🎯 【言葉の壁を解消！】Railsが英語で吐き出す "has already been taken" を完璧にキャッチします！
+
+    # 🎯 【ここをお直し完了！】
+    # 前回の user.errors から、本物の変数名である「duplicate_user.errors」へ完璧に修正しました！
     assert_includes duplicate_user.errors[:email], 'has already been taken'
   end
 
   # =========================================================================
-  # 🔒 【ここから追加！】パスワード（has_secure_password）の厳格な防犯テスト
+  # 🔒 パスワード（has_secure_password）の厳格な防犯テスト
   # =========================================================================
 
   # ❌ 4. パスワードの打ち間違い（不一致）のテスト
   test 'パスワードとパスワード確認が一致しないユーザーは保存できないこと' do
-    # パスワード（password123）と確認用（abc456）をわざとすれ違わせて組み立てます
     user = build(:user, password: 'password123', password_confirmation: 'abc456')
-
-    # 金庫番に「確認用とズレているからダメだよ！」と完璧に弾かれることを自動検証！
     assert_not user.valid?
+
+    # 🎯 【ここをお直し完了！】
+    # Railsの has_secure_password が裏口で吐き出す英語の初期エラー（doesn't match Password）が、
+    # データベース保存前のチェック（valid?）の段階でしっかり含まれているかを厳格に自動検証します！
     assert_includes user.errors[:password_confirmation], "doesn't match Password"
   end
 
@@ -50,11 +51,11 @@ class UserTest < ActiveSupport::TestCase
 
   # ❌ 6. パスワードが短すぎる（文字数不足）のテスト
   test 'パスワードが短すぎる（6文字未満）ユーザーは保存できないこと' do
-    # わざと4文字（abc1）という、危険で短すぎるパスワードで突入させます！
     user = build(:user, password: 'abc1', password_confirmation: 'abc1')
-
-    # 門番が「短すぎて危ないから保存禁止！」とガチッと弾き飛ばすことを自動検証！
     assert_not user.valid?
-    assert_includes user.errors[:password], 'is too short (minimum is 6 characters)'
+
+    # 🎯 【ここをお直し完了！】
+    # Bara さんが user.rb に日本語直書きした本物の文言（は6文字以上で入力してください。）と完全同期させました！
+    assert_includes user.errors[:password], 'は6文字以上で入力してください。'
   end
 end

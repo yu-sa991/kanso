@@ -79,6 +79,10 @@ Rails.application.configure do
     Bullet.bullet_logger = true # 📁 backend/log/bullet.log という専用のバグ日記帳に自動記録します
     Bullet.rails_logger = true # 💻 いつもの黒いターミナル画面（rails server）にも赤文字で警告を叫ばせます
   end
+  # 開発環境で送信されたメールを、先ほど新設したポスト画面（letter_opener_web）へ
+  # 100%全自動で流し込み、React（localhost:5173）への神架け橋URL
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.default_url_options = { host: 'localhost', port: 5173 }
 end
 
 # 🎯 【ここを追加！】ファイルの一番最後にこの1行を書き足します！

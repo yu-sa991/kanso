@@ -36,7 +36,17 @@ export default function Register() {
     } catch (err) {
       //  Rails側からエラー理由が届いた場合は、それを親切に画面に表示します
       if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.join('、'));
+       // 🎯 【ここをお直し完了！】
+        // Rails の仕様によって漏れ出てしまう英語のエラーメッセージを結合したあと、
+        // もし英語が混ざっていたら、一瞬で日本人が一番読みやすい100点満点の日本語へ置換（翻訳）します！
+        let rawError = err.response.data.errors.join('、');
+        
+        let cleanError = rawError
+          .replace(/Password confirmation doesn't match Password/i, 'パスワード（確認用）とパスワードが一致しません。')
+          .replace(/Password is too short \(minimum is 6 characters\)/i, 'パスワードは6文字以上で入力してください。')
+          .replace(/Password\s*/i, 'パスワード '); // 万が一他のパスワード英語があっても優しく日本語化します！
+
+        setError(cleanError);
       } else {
         setError('サーバーとの通信に失敗しました。パスワード一致や未登録アドレスか確認してください。');
       }

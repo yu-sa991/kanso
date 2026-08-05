@@ -2,6 +2,12 @@
 
 Rails.application.routes.draw do
   #  バックエンドAPIの通り道を設定します
+
+  # 開発環境（development）の時だけ、ブラウザで「/letter_opener」という住所を叩くと、
+  # 送信されたメールを画面上でパッと確認できる、無敵のテスト用ポスト画面を大開通させます！
+  # =========================================================================
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
   namespace :api do
     namespace :v1 do
       #  ユーザー登録・ログイン認証用の専用URL窓口です
@@ -9,7 +15,9 @@ Rails.application.routes.draw do
       post 'login', to: 'authentications#login'
 
       # 🔗 【ここを追加！】ログイン前のパスワード忘れた方向けの再設定ルートを完全開通！
-     # post 'password_resets', to: 'password_resets#create'
+      # post 'password_resets', to: 'password_resets#create'
+      # メールアドレスを受け取る窓口(create)と、暗号鍵を検証して上書きする窓口(update)の2つだけを安全に開通させます！
+      resources :password_resets, only: %i[create update]
 
       # プロフィールの保存（create）と確認（show）の通り道を完全開通！
       resource :profile, only: %i[create show]

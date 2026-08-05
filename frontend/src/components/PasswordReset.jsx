@@ -1,109 +1,103 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+// 🔐 frontend/src/components/PasswordReset.jsx
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-// 🌟 1. 【ここがお直しの核心！】コロン（:）と手元の localhost 住所（3000）を1文字の狂いもなく完全ドッキングしました！
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
+// 🌟 手元と本番のURLを全自動で切り替える、Baraさん無敵のスイッチを設置します！
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
 
 export default function PasswordReset() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setWeightSuccessMessage] = useState('');
+  const [token, setToken] = useState(''); // 🔑 メールから届いた暗号鍵（トークン）を保管する箱
+  
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handlePasswordReset = async (e) => {
+  // 🕵️‍♂️ 【画面が開いた瞬間の大仕事！】URLの末尾にくっついている暗号鍵を自動で抜き取ります
+  useEffect(() => {
+    // 例: /password-reset?token=xyz というURLから、"xyz" の部分だけを取り出します
+    const queryParams = new URLSearchParams(location.search);
+    const tokenFromUrl = queryParams.get('token');
+    
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    } else {
+      setError('パスワード再設定用の「暗号鍵（トークン）」が見つかりません。メールのリンクからもう一度開き直してください。');
+    }
+  }, [location]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
     setError('');
-    setWeightSuccessMessage('');
+
+    // 🛑 簡易防犯チェック（入力された2つのパスワードが一致しているか）
+    if (password !== passwordConfirmation) {
+      setError('新しいパスワードと確認用パスワードが一致しません。');
+      return;
+    }
 
     try {
-      // 🌐 さっき Rails 側に作ったばかりの、未ログイン用パスワード再設定窓口へ電波を飛ばします！
-      const response = await axios.post(`${API_BASE_URL}/api/v1/password_resets`, {
-        password_reset: { email, password, password_confirmation: passwordConfirmation }
+      // 🚀 新設したセキュアな窓口（api/v1/password_resets/[トークン]）へ、新しいパスワードを乗せてAxios電波を発射！
+      const response = await axios.put(`${API_BASE_URL}/api/v1/password_resets/${token}`, {
+        password: password
       });
 
       if (response.status === 200) {
-        setWeightSuccessMessage(response.data.message || 'パスワードが安全に再設定されました！');
-        alert('パスワードの再設定が完了しました！新しいパスワードでログインしてください。');
-        navigate('/login'); // 🔑 成功したら、お祝いのログイン画面へ自動ジャンプ！
+        setMessage('パスワードの再設定が正常に完了しました！3秒後にログイン画面へ移動します。');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.errors) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else if (err.response && err.response.data && err.response.data.errors) {
         setError(err.response.data.errors.join('、'));
       } else {
-        setError('パスワードの再設定に失敗しました。入力内容や通信状態を確認してください。');
+        setError('パスワードの再設定に失敗しました。リンクの有効期限（30分）が切れている可能性があります。');
       }
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '25px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', fontFamily: 'sans-serif' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>鍵の紛失・パスワード再設定</h2>
-      <p style={{ textAlign: 'center', color: '#666', fontSize: '13px', marginBottom: '20px' }}>
-        ご登録済みのメールアドレスを入力し、新しいパスワードを決めてください。
-      </p>
+    <div style={{ padding: '60px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '400px', margin: '0 auto', padding: '30px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
+        
+        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745', marginBottom: '10px' }}>
+          kanso
+        </h2>
+        <p style={{ fontSize: '15px', color: '#4a5568', fontWeight: 'bold', marginBottom: '25px' }}>
+          🔒 新しいパスワードの登録
+        </p>
 
-      {error && <p style={{ color: 'red', textAlign: 'center', fontWeight: 'bold' }}>⚠️ {error}</p>}
-      {successMessage && <p style={{ color: 'green', textAlign: 'center', fontWeight: 'bold' }}>🎉 {successMessage}</p>}
+        {message && <p style={{ color: '#28a745', fontWeight: 'bold', backgroundColor: '#e6fffa', padding: '12px', borderRadius: '8px', border: '1px solid #b2f5ea', fontSize: '14px' }}>{message}</p>}
+        {error && <p style={{ color: '#dc3545', fontWeight: 'bold', backgroundColor: '#fff5f5', padding: '12px', borderRadius: '8px', border: '1px solid #fed7d7', fontSize: '14px', textAlign: 'left', lineHeight: '1.5' }}>{error}</p>}
 
-      <form onSubmit={handlePasswordReset}>
-        {/* 📧 1. メールアドレス入力欄（ブラウザがユーザーを特定しやすくなる username 属性を完備！） */}
-        <div style={{ marginBottom: '15px', textAlign: 'left' }}>
-          <label htmlFor="reset-email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>ご登録のメールアドレス</label>
-          <input 
-            type="email" 
-            id="reset-email"
-            name="email"
-            autoComplete="username"
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-            style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} 
-          />
-        </div>
+        {/* 🔑 トークン（暗号鍵）が無事に読み込めている時だけ、入力フォームを表示する安全設計です */}
+        {token && !message && (
+          <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
+            
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>新しいパスワード（6文字以上）</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" placeholder="例: 新しいパスワードを入力" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+            </div>
 
-        {/* 🔒 2. 新しいパスワード入力欄（最重要：最新ブラウザの最強防犯属性 new-password バッジを付与！） */}
-        <div style={{ marginBottom: '15px', textAlign: 'left' }}>
-          <label htmlFor="reset-password" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>新しいパスワード（6文字以上）</label>
-          <input 
-            type="password" 
-            id="reset-password"
-            name="password"
-            autoComplete="new-password"
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-            style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} 
-          />
-        </div>
+            <div style={{ marginBottom: '25px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>新しいパスワード（確認用）</label>
+              <input type="password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} required minLength="6" placeholder="例: もう一度同じパスワードを入力" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+            </div>
 
-        {/* 🔒 3. 新しいパスワード確認入力欄（こちらも完璧に同じ new-password バッジで防衛します！） */}
-        <div style={{ marginBottom: '25px', textAlign: 'left' }}>
-          <label htmlFor="reset-password-confirmation" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>新しいパスワード（確認用）</label>
-          <input 
-            type="password" 
-            id="reset-password-confirmation"
-            name="password_confirmation"
-            autoComplete="new-password"
-            value={passwordConfirmation} 
-            onChange={(e) => setPasswordConfirmation(e.target.value)} 
-            required 
-            style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} 
-          />
-        </div>
-
-        <button type="submit" style={{ width: '100%', padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,123,255,0.15)' }}>
-          🔒 パスワードを新しく更新する
-        </button>
-      </form>
-
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <Link to="/login" style={{ color: '#28a745', textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>
-          ➔ ログイン画面に戻る
-        </Link>
+            <button type="submit" style={{ width: '100%', padding: '16px', fontSize: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)' }}>
+              ➔ パスワードを更新してログインする
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
 }
+

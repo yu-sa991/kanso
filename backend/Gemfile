@@ -51,6 +51,7 @@ group :development, :test do
   gem 'simplecov', require: false
   # 🚨 N+1問題というデータベースの無駄な往復アクセスを自動検知するプロ御用達のツールです！
   gem 'bullet'
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :development do

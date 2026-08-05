@@ -14,6 +14,7 @@ import Terms from './components/Terms';
 import Privacy from './components/Privacy'; 
 // 🔗 新設した漆黒のストイック紹介ページをアプリへ公式に読み込みます！
 import Welcome from './components/Welcome'; 
+import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
 
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
@@ -463,7 +464,8 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/password-reset" element={<PasswordReset />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        
         {/* 🛣️ 3. 【世界中の誰もが100%フリーで通れる完全な法的公道エリア】 */}
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
