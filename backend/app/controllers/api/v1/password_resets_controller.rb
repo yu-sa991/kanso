@@ -33,7 +33,7 @@ module Api
         # 🎯 【Style/EmptyElse 解消！】
         # user が実在しても、しなくても、ハッカーの総当たり攻撃（ユーザー列挙）を完璧に欺くため、
         # if の外側で一律で全く同じ大成功メッセージ（200 OK）を返却する超セキュアな設計に最適化しました！
-        render json: { message: 'パスワード再設定用のメールを送信しました。メール内のリンクから再設定を完了してください。' }, status: :ok
+        render json: { message: 'ご入力いただいたメールアドレスが登録されている場合、パスワード再設定用の案内メールを送信しました。' }, status: :ok
       end
 
       # 🎯 【Metrics/MethodLength 解消！】
