@@ -5,7 +5,7 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-05T14:06:00.688+09:00",
+    "timestamp": "2026-08-06T10:10:31.635+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -20,7 +20,7 @@ window.SIMPLECOV_DATA = {
       "omitted": 350,
       "total": 195,
       "percent": 72.82051282051282,
-      "strength": 1.2666666666666666
+      "strength": 1.2615384615384615
     }
   },
   "coverage": {
@@ -1088,7 +1088,7 @@ window.SIMPLECOV_DATA = {
         null,
         null,
         1,
-        23,
+        22,
         null,
         null,
         null,
@@ -1295,7 +1295,7 @@ window.SIMPLECOV_DATA = {
         "omitted": 118,
         "total": 63,
         "percent": 95.23809523809524,
-        "strength": 1.4444444444444444
+        "strength": 1.4285714285714286
       },
       "files": [
         "app/models/application_record.rb",
