@@ -47,3 +47,5 @@ class ApplicationController < ActionController::API
   # 🎯 オフにしていた長さチェックを、ここで「元通りオンに戻します」とロボットに宣言して大合格させます！
   # rubocop:enable Metrics/MethodLength
 end
+
+
