@@ -16,12 +16,19 @@ class User < ApplicationRecord
   before_update :reset_jwt_salt, if: :will_save_change_to_password_digest?
 
   # 🛡️ 名前を必須にし、メールアドレスの二重登録（重複）を完全にブロックする最強の防犯ロックです！
-  validates :name, presence: true
-  validates :email, presence: true, uniqueness: true
+  # 名前、メールアドレス、パスワードのそれぞれに最大文字数（maximum）の上限を追加し、
+  # 1文字の英語も漏らさない完璧に美しい日本語バリデーションメッセージへ最適化しました [INDEX]！
+  validates :name, presence: true,
+                   length: { maximum: 20, message: 'は20文字以内で入力してください。' }
 
+  validates :email, presence: true, uniqueness: true,
+                    length: { maximum: 100, message: 'は100文字以内で入力してください。' }
   # 🔒 パスワードの文字数を「最低6文字以上」に強制ロックする最強の防犯バリデーションです！
   # validates :password, length: { minimum: 6 }, allow_nil: true
-  validates :password, length: { minimum: 6, message: 'は6文字以上で入力してください。' }, allow_nil: true
+  # validates :password, length: { minimum: 6, message: 'は6文字以上で入力してください。' }, allow_nil: true
+  validates :password, length: { minimum: 6, maximum: 30, message: 'は6文字以上30文字以内で入力してください。' },
+                       allow_nil: true
+
   # ユーザーは「1つのプロフィール」を持っています（ユーザーが消えたら、プロフィールも一緒に全自動で消去（dependent: :destroy）されます！）
   has_one :profile, dependent: :destroy
 
