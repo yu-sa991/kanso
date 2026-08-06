@@ -71,6 +71,7 @@ export default function Register() {
             id="register-name"
             name="name"
             autoComplete="name"
+            maxLength="20" // 🎯 【追加！】20文字以上のタイピングを物理的にシャットアウトします！
             value={name} 
             onChange={(e) => setName(e.target.value)} 
             required 
@@ -88,6 +89,7 @@ export default function Register() {
             id="register-email"
             name="email"
             autoComplete="email"
+            maxLength="100" // 🎯 【追加！】ハッカーの意地悪な超長文アドレスを水際で弾きます！
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
@@ -105,6 +107,7 @@ export default function Register() {
             id="register-password"
             name="password"
             autoComplete="new-password"
+            maxLength="30" // 🎯 【追加！】パスワードは安全な30文字を上限にロックします！
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
@@ -122,6 +125,7 @@ export default function Register() {
             id="register-password-confirmation"
             name="password_confirmation"
             autoComplete="new-password"
+             maxLength="30" // 🎯 【追加！】上のパスワードと上限数を完全に同期させます！
             value={passwordConfirmation} 
             onChange={(e) => setPasswordConfirmation(e.target.value)} 
             required 
