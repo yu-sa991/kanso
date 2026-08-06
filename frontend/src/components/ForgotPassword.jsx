@@ -21,7 +21,9 @@ export default function ForgotPassword() {
 
     try {
       // 🚀 Railsの新しい窓口（api/v1/password_resets）へ、入力されたメールアドレスを乗せてAxios電波を発射！
-      await axios.post(`${API_BASE_URL}/api/v1/password_resets`, {
+      // 先頭に const response = を完璧に補完
+      // これにより、Rails側から返却された完璧な日本語の文章を1文字のズレもなく100%確実に受け取れるようになります！
+      const response =  await axios.post(`${API_BASE_URL}/api/v1/password_resets`, {
         email: email
       });
 
