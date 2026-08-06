@@ -89,7 +89,7 @@ export default function Register() {
             id="register-email"
             name="email"
             autoComplete="email"
-            maxLength="100" // 🎯 【追加！】ハッカーの意地悪な超長文アドレスを水際で弾きます！
+            maxLength="100" // 🎯【追加！】ハッカーの意地悪な超長文アドレスを水際で弾きます！
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
