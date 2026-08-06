@@ -45,6 +45,8 @@ export default function Register() {
           .replace(/Password confirmation doesn't match Password/i, 'パスワード（確認用）とパスワードが一致しません。')
           .replace(/Password is too short \(minimum is 6 characters\)/i, 'パスワードは6文字以上で入力してください。')
           //.replace(/Password\s*/i, 'パスワード '); // 万が一他のパスワード英語があっても優しく日本語化します！
+          .replace(/Password/g, 'パスワード')
+          .replace(/Email has already been taken/i, 'このメールアドレスはすでに登録されています。');
 
         setError(cleanError);
       } else {
