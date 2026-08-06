@@ -229,11 +229,19 @@
           null,
           null,
           null,
+          null,
           0,
           0,
           0,
           null,
           0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
           0,
           0,
           0,
@@ -252,16 +260,24 @@
             "[:then, 4, 36, 10, 39, 11]": 0,
             "[:else, 5, 42, 10, 42, 57]": 0
           },
-          "[:if, 6, 56, 8, 56, 44]": {
-            "[:then, 7, 56, 8, 56, 34]": 0,
-            "[:else, 8, 56, 8, 56, 44]": 0
+          "[:if, 6, 57, 8, 57, 44]": {
+            "[:then, 7, 57, 8, 57, 34]": 0,
+            "[:else, 8, 57, 8, 57, 44]": 0
+          },
+          "[:if, 9, 65, 10, 65, 149]": {
+            "[:then, 10, 65, 10, 65, 84]": 0,
+            "[:else, 11, 65, 10, 65, 149]": 0
+          },
+          "[:\"&.\", 12, 65, 104, 65, 127]": {
+            "[:then, 13, 65, 104, 65, 127]": 0,
+            "[:else, 14, 65, 104, 65, 127]": 0
           }
         },
         "methods": {
           "[\"ProfilesController\", :create, 11, 6, 20, 9]": 0,
           "[\"ProfilesController\", :show, 24, 6, 44, 9]": 0,
           "[\"ProfilesController\", :profile_params, 49, 6, 51, 9]": 0,
-          "[\"ProfilesController\", :authenticate_user, 54, 6, 63, 9]": 0
+          "[\"ProfilesController\", :authenticate_user, 55, 6, 71, 9]": 0
         }
       },
       "/app/app/controllers/api/v1/weight_records_controller.rb": {
@@ -621,6 +637,6 @@
         ]
       }
     },
-    "timestamp": 1785990911
+    "timestamp": 1785992964
   }
 }

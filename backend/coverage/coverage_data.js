@@ -5,7 +5,7 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-06T13:35:11.928+09:00",
+    "timestamp": "2026-08-06T14:09:24.903+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -16,11 +16,11 @@ window.SIMPLECOV_DATA = {
   "total": {
     "lines": {
       "covered": 142,
-      "missed": 53,
-      "omitted": 350,
-      "total": 195,
-      "percent": 72.82051282051282,
-      "strength": 1.2615384615384615
+      "missed": 54,
+      "omitted": 357,
+      "total": 196,
+      "percent": 72.44897959183673,
+      "strength": 1.2551020408163265
     }
   },
   "coverage": {
@@ -434,11 +434,19 @@ window.SIMPLECOV_DATA = {
         "      end",
         "",
         "      #  デジタル会員証（JWT）を解読して「今だれがログインしているか」を突き止めるセキュリティプログラムです",
+        "      # ご指摘箇所",
         "      def authenticate_user",
         "        header = request.headers['Authorization']",
         "        header = header.split.last if header",
         "        begin",
         "          decoded = JsonWebToken.decode(header)",
+        "",
+        "          # 🎯 【ここが最強の500エラー完封ロック！】",
+        "          # 有効期限が切れて decoded が nil（空っぽ）の時、もしくはデータベースの jwt_salt（ハンコ）が",
+        "          # すれ違っていた場合は、意図的に raise（例外エラー）を叫ばせて、すぐ下の rescue 網へ安全に流し込みます！",
+        "          # これにより、NoMethodError による 500 サーバー気絶を地球上から完全に消滅させました！！！",
+        "          raise JWT::DecodeError, 'セッション切れまたはハンコ不一致' if decoded.nil? || @current_user&.jwt_salt != decoded[:jwt_salt]",
+        "",
         "          @current_user = User.find(decoded[:user_id])",
         "        rescue ActiveRecord::RecordNotFound, JWT::DecodeError",
         "          render json: { errors: ['ログインセッションが切れました。もう一度ログインしてください。'] }, status: :unauthorized",
@@ -502,11 +510,19 @@ window.SIMPLECOV_DATA = {
         null,
         null,
         null,
+        null,
         0,
         0,
         0,
         null,
         0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
         0,
         0,
         0,
@@ -518,9 +534,9 @@ window.SIMPLECOV_DATA = {
       ],
       "lines_covered_percent": 0.0,
       "covered_lines": 0,
-      "missed_lines": 25,
-      "omitted_lines": 41,
-      "total_lines": 25
+      "missed_lines": 26,
+      "omitted_lines": 48,
+      "total_lines": 26
     },
     "app/controllers/api/v1/weight_records_controller.rb": {
       "source": [
@@ -1262,11 +1278,11 @@ window.SIMPLECOV_DATA = {
     "Controllers": {
       "lines": {
         "covered": 74,
-        "missed": 48,
-        "omitted": 201,
-        "total": 122,
-        "percent": 60.65573770491803,
-        "strength": 0.9344262295081968
+        "missed": 49,
+        "omitted": 208,
+        "total": 123,
+        "percent": 60.16260162601626,
+        "strength": 0.926829268292683
       },
       "files": [
         "app/controllers/api/v1/authentications_controller.rb",
