@@ -19,6 +19,13 @@ export default function ProfileSetup() {
     e.preventDefault();
     setError('');
 
+    // 🚨 【超巨大数値（Infinity）すり抜けを水際で完全遮断する最強の防犯ガード！】
+    // 身長や体重、年齢の文字数が 10 桁を超えていたら、サーバーへ電波を飛ばさずにその場で一瞬で弾き飛ばします！
+    if (age.length > 10 || height.length > 10 || weight.length > 10) {
+      setError('入力されたデータの桁数が多すぎます。正しい数値を入力してください。');
+      return;
+    }
+
     //  ブラウザの引き出し（localStorage）から、ログイン時にしまったデジタル会員証（トークン）を取り出す
     const token = localStorage.getItem('token');
 
@@ -68,51 +75,53 @@ export default function ProfileSetup() {
     }
   };
 
-  return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '25px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>身体データの初期設定</h2>
-      <p style={{ textAlign: 'center', color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-        カロリーや標準体重を正確に自動計算するために、現在のデータを教えてください。
-      </p>
+    return (
+    <div style={{ padding: '60px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '400px', margin: '50px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745', marginBottom: '10px' }}>身体データの初期設定</h2>
+        <p style={{ textAlign: 'center', color: '#666', fontSize: '14px', marginBottom: '20px' }}>
+          カロリーや標準体重を正確に自動計算するために、現在のデータを教えてください。
+        </p>
 
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        {error && <p style={{ color: 'red', textAlign: 'center', fontWeight: 'bold', backgroundColor: '#fff5f5', padding: '10px', borderRadius: '4px', border: '1px solid #fed7d7', fontSize: '14px', lineHeight: '1.5', marginBottom: '15px' }}>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        {/* 🚻 1. 性別のご案内（2選択ラジオボタン） */}
-        <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>性別（どちらかを選択してください）</label>
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <label style={{ fontSize: '16px', cursor: 'pointer' }}>
-              <input type="radio" value="male" checked={gender === 'male'} onChange={(e) => setGender(e.target.value)} style={{ marginRight: '5px' }} />
-              男性
-            </label>
-            <label style={{ fontSize: '16px', cursor: 'pointer' }}>
-              <input type="radio" value="female" checked={gender === 'female'} onChange={(e) => setGender(e.target.value)} style={{ marginRight: '5px' }} />
-              女性
-            </label>
+        <form onSubmit={handleSubmit}>
+          {/* 🚻 1. 性別のご案内（2選択ラジオボタン） */}
+          <div style={{ marginBottom: '15px', textAlign: 'left' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>性別（どちらかを選択してください）</label>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <label style={{ fontSize: '16px', cursor: 'pointer' }}>
+                <input type="radio" value="male" checked={gender === 'male'} onChange={(e) => setGender(e.target.value)} style={{ marginRight: '5px' }} />
+                男性
+              </label>
+              <label style={{ fontSize: '16px', cursor: 'pointer' }}>
+                <input type="radio" value="female" checked={gender === 'female'} onChange={(e) => setGender(e.target.value)} style={{ marginRight: '5px' }} />
+                女性
+              </label>
+            </div>
           </div>
-        </div>
 
-        {/* 🎂 2. 年齢の入力（htmlFor, id, name を安全に追加！） */}
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="setup-age" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>年齢（必須）</label>
-          <input type="number" id="setup-age" name="age" value={age} onChange={(e) => setAge(e.target.value)} required min="1" placeholder="例: 25" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
-        </div>
+          {/* 🎂 2. 年齢の入力（最大100歳までに制限をかけます） */}
+          <div style={{ marginBottom: '15px', textAlign: 'left' }}>
+            <label htmlFor="setup-age" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>年齢（必須）</label>
+            <input type="number" id="setup-age" name="age" value={age} onChange={(e) => setAge(e.target.value)} required min="1" max="100" placeholder="例: 25" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+          </div>
 
-        {/* 📏 3. 身長の入力（htmlFor, id, name を安全に追加！） */}
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="setup-height" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>身長 (cm)</label>
-          <input type="number" id="setup-height" name="height" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required min="1" placeholder="例: 170.5" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
-        </div>
+          {/* 📏 3. 身長の入力（最大300cmまでに制限をかけます） */}
+          <div style={{ marginBottom: '15px', textAlign: 'left' }}>
+            <label htmlFor="setup-height" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>身長 (cm)</label>
+            <input type="number" id="setup-height" name="height" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required min="1" max="300" placeholder="例: 170.5" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+          </div>
 
-        {/* ⚖️ 4. 初期体重の入力（htmlFor, id, name を安全に追加！） */}
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="setup-weight" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>現在の体重 (kg)</label>
-          <input type="number" id="setup-weight" name="weight" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required min="1" placeholder="例: 65.2" style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #999', borderRadius: '4px', fontSize: '16px' }} />
-        </div>
+          {/* ⚖️ 4. 初期体重の入力（最大500kgまでに制限をかけます） */}
+          <div style={{ marginBottom: '25px', textAlign: 'left' }}>
+            <label htmlFor="setup-weight" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>現在の体重 (kg)</label>
+            <input type="number" id="setup-weight" name="weight" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required min="1" max="500" placeholder="例: 65.2" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+          </div>
 
-        <button type="submit" style={{ width: '100%', padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }}>データを登録して始める</button>
-      </form>
+          <button type="submit" style={{ width: '100%', padding: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)' }}>データを登録して始める</button>
+        </form>
+      </div>
     </div>
   );
 }
