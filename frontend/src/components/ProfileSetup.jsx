@@ -48,8 +48,21 @@ export default function ProfileSetup() {
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
-        setError(err.response.data.errors.join('、'));
+        let rawError = err.response.data.errors.join('、');
+        
+        // 英語のエラーメッセージを日本語に翻訳
+        let cleanError = rawError
+          .replace(/Age must be an integer/i, '年齢は正しい数値（整数）で入力してください。')
+          .replace(/Age/i, '年齢')
+          .replace(/Height/i, '身長')
+          .replace(/Weight/i, '体重');
+
+        setError(cleanError);
       } else {
+      //if (err.response && err.response.data && err.response.data.errors) {
+       // setError(err.response.data.errors.join('、'));
+
+      //} else {
         setError('データの保存に失敗しました。入力内容を確認してください。');
       }
     }
