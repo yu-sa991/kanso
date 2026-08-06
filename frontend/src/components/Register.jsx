@@ -125,7 +125,7 @@ export default function Register() {
             id="register-password-confirmation"
             name="password_confirmation"
             autoComplete="new-password"
-             maxLength="30" // 🎯 【追加！】上のパスワードと上限数を完全に同期させます！
+            maxLength="30" // 🎯 【追加！】上のパスワードと上限数を完全に同期させます！
             value={passwordConfirmation} 
             onChange={(e) => setPasswordConfirmation(e.target.value)} 
             required 
