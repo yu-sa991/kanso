@@ -5,7 +5,7 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-07T13:11:36.628+09:00",
+    "timestamp": "2026-08-07T13:20:34.365+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -15,12 +15,12 @@ window.SIMPLECOV_DATA = {
   },
   "total": {
     "lines": {
-      "covered": 143,
+      "covered": 144,
       "missed": 54,
-      "omitted": 370,
-      "total": 197,
-      "percent": 72.58883248730965,
-      "strength": 1.2588832487309645
+      "omitted": 376,
+      "total": 198,
+      "percent": 72.72727272727273,
+      "strength": 1.2626262626262625
     }
   },
   "coverage": {
@@ -593,6 +593,13 @@ window.SIMPLECOV_DATA = {
         "        header = header.split.last if header",
         "        begin",
         "          decoded = JsonWebToken.decode(header)",
+        "",
+        "          # 🎯 【ここが500エラー完封ロック！】",
+        "          # 有効期限が切れて decoded が nil（空っぽ）の時、もしくはデータベースの jwt_salt（ハンコ）が",
+        "          # すれ違っていた場合は、意図的に raise（例外エラー）を叫ばせて、すぐ下の rescue 網へ安全に流し込みます！",
+        "          # これにより、NoMethodError による 500 サーバー気絶を最初から完全に消滅させました！！！",
+        "          raise JWT::DecodeError, 'セッション切れまたはハンコ不一致' if decoded.nil? || @current_user&.jwt_salt != decoded[:jwt_salt]",
+        "",
         "          @current_user = User.find(decoded[:user_id])",
         "        rescue ActiveRecord::RecordNotFound, JWT::DecodeError",
         "          render json: { errors: ['ログインセッションが切れました。もう一度ログインしてください。'] }, status: :unauthorized",
@@ -642,6 +649,13 @@ window.SIMPLECOV_DATA = {
         2,
         null,
         2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        2,
+        null,
         2,
         0,
         0,
@@ -651,11 +665,11 @@ window.SIMPLECOV_DATA = {
         null,
         null
       ],
-      "lines_covered_percent": 81.81818181818181,
-      "covered_lines": 18,
+      "lines_covered_percent": 82.6086956521739,
+      "covered_lines": 19,
       "missed_lines": 4,
-      "omitted_lines": 25,
-      "total_lines": 22
+      "omitted_lines": 31,
+      "total_lines": 23
     },
     "app/controllers/application_controller.rb": {
       "source": [
@@ -1305,12 +1319,12 @@ window.SIMPLECOV_DATA = {
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 75,
+        "covered": 76,
         "missed": 49,
-        "omitted": 214,
-        "total": 124,
-        "percent": 60.483870967741936,
-        "strength": 0.9354838709677419
+        "omitted": 220,
+        "total": 125,
+        "percent": 60.8,
+        "strength": 0.944
       },
       "files": [
         "app/controllers/api/v1/authentications_controller.rb",
