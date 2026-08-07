@@ -83,7 +83,7 @@ export default function ProfileSetup() {
           カロリーや標準体重を正確に自動計算するために、現在のデータを教えてください。
         </p>
 
-        {error && <p style={{ color: 'red', textAlign: 'center', fontWeight: 'bold', backgroundColor: '#fff5f5', padding: '10px', borderRadius: '4px', border: '1px solid #fed7d7', fontSize: '14px', lineHeight: '1.5', marginBottom: '15px' }}>{error}</p>}
+         {error && <p style={{ color: 'red', textAlign: 'center', fontWeight: 'bold', backgroundColor: '#fff5f5', padding: '10px', borderRadius: '4px', border: '1px solid #fed7d7', fontSize: '14px', lineHeight: '1.5', marginBottom: '15px' }}>{error}</p>}
 
         <form onSubmit={handleSubmit}>
           {/* 🚻 1. 性別のご案内（2選択ラジオボタン） */}
@@ -101,22 +101,60 @@ export default function ProfileSetup() {
             </div>
           </div>
 
-          {/* 🎂 2. 年齢の入力（最大100歳までに制限をかけます） */}
+          {/* 🎂 2. 年齢の入力（最大3桁・100歳までに物理タイピングロック！） */}
           <div style={{ marginBottom: '15px', textAlign: 'left' }}>
             <label htmlFor="setup-age" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>年齢（必須）</label>
-            <input type="number" id="setup-age" name="age" value={age} onChange={(e) => setAge(e.target.value)} required min="1" max="100" placeholder="例: 25" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+            <input 
+              type="number" 
+              id="setup-age" 
+              name="age" 
+              value={age} 
+              onChange={(e) => setAge(e.target.value)} 
+              required 
+              min="1" 
+              max="100" 
+              onInput={(e) => { if (e.target.value.length > 3) e.target.value = e.target.value.slice(0, 3); }}
+              placeholder="例: 25" 
+              style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+            />
           </div>
 
-          {/* 📏 3. 身長の入力（最大300cmまでに制限をかけます） */}
+          {/* 📏 3. 身長の入力（最大5桁・300.0cmまでに物理タイピングロック！） */}
           <div style={{ marginBottom: '15px', textAlign: 'left' }}>
             <label htmlFor="setup-height" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>身長 (cm)</label>
-            <input type="number" id="setup-height" name="height" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required min="1" max="300" placeholder="例: 170.5" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+            <input 
+              type="number" 
+              id="setup-height" 
+              name="height" 
+              step="0.1" 
+              value={height} 
+              onChange={(e) => setHeight(e.target.value)} 
+              required 
+              min="1" 
+              max="300" 
+              onInput={(e) => { if (e.target.value.length > 5) e.target.value = e.target.value.slice(0, 5); }}
+              placeholder="例: 170.5" 
+              style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+            />
           </div>
 
-          {/* ⚖️ 4. 初期体重の入力（最大500kgまでに制限をかけます） */}
+          {/* ⚖️ 4. 初期体重の入力（最大5桁・500.0kgまでに物理タイピングロック！） */}
           <div style={{ marginBottom: '25px', textAlign: 'left' }}>
             <label htmlFor="setup-weight" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>現在の体重 (kg)</label>
-            <input type="number" id="setup-weight" name="weight" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required min="1" max="500" placeholder="例: 65.2" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+            <input 
+              type="number" 
+              id="setup-weight" 
+              name="weight" 
+              step="0.1" 
+              value={weight} 
+              onChange={(e) => setWeight(e.target.value)} 
+              required 
+              min="1" 
+              max="500" 
+              onInput={(e) => { if (e.target.value.length > 5) e.target.value = e.target.value.slice(0, 5); }}
+              placeholder="例: 65.2" 
+              style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+            />
           </div>
 
           <button type="submit" style={{ width: '100%', padding: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)' }}>データを登録して始める</button>
@@ -125,5 +163,3 @@ export default function ProfileSetup() {
     </div>
   );
 }
-
-
