@@ -306,6 +306,9 @@ function MainHome() {
                 ー 1 kg
               </button>
 
+                           {/* 🎯 【TypeScript型チェック完全大合格仕様！】
+                  as HTMLInputElement を添えることで、型エラー(TS2339)を一撃で100%完全に完封します！
+                  これにより、ドットを含めて5桁を超えるタイピングを、本番環境でも物理的に完全ストップさせます！ */}
               <div style={{ textAlign: 'left', position: 'relative' }}>
                 <input 
                   type="number" 
@@ -315,7 +318,12 @@ function MainHome() {
                   step="0.1" 
                   min="1"
                   max="300"
-                  onInput={(e) => { if (e.target.value.length > 5) e.target.value = e.target.value.slice(0, 5); }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLInputElement;
+                    if (target.value.length > 5) {
+                      target.value = target.value.slice(0, 5);
+                    }
+                  }}
                   value={weightInput} 
                   onChange={(e) => setWeightInput(e.target.value)} 
                   required 
@@ -323,6 +331,7 @@ function MainHome() {
                 />
                 <span style={{ fontSize: '18px', fontWeight: 'bold', marginLeft: '8px', color: '#333' }}>kg</span>
               </div>
+
 
               <button type="button" onClick={() => handleAdjustWeight(1.0)} style={{ padding: '12px 18px', fontSize: '16px', background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569' }}>
                 ＋ 1 kg

@@ -1770,3 +1770,6 @@ https://github.com/yu-sa991/kanso.git
 
 
  : App.tsxの体重inputタグへonInput制御を追加し最大桁数のタイピング制限を完全実装"
+
+
+App.tsxの体重inputのonInput制御へHTMLInputElementへの型キャストを追加しTS2339エラーを完全解消"
