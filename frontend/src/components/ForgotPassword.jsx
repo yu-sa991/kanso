@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // 🌟 手元と本番のURLを全自動で切り替える、Baraさん無敵のスイッチです！
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-frontend.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
