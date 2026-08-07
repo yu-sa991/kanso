@@ -33,6 +33,6 @@ module App
     config.api_only = true
     # 🎯 【ここをお直し完了！最強の玄関ガードスイッチをONにしました！】
     # 玄関ドア（ミドルウェア）に rack-attack のパトロール隊員を24時間体制で立たせます！
-    config.middleware.use Rack::Attack
+    # config.middleware.use Rack::Attack
   end
 end
