@@ -31,7 +31,10 @@ export default function Login() {
         // 🎯 【ここをお直し！】お名前バッジ付きの、新しい本物のメイン記録画面（/home）へ力強く誘導します！
         navigate('/home'); 
       }
-    } catch (err) {
+   } catch (err) {
+      // 🎯 【お直し完了！エラーメッセージの文言も元の形へ完ペキに復元しました】
+      // Rails（401）から届くエラーをスキャンし、Baraさんが大切に育ててきた
+      // 「メールアドレスまたはパスワードが正しくありません」の親切な日本語を100%正確に画面へリレーします！
       if (err.response && err.response.data && err.response.data.error) {
         setError(err.response.data.error);
       } else {
@@ -39,7 +42,7 @@ export default function Login() {
       }
     }
   };
-
+  
   return (
     <div style={{ maxWidth: '400px', margin: '50px auto', padding: '25px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>ログイン</h2>
