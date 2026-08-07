@@ -31,15 +31,15 @@ export default function Login() {
         // 🎯 【ここをお直し！】お名前バッジ付きの、新しい本物のメイン記録画面（/home）へ力強く誘導します！
         navigate('/home'); 
       }
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
-        //setError(err.response.data.error);// 👈 Rails（401）の時はココを開きます
-        // rack-attack からダイレクトに届いた 429 日本語メッセージ（err.response.data）が存在する場合は、
-        // それを最優先で画面に灯し、ない場合は通常の 401（data.error）をリレーします！
+   } catch (err) {
+      // 条件文を if (err.response && err.response.data) に広げてスッキリさせました！
+      // これにより、rack-attack からデータそのもの（data）として届いた 429 日本語メッセージも、
+      // 通常の 401（data.error）も、どちらも1文字の取りこぼしもなく100%完璧に画面へリレーします！
+      if (err.response && err.response.data) {
         const apiError = err.response.data.error || err.response.data;
         setError(typeof apiError === 'string' ? apiError : 'ログインに失敗しました。');
-     } else {
-        setError('ログインに失敗しました。通信環境を確認してください');
+      } else {
+        setError('ログインに失敗しました。通信環境を確認してください。');
       }
     }
   };
