@@ -33,9 +33,13 @@ export default function Login() {
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError('メールアドレスまたはパスワードが正しくありません');
+        //setError(err.response.data.error);// 👈 Rails（401）の時はココを開きます
+        // rack-attack からダイレクトに届いた 429 日本語メッセージ（err.response.data）が存在する場合は、
+        // それを最優先で画面に灯し、ない場合は通常の 401（data.error）をリレーします！
+        const apiError = err.response.data.error || err.response.data;
+        setError(typeof apiError === 'string' ? apiError : 'ログインに失敗しました。');
+     } else {
+        setError('ログインに失敗しました。通信環境を確認してください');
       }
     }
   };
