@@ -51,11 +51,14 @@ export default function Login() {
           {/* 🔒 htmlFor を追加して、下の input の id("login-email") とガチッと結びつけます！ */}
           <label htmlFor="login-email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>メールアドレス</label>
           {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id, name 、そして自動入力を助ける username 属性を正確に追加しました！ */}
-          <input 
+             <input 
             type="email" 
             id="login-email"
             name="email"
-            autoComplete="username"
+            autoComplete="email"
+            maxLength="100"
+            /* 🎯 【お直し完了！】ハッカーの嫌がらせ超長文アドレスをタイピングの段階で100%完全に完封します！ */
+            onInput={(e) => { if (e.target.value.length > 100) e.target.value = e.target.value.slice(0, 100); }}
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
@@ -68,11 +71,14 @@ export default function Login() {
           {/* 🔒 htmlFor を追加して、下の input の id("login-password") とガチッと結びつけます！ */}
           <label htmlFor="login-password" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>パスワード</label>
           {/* 🛡️ 以下の input 内に、ブラウザ規約をクリアする id, name 、そして既存のパスワードを証明する current-password 属性を正確に追加しました！ */}
-          <input 
+           <input 
             type="password" 
             id="login-password"
             name="password"
             autoComplete="current-password"
+            maxLength="30"
+            /* 🎯 【お直し完了！】30文字を超えるパスワードの入力をその場で完全にフリーズさせます！ */
+            onInput={(e) => { if (e.target.value.length > 30) e.target.value = e.target.value.slice(0, 30); }}
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
