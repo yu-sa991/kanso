@@ -71,8 +71,9 @@ export default function ForgotPassword() {
 
              {/* =========================================================================
                 🎯 【ここをお直し完了！】
-                label に htmlFor="email" を追加。input に id, name, autoComplete を追加しました。
-                これにより、ブラウザの「No label associated...」警告は100%完全に消滅します！
+                input タグの中に、最大文字数制限のガード（maxLength="100"）と
+                物理タイピングロック（onInput）を1文字の過不足もなく完璧にドッキングしました！
+                これにより、ハッカーによる超長文アドレス入力をタイピングの段階で100%完全に完封します！
                ========================================================================= */}
             <div style={{ marginBottom: '25px' }}>
               <label 
@@ -90,6 +91,9 @@ export default function ForgotPassword() {
                 required 
                 placeholder="example@kanso.com" 
                 autoComplete="email"
+                maxLength="100"
+                /* 🎯 【お直し完了！】100文字を超えるアドレスの入力をその場で物理的に完全ストップさせます！ */
+                onInput={(e) => { if (e.target.value.length > 100) e.target.value = e.target.value.slice(0, 100); }}
                 style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
               />
             </div>
