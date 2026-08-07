@@ -315,6 +315,7 @@ function MainHome() {
                   step="0.1" 
                   min="1"
                   max="300"
+                  onInput={(e) => { if (e.target.value.length > 5) e.target.value = e.target.value.slice(0, 5); }}
                   value={weightInput} 
                   onChange={(e) => setWeightInput(e.target.value)} 
                   required 
