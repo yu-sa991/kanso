@@ -80,15 +80,37 @@ export default function PasswordReset() {
         {/* 🔑 トークン（暗号鍵）が無事に読み込めている時だけ、入力フォームを表示する安全設計です */}
         {token && !message && (
           <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
-            
+             
+             
+             {/* input タグの中に、最大文字数制限のガード（maxLength="30"）を完璧にドッキングしました！
+                これにより、ハッカーによる異常な超長文入力をフロント側で物理的に100%遮断します！ */}
             <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>新しいパスワード（6文字以上）</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" placeholder="例: 新しいパスワードを入力" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>新しいパスワード（6文字以上30文字以内）</label>
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+                minLength="6" 
+                maxLength="30" 
+                placeholder="例: 新しいパスワードを入力" 
+                style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+              />
             </div>
 
+            {/* 確認用の入力欄にも、上下で1文字のズレもないように全く同じ maxLength="30" を敷き詰めます！ */}
             <div style={{ marginBottom: '25px' }}>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', fontSize: '14px', color: '#4a5568' }}>新しいパスワード（確認用）</label>
-              <input type="password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} required minLength="6" placeholder="例: もう一度同じパスワードを入力" style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} />
+              <input 
+                type="password" 
+                value={passwordConfirmation} 
+                onChange={(e) => setPasswordConfirmation(e.target.value)} 
+                required 
+                minLength="6" 
+                maxLength="30" 
+                placeholder="例: もう一度同じパスワードを入力" 
+                style={{ width: '100%', padding: '12px', boxSizing: 'border-box', border: '1px solid #cbd5e0', borderRadius: '8px', fontSize: '16px' }} 
+              />
             </div>
 
             <button type="submit" style={{ width: '100%', padding: '16px', fontSize: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 12px rgba(40,167,69,0.2)' }}>

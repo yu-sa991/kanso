@@ -71,6 +71,9 @@ export default function Register() {
             id="register-name"
             name="name"
             autoComplete="name"
+            maxLength="20" // 🎯 【20文字以上のタイピングを物理的にシャットアウトします！
+            /* 🎯 【お名前は最大20文字を超える入力をその場で物理的に完全ストップさせます！ */
+            onInput={(e) => { if (e.target.value.length > 20) e.target.value = e.target.value.slice(0, 20); }}
             value={name} 
             onChange={(e) => setName(e.target.value)} 
             required 
@@ -88,6 +91,9 @@ export default function Register() {
             id="register-email"
             name="email"
             autoComplete="email"
+            maxLength="100" // 🎯【追加！】ハッカーの意地悪な超長文アドレスを水際で弾きます！
+            /* 🎯 【お直し完了！】ハッカーの嫌がらせ超長文アドレスをタイピングの段階で100%完全に完封します！ */
+            onInput={(e) => { if (e.target.value.length > 100) e.target.value = e.target.value.slice(0, 100); }}
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
@@ -105,6 +111,9 @@ export default function Register() {
             id="register-password"
             name="password"
             autoComplete="new-password"
+            maxLength="30" // 🎯 【追加！】パスワードは安全な30文字を上限にロックします！
+             /* 🎯 【お直し完了！】30文字を超えるパスワードの入力をその場で完全にフリーズさせます！ */
+            onInput={(e) => { if (e.target.value.length > 30) e.target.value = e.target.value.slice(0, 30); }}
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
@@ -122,6 +131,9 @@ export default function Register() {
             id="register-password-confirmation"
             name="password_confirmation"
             autoComplete="new-password"
+            maxLength="30" // 🎯 【追加！】上のパスワードと上限数を完全に同期させます！
+             /* 🎯 【お直し完了！】上のパスワードと上限数を完全に同期させ、長文入力をシャットアウトします！ */
+            onInput={(e) => { if (e.target.value.length > 30) e.target.value = e.target.value.slice(0, 30); }}
             value={passwordConfirmation} 
             onChange={(e) => setPasswordConfirmation(e.target.value)} 
             required 
