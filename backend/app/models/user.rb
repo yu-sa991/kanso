@@ -15,6 +15,12 @@ class User < ApplicationRecord
   # ② 【ハッカー完全撃退！】本人がパスワードを変更した瞬間、古いハンコを破壊して新しいハンコへ強制リセットします！
   before_update :reset_jwt_salt, if: :will_save_change_to_password_digest?
 
+  # 🎯 【ここをお直し完了！最強のアカウントロック初期化スイッチです】
+  # 新しくアカウントが作られた時、失敗回数を「0」から綺麗にスタートさせます
+  after_initialize do
+    self.failed_attempts ||= 0 if new_record?
+  end
+
   # 🛡️ 名前を必須にし、メールアドレスの二重登録（重複）を完全にブロックする最強の防犯ロックです！
   # 名前、メールアドレス、パスワードのそれぞれに最大文字数（maximum）の上限を追加し、
   # 1文字の英語も漏らさない完璧に美しい日本語バリデーションメッセージへ最適化しました [INDEX]！
