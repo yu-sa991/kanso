@@ -5,7 +5,7 @@
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-07T11:10:37.516+09:00",
+    "timestamp": "2026-08-07T13:11:36.628+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -15,12 +15,12 @@
   },
   "total": {
     "lines": {
-      "covered": 142,
+      "covered": 143,
       "missed": 54,
-      "omitted": 364,
-      "total": 196,
-      "percent": 72.44897959183673,
-      "strength": 1.2551020408163265
+      "omitted": 370,
+      "total": 197,
+      "percent": 72.58883248730965,
+      "strength": 1.2588832487309645
     }
   },
   "coverage": {
@@ -171,6 +171,13 @@
         "        header = header.split.last if header",
         "        begin",
         "          decoded = JsonWebToken.decode(header)",
+        "",
+        "          # 🎯 【ここが最強の500エラー完封ロック！】",
+        "          # 有効期限が切れて decoded が nil（空っぽ）の時、もしくはデータベースの jwt_salt（ハンコ）が",
+        "          # すれ違っていた場合は、意図的に raise（例外エラー）を叫ばせて、すぐ下の rescue 網へ安全に流し込みます！",
+        "          # これにより、NoMethodError による 500 サーバー気絶を最初から完全に消滅させました！！！",
+        "          raise JWT::DecodeError, 'セッション切れまたはハンコ不一致' if decoded.nil? || @current_user&.jwt_salt != decoded[:jwt_salt]",
+        "",
         "          @current_user = User.find(decoded[:user_id])",
         "        rescue ActiveRecord::RecordNotFound, JWT::DecodeError",
         "          render json: { errors: ['ログインセッションが切れました。もう一度ログインしてください。'] }, status: :unauthorized",
@@ -219,6 +226,13 @@
         2,
         null,
         2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        2,
+        null,
         2,
         0,
         0,
@@ -228,11 +242,11 @@
         null,
         null
       ],
-      "lines_covered_percent": 81.81818181818181,
-      "covered_lines": 18,
+      "lines_covered_percent": 82.6086956521739,
+      "covered_lines": 19,
       "missed_lines": 4,
-      "omitted_lines": 24,
-      "total_lines": 22
+      "omitted_lines": 30,
+      "total_lines": 23
     },
     "app/controllers/api/v1/password_resets_controller.rb": {
       "source": [
@@ -1291,12 +1305,12 @@
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 74,
+        "covered": 75,
         "missed": 49,
-        "omitted": 208,
-        "total": 123,
-        "percent": 60.16260162601626,
-        "strength": 0.926829268292683
+        "omitted": 214,
+        "total": 124,
+        "percent": 60.483870967741936,
+        "strength": 0.9354838709677419
       },
       "files": [
         "app/controllers/api/v1/authentications_controller.rb",
