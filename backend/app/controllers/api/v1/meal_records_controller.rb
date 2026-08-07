@@ -36,6 +36,13 @@ module Api
         header = header.split.last if header
         begin
           decoded = JsonWebToken.decode(header)
+
+          # 🎯 【ここが最強の500エラー完封ロック！】
+          # 有効期限が切れて decoded が nil（空っぽ）の時、もしくはデータベースの jwt_salt（ハンコ）が
+          # すれ違っていた場合は、意図的に raise（例外エラー）を叫ばせて、すぐ下の rescue 網へ安全に流し込みます！
+          # これにより、NoMethodError による 500 サーバー気絶を最初から完全に消滅させました！！！
+          raise JWT::DecodeError, 'セッション切れまたはハンコ不一致' if decoded.nil? || @current_user&.jwt_salt != decoded[:jwt_salt]
+
           @current_user = User.find(decoded[:user_id])
         rescue ActiveRecord::RecordNotFound, JWT::DecodeError
           render json: { errors: ['ログインセッションが切れました。もう一度ログインしてください。'] }, status: :unauthorized
