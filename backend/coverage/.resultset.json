@@ -273,10 +273,14 @@
           null,
           null,
           null,
+          null,
+          null,
           0,
           null,
           0,
           0,
+          null,
+          null,
           0,
           null,
           null,
@@ -297,20 +301,20 @@
             "[:then, 7, 57, 8, 57, 34]": 0,
             "[:else, 8, 57, 8, 57, 44]": 0
           },
-          "[:if, 9, 65, 10, 65, 149]": {
-            "[:then, 10, 65, 10, 65, 84]": 0,
-            "[:else, 11, 65, 10, 65, 149]": 0
+          "[:if, 9, 67, 10, 67, 149]": {
+            "[:then, 10, 67, 10, 67, 84]": 0,
+            "[:else, 11, 67, 10, 67, 149]": 0
           },
-          "[:\"&.\", 12, 65, 104, 65, 127]": {
-            "[:then, 13, 65, 104, 65, 127]": 0,
-            "[:else, 14, 65, 104, 65, 127]": 0
+          "[:\"&.\", 12, 67, 104, 67, 127]": {
+            "[:then, 13, 67, 104, 67, 127]": 0,
+            "[:else, 14, 67, 104, 67, 127]": 0
           }
         },
         "methods": {
           "[\"ProfilesController\", :create, 11, 6, 20, 9]": 0,
           "[\"ProfilesController\", :show, 24, 6, 44, 9]": 0,
           "[\"ProfilesController\", :profile_params, 49, 6, 51, 9]": 0,
-          "[\"ProfilesController\", :authenticate_user, 55, 6, 71, 9]": 0
+          "[\"ProfilesController\", :authenticate_user, 55, 6, 75, 9]": 0
         }
       },
       "/app/app/controllers/api/v1/weight_records_controller.rb": {
@@ -397,7 +401,14 @@
           null,
           4,
           null,
+          null,
+          null,
+          null,
           4,
+          0,
+          0,
+          null,
+          null,
           null,
           4,
           null,
@@ -416,7 +427,6 @@
           null,
           null,
           null,
-          0,
           null,
           null,
           null,
@@ -671,6 +681,8 @@
           null,
           1,
           null,
+          null,
+          null,
           11,
           null,
           11,
@@ -690,6 +702,6 @@
         ]
       }
     },
-    "timestamp": 1786118514
+    "timestamp": 1786149139
   }
 }

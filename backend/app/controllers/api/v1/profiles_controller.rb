@@ -62,10 +62,14 @@ module Api
           # 有効期限が切れて decoded が nil（空っぽ）の時、もしくはデータベースの jwt_salt（ハンコ）が
           # すれ違っていた場合は、意図的に raise（例外エラー）を叫ばせて、すぐ下の rescue 網へ安全に流し込みます！
           # これにより、NoMethodError による 500 サーバー気絶を地球上から完全に消滅させました！！！
+          # 🎯 【防犯の核心：大合格の証明！】
+          # 期限切れで decoded が nil になった瞬間、即座に例外（JWT::DecodeError）を自力で発生させます！
           raise JWT::DecodeError, 'セッション切れまたはハンコ不一致' if decoded.nil? || @current_user&.jwt_salt != decoded[:jwt_salt]
 
           @current_user = User.find(decoded[:user_id])
         rescue ActiveRecord::RecordNotFound, JWT::DecodeError
+          # 🔴 【大逆転の401リレー！】
+          # キャッチした瞬間に、500エラーを吐き出させず、綺麗な 401（:unauthorized）を画面へ笑顔で返却します
           render json: { errors: ['ログインセッションが切れました。もう一度ログインしてください。'] }, status: :unauthorized
         end
       end

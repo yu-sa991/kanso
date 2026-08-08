@@ -22,27 +22,33 @@ class ApplicationController < ActionController::API
     # ② 抜き出した会員証を、さっき格上げした「JsonWebToken案内所」へ手渡して解読（デコード）させます
     decoded = JsonWebToken.decode(token) if token
 
-    if decoded
-      # ③ 解読に成功したら、会員証に書いてある「ユーザーID」を使って、金庫（データベース）から本人のデータを特定します
-      user = User.find_by(id: decoded[:user_id])
-
-      # 🚨 【最重要防犯ロック！】
-      # 解読した会員証に刻まれているハンコ（decoded[:jwt_salt]）が、
-      # 現在のデータベース金庫にある本物のハンコ（user.jwt_salt）と【完全に一致するか】を厳格にチェックします！
-      #
-      # 💡 もし本人がパスワードを変更していた場合、金庫側のハンコが新しく書き換わっているため、
-      # ハッカーが持っている古い会員証のハンコとは一致しなくなり、ここで100%確実にハッキングを検知できます！
-      if user && user.jwt_salt == decoded[:jwt_salt]
-        # ハンコが100%完全に一致した「正真正銘の本物のユーザー」だけを、笑顔でアプリの部屋（@current_user）へ通します
-        @current_user = user
-      else
-        # 🚷 ハンコがすれ違っていた（不一致だった）場合は、ハッカーと判断して一瞬で完全門前払い（強制ログアウト）を執行します！
-        render json: { error: 'セッションの有効期限が切れたか、パスワードが変更されたため再度ログインが必要です。' }, status: :unauthorized
-      end
-    else
-      # 会員証そのものを持っていない、あるいは偽物の場合は「ログインしてください」と冷たく追い返します
-      render json: { error: 'ログインしてください。' }, status: :unauthorized
+    # 🎯 【ここをお直し格上げ完了！セッション有効期限切れを100%水際で美しく完封するガード構文です】
+    # 有効期限が切れて decoded が「nil（空っぽ）」になっていた場合、あるいは会員証自体が届いていない場合は、
+    # サーバーを500クラッシュさせる前に、その場で即座に綺麗な「401 Unauthorized」を返して安全に追い返します！
+    if decoded.nil?
+      render json: { error: 'セッションの有効期限が切れました。安全のため再度ログインしてください。' }, status: :unauthorized
+      return
     end
+
+    # ③ 解読に成功したら、会員証に書いてある「ユーザーID」を使って、金庫（データベース）から本人のデータを特定します
+    user = User.find_by(id: decoded[:user_id])
+
+    # 🚨 【最重要防犯ロック！】
+    # 解読した会員証に刻まれているハンコ（decoded[:jwt_salt]）が、
+    # 現在のデータベース金庫にある本物のハンコ（user.jwt_salt）と【完全に一致するか】を厳格にチェックします！
+    #
+    # 💡 もし本人がパスワードを変更していた場合、金庫側のハンコが新しく書き換わっているため、
+    # ハッカーが持っている古い会員証のハンコとは一致しなくなり、ここで100%確実にハッキングを検知できます！
+    if user && user.jwt_salt == decoded[:jwt_salt]
+      # ハンコが100%完全に一致した「正真正銘の本物のユーザー」だけを、笑顔でアプリの部屋（@current_user）へ通します
+      @current_user = user
+    else
+      # 🚷 ハンコがすれ違っていた（不一致だった）場合は、ハッカーと判断して一瞬で完全門前払い（強制ログアウト）を執行します！
+      render json: { error: 'セッションの有効期限が切れたか、パスワードが変更されたため再度ログインが必要です。' }, status: :unauthorized
+    end
+    # else
+    # 会員証そのものを持っていない、あるいは偽物の場合は「ログインしてください」と冷たく追い返します
+    # render json: { error: 'ログインしてください。' }, status: :unauthorized
   end
   # 🎯 オフにしていた長さチェックを、ここで「元通りオンに戻します」とロボットに宣言して大合格させます！
   # rubocop:enable Metrics/MethodLength
