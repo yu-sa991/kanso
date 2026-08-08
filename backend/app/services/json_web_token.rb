@@ -14,7 +14,7 @@ class JsonWebToken
   # 会員証を新しく作るとき、ユーザーの現在のハンコ（jwt_salt）も一緒に暗号の箱のなかに混ぜ込みます！
   def self.encode(payload, exp = 24.hours.from_now)
     # payload の中に、ログイン時にコントローラーから手渡された { user_id: 1, jwt_salt: "abc..." } が入っています
-    payload[:exp] = exp.to_i
+    payload[:exp] = exp.to_i # ここが自動失効の心臓部
     # Googleや銀行でも使われる強力な暗号技術で、1本の文字（トークン）にギュッと合体させます
     JWT.encode(payload, SECRET_KEY)
   end
