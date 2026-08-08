@@ -27,7 +27,6 @@ module Api
           UserMailer.password_reset(user).deliver_now
 
           Rails.logger.info "📢 【デバッグログ】#{user.name}さんのリセット鍵が発行されました！"
-          Rails.logger.info "🔑 鍵（トークン）: #{user.password_reset_token}"
         end
 
         # 🎯 【Style/EmptyElse 解消！】

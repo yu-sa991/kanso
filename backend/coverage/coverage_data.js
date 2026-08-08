@@ -5,7 +5,7 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-08T09:32:19.819+09:00",
+    "timestamp": "2026-08-08T13:36:51.746+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -15,12 +15,12 @@ window.SIMPLECOV_DATA = {
   },
   "total": {
     "lines": {
-      "covered": 152,
+      "covered": 151,
       "missed": 61,
       "omitted": 405,
-      "total": 213,
-      "percent": 71.36150234741784,
-      "strength": 1.3849765258215962
+      "total": 212,
+      "percent": 71.22641509433963,
+      "strength": 1.3867924528301887
     }
   },
   "coverage": {
@@ -331,7 +331,6 @@ window.SIMPLECOV_DATA = {
         "          UserMailer.password_reset(user).deliver_now",
         "",
         "          Rails.logger.info \"📢 【デバッグログ】#{user.name}さんのリセット鍵が発行されました！\"",
-        "          Rails.logger.info \"🔑 鍵（トークン）: #{user.password_reset_token}\"",
         "        end",
         "",
         "        # 🎯 【Style/EmptyElse 解消！】",
@@ -400,7 +399,6 @@ window.SIMPLECOV_DATA = {
         1,
         null,
         1,
-        1,
         null,
         null,
         null,
@@ -439,11 +437,11 @@ window.SIMPLECOV_DATA = {
         null,
         null
       ],
-      "lines_covered_percent": 65.0,
-      "covered_lines": 13,
+      "lines_covered_percent": 63.1578947368421,
+      "covered_lines": 12,
       "missed_lines": 7,
       "omitted_lines": 47,
-      "total_lines": 20
+      "total_lines": 19
     },
     "app/controllers/api/v1/profiles_controller.rb": {
       "source": [
@@ -1407,12 +1405,12 @@ window.SIMPLECOV_DATA = {
   "groups": {
     "Controllers": {
       "lines": {
-        "covered": 82,
+        "covered": 81,
         "missed": 56,
         "omitted": 243,
-        "total": 138,
-        "percent": 59.42028985507246,
-        "strength": 0.9130434782608695
+        "total": 137,
+        "percent": 59.12408759124087,
+        "strength": 0.9124087591240876
       },
       "files": [
         "app/controllers/api/v1/authentications_controller.rb",
