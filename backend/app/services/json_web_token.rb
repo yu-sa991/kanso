@@ -13,6 +13,8 @@ class JsonWebToken
   # ⚙️ 【ステップ1：発行(encode)の引き出し】
   # 会員証を新しく作るとき、ユーザーの現在のハンコ（jwt_salt）も一緒に暗号の箱のなかに混ぜ込みます！
   def self.encode(payload, exp = 24.hours.from_now)
+    # 📁 json_web_token.rb（検証時の一時的なお直し）
+  #def self.encode(payload, exp = 0.seconds.from_now) # 👈 24時間から「今すぐ失効」へ変更！
     # payload の中に、ログイン時にコントローラーから手渡された { user_id: 1, jwt_salt: "abc..." } が入っています
     payload[:exp] = exp.to_i # ここが自動失効の心臓部
     # Googleや銀行でも使われる強力な暗号技術で、1本の文字（トークン）にギュッと合体させます
