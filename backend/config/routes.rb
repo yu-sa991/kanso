@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   namespace :api do
+    # 📅 【ここを追記！】カレンダー画面専用のデータ一括一括取得ルートを大開通させます！
+    resources :calendar_data, only: [:index]
     namespace :v1 do
       #  ユーザー登録・ログイン認証用の専用URL窓口です
       post 'register', to: 'authentications#register'
