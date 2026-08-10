@@ -3,18 +3,24 @@ import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置�
 //import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'; // 🚀 Link を優しく大復活！
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
+
+// 🎯 【ここをお直し完了！】新設した各種セキュリティ・快適画面パーツを一斉に公式読み込みします！
+// 🚀 【今回の主役！】先ほど魂を込めて作成したカレンダーの部屋を、特等席へインポートして呼び出します！ 
+import Calendar from './components/Calendar';
 import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 // 新設したパスワード再設定画面をアプリに読み込みます！
 import PasswordReset from './components/PasswordReset';
-// 🔗 新設した2つの静的画面をアプリへ公式に読み込みます！
+import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
+
+
+// 🔗 各種静的画面・Top紹介ページを公式に読み込みます！
 import Terms from './components/Terms'; 
 import Privacy from './components/Privacy'; 
 // 🔗 新設した漆黒のストイック紹介ページをアプリへ公式に読み込みます！
 import Welcome from './components/Welcome'; 
-import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
 
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
@@ -43,10 +49,12 @@ function MainHome() {
   //📅 本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
-  // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
-  // 画面内の「食事記録エリア」と「体重記録エリア」の場所を、システムに正確に指さして教えるためのピン（Ref）を用意します！
+  // 🎯 【画面内エレベーター連動のネジ配置！】
+  // 画面内の「食事記録エリア」「体重記録エリア」、そして新設する「カレンダーエリア」の場所を、
+  // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
   const mealSectionRef = useRef(null);
   const weightSectionRef = useRef(null);
+  const calendarSectionRef = useRef(null);
 
   // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
   const [activeMenu, setActiveMenu] = useState('meal');
@@ -348,6 +356,14 @@ function MainHome() {
         </div>
       )}
 
+       {/*📅 【ここを記述（追加）！】
+          固定フッターメニューの真上（大元のdivが閉じる直前）に、目印ピン（Ref）を添えた振り返りカレンダーを堂々ドッキングします！
+          これにより、フッターの「履歴カレンダー」ボタンを押した瞬間に、この場所へ一瞬で自動ワープできるようになります！  */}
+      <div ref={calendarSectionRef}>
+        <hr style={{ border: '0', height: '1px', background: '#e2e8f0', margin: '40px 0' }} />
+        <Calendar />
+      </div>
+
    {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (
         <>
@@ -437,12 +453,11 @@ function MainHome() {
               <span>体重記録</span>
             </button>
 
-            {/* 3. 履歴ボタン（今後のカレンダードッキングへの布石！） */}
-            <button onClick={() => alert('Week 3の次のイシューで、ここに大感動の「カレンダーカレンダー履歴」がドッキングします！お楽しみに！')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#718096', fontWeight: 'bold', fontSize: '13px' }}>
-              <span style={{ fontSize: '20px' }}>📅</span>
-              <span>履歴カレンダー</span>
-            </button>
-
+             {/* 🎯 【ここを記述（アップデート完了）！】履歴カレンダーボタンを押したそのコンマ1秒後に、上のカレンダーエリアへエレベーターのようにフワッと自動ワープ（スクロール）します！ 
+            <button onClick={() => scrollToSection(calendarSectionRef, 'calendar')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'calendar' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
+              <span style={{ fontSize: '20px' }}>📅</span><span>履歴カレンダー</span>
+            </button>*/}
+            
            {/* ⚙️ 【ここが大進化！】下から引き出しをフワッと出現させるトリガー */}
             <button onClick={() => { setIsModalOpen(!isModalOpen); setActiveMenu('settings'); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'settings' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px' }}>
               <span style={{ fontSize: '20px' }}>⚙️</span>
