@@ -11,7 +11,7 @@ export default function Calendar() {
   const [events, setEvents] = useState([]);
   const token = localStorage.getItem('token');
 
-  // 📥 1. 画面が開いた瞬間に、Railsの窓口から1ヶ月分のデータを一括取得します
+  // 📥 1. 画面が開いた瞬間に、Railsの窓口からデータを一括取得します
   useEffect(() => {
     if (!token) return;
 
@@ -20,11 +20,14 @@ export default function Calendar() {
     })
     .then(res => {
       const formattedEvents = res.data.calendar_events.map(item => ({
-        title: item.status || '', // 🟢🟡🔴 の判定用に一度ステータスをタイトルへ入れます
+        title: item.status || '', 
         date: item.date,
+        // 🎨 【ここが進化！】FullCalendar標準の「青い背景」や「青い枠線」を完全に無効化して透明にします！
+        backgroundColor: 'transparent',
+        borderColor: 'transparent',
         extendedProps: {
           status: item.status,
-          weight: item.weight // ⚖️ ここに本物のリアルな体重の数字を安全に隠し持たせます！
+          weight: item.weight 
         }
       }));
       setEvents(formattedEvents);
@@ -33,32 +36,61 @@ export default function Calendar() {
   }, [token]);
 
   // 🎨 2. 【感動の核心：マス目カスタム職人（renderEventContent）】
-  // カレンダーのマス目の中に、色マークと体重の数字を小さく縦に並べて描画する最強の防犯・快適UIロジックです！
+  // マス目全体をふんわり🟢🟡🔴の色で染め上げる、最高にかわいいレイアウトロジックです！
   const renderEventContent = (eventInfo) => {
     const { status, weight } = eventInfo.event.extendedProps;
 
-    // 🟢 🟡 🔴 の色マークを割り当てます
+    let bgContainerColor = 'transparent';
     let dotColor = 'transparent';
+    let textColor = '#2d3748';
     let labelText = '';
 
-    if (status === 'light') { dotColor = '#28a745'; labelText = '少なすぎ'; }
-    if (status === 'normal') { dotColor = '#ffc107'; labelText = '普通'; }
-    if (status === 'heavy') { dotColor = '#dc3545'; labelText = '食べすぎ'; }
+    // 🟢 🟡 🔴 に合わせて、マス目全体をふんわり包む「優しいパステル背景色」を設定します
+    if (status === 'not_enough') { 
+      bgContainerColor = '#e6f4ea'; // ふんわり優しいグリーン
+      dotColor = '#28a745'; 
+      textColor = '#137333';
+      labelText = '少なすぎ'; 
+    }
+    if (status === 'normal') { 
+      bgContainerColor = '#fef7e0'; // ふんわり優しいイエロー
+      dotColor = '#ffc107'; 
+      textColor = '#b06000';
+      labelText = '普通'; 
+    }
+    if (status === 'overeating') { 
+      bgContainerColor = '#fce8e6'; // ふんわり優しいパステルレッド（食べすぎが最高に引き立ちます！）
+      dotColor = '#dc3545'; 
+      textColor = '#c5221f';
+      labelText = '食べすぎ'; 
+    }
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '4px', padding: '2px 0' }}>
-        {/* ① 行動ステータスの色ドットマーク */}
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        width: '100%', 
+        gap: '4px', 
+        padding: '6px 4px', 
+        borderRadius: '12px', // マス目の中身をぷっくり丸いかわいい角丸にします
+        background: bgContainerColor, // 🎯 【ここが進化！】マス目を全面的にカラーで染め上げます！
+        boxSizing: 'border-box',
+        marginTop: '-16px', // 日付の数字の邪魔をせず、綺麗に下に収めるマジックマージンです
+        minHeight: '60px'
+      }}>
+        {/* ① 行動ステータスの文字と小さな丸いドット */}
         {status && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: `${dotColor}20`, padding: '2px 6px', borderRadius: '4px', width: '90%', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
             <span style={{ width: '6px', height: '6px', backgroundColor: dotColor, borderRadius: '50%', display: 'inline-block' }}></span>
-            <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#4a5568' }}>{labelText}</span>
+            <span style={{ fontSize: '11px', fontWeight: 'bold', color: textColor }}>{labelText}</span>
           </div>
         )}
         
-        {/* ② 【Baraさんの最高のアイデア！】その日のリアルな体重の数字を小さく併記します */}
+        {/* ② 体重の数字（kansoのメイン画面に合わせた、より馴染む洗練されたデザインに変更しました！） */}
         {weight && (
-          <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#2d3748', background: '#edf2f7', padding: '2px 6px', borderRadius: '4px', width: '90%', textAlign: 'center' }}>
-            {weight} <small style={{ fontSize: '8px', color: '#718096' }}>kg</small>
+          <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#4a5568', background: 'rgba(255,255,255,0.7)', padding: '2px 8px', borderRadius: '20px', width: '85%', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+            {weight} <small style={{ fontSize: '9px', color: '#718096' }}>kg</small>
           </div>
         )}
       </div>
@@ -66,29 +98,26 @@ export default function Calendar() {
   };
 
   return (
-    <div style={{ maxWidth: '850px', margin: '40px auto', padding: '0 20px', fontFamily: 'sans-serif' }}>
-      <div style={{ background: '#ffffff', padding: '25px', borderRadius: '20px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', border: '1px solid #edf2f7' }}>
-        
-        <h3 style={{ textAlign: 'center', color: '#28a745', marginBottom: '20px', fontWeight: 'bold', letterSpacing: '1px' }}>
-          📅 振り返りカレンダー
-        </h3>
-
-        {/* 🧠 FullCalendarの枠組みへ、Baraさん専用のカスタム職人（renderEventContent）をドッキングさせます！ */}
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          locale="ja" 
-          events={events}
-          eventContent={renderEventContent} // 🎯 【スイッチON！】ここでお祝いカスタムを大作動させます！
-          height="auto"
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: ''
-          }}
-        />
-
-      </div>
+    <div style={{ 
+      // 🎨 【ここが進化！】カレンダーのバックの背景色を、kansoの優しくてかわいい「超淡いミルキーグリーン（#f9fdfa）」へ完全刷新します！
+      background: '#f9fdfa', 
+      padding: '15px', 
+      borderRadius: '24px', 
+      border: '1px solid #e6f4ea' 
+    }}>
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        locale="ja" 
+        events={events}
+        eventContent={renderEventContent} 
+        height="auto"
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
+        }}
+      />
     </div>
   );
 }

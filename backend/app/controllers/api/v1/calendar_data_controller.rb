@@ -29,7 +29,9 @@ module Api
             # 🟢少なすぎ / 🟡普通 / 🔴食べすぎ の文字（ステータス）を添えます
             status: meal&.status,
             # その日のリアルな体重の数字（例: 75.4）を、存在する場合のみ小数点を整えて添えます
-            weight: weight_rec ? Number(weight_rec.weight).toFixed(1) : nil
+            # weight: weight_rec ? Number(weight_rec.weight).toFixed(1) : nil
+            weight: weight_rec ? weight_rec.weight.to_f.round(1) : nil
+
           }
         end
 

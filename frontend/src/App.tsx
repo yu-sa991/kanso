@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置�
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'; // 🚀 Link を優しく大復活！
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
-// 🎯 【ここをお直し完了！】新設した各種セキュリティ・快適画面パーツを一斉に公式読み込みします！
-// 🚀 【今回の主役！】先ほど魂を込めて作成したカレンダーの部屋を、特等席へインポートして呼び出します！ 
+// 🎯 各種セキュリティ・快適画面パーツを一斉に公式読み込みします！
 import Calendar from './components/Calendar';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -26,7 +25,7 @@ import Welcome from './components/Welcome';
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
-//🏠 トップページ兼マイページ（ヘッダー表示を追加！）
+// 🏡 【メインの記録部屋：MainHome】ログインに合格した本気の人だけが入れる専用のお部屋！
 //function Home() {
 function MainHome() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,12 +48,14 @@ function MainHome() {
   //📅 本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
-  // 🎯 【画面内エレベーター連動のネジ配置！】
-  // 画面内の「食事記録エリア」「体重記録エリア」、そして新設する「カレンダーエリア」の場所を、
-  // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
-  const mealSectionRef = useRef(null);
-  const weightSectionRef = useRef(null);
-  //const calendarSectionRef = useRef(null);
+// 🎯 【食事・体重のお祝い文字大復活のネジ！】保存状態をしっかりと管理します！
+  const [mealRecord, setMealRecord] = useState(null);
+  const [mealSuccess, setMealSuccess] = useState(false);
+
+
+  // 📅 【ここを記述（追加）！】カレンダーのポップアップが開いているかを管理するスイッチです！
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
 
   // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
   const [activeMenu, setActiveMenu] = useState('meal');
@@ -62,9 +63,13 @@ function MainHome() {
   // ⚙️ その他（設定）モーダルが「今開いているか（true）」「閉じているか（false）」を管理する箱！
   const [isModalOpen, setIsModalOpen] = useState(false);
  
-  // 📅 【ここを記述（追加）！】カレンダーのポップアップが開いているかを管理するスイッチです！
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
+  // 🎯 【画面内エレベーター連動のネジ配置！】
+  // 画面内の「食事記録エリア」「体重記録エリア」、そして新設する「カレンダーエリア」の場所を、
+  // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
+  const mealSectionRef = useRef(null);
+  const weightSectionRef = useRef(null);
+  const calendarSectionRef = useRef(null);
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
@@ -125,6 +130,18 @@ function MainHome() {
     }
   }, []);
 
+   // 🚀 ヘッダーの固定分を考慮して、ターゲットの場所まで優しく自動ワープさせる関数です
+  const scrollToSection = (sectionRef, menuName) => {
+    setActiveMenu(menuName);
+    if (sectionRef && sectionRef.current) {
+      const yOffset = -110; 
+      const element = sectionRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+
   // 📥 🟢🟡🔴 巨大ボタンを押したときにRailsへ瞬時にデータを送信する関数
   const handleMealRecord = async (statusValue) => {
     setError('');
@@ -142,9 +159,11 @@ function MainHome() {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 201 ) {
+        setMealRecord(response.data.meal_record);
         alert('今日の食事判定を記録しました！');
-        window.location.reload(); // カレンダーへ即時同期させる全自動リロードです！
+        // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
+        setTimeout(() => { setMealSuccess(false); window.location.reload(); }, 1500);
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -186,10 +205,11 @@ function MainHome() {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 201 ) {
         setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
         alert('今日の体重を記録しました！');
-         window.location.reload(); // 体重保存時にもカレンダーへ即時同期させます！
+         // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
+        setTimeout(() => { setWeightSuccessMessage(''); window.location.reload(); }, 1500);
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -204,7 +224,7 @@ function MainHome() {
     }
   };
 
-  // 📱 】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
+  {/*// 📱 】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
   const scrollToSection = (sectionRef, menuName) => {
     setActiveMenu(menuName); // 押しボタンの緑色をピカッと切り替える
 
@@ -216,7 +236,7 @@ function MainHome() {
       
       window.scrollTo({ top: y, behavior: 'smooth' }); // smooth を指定することで極上の滑らかさに！
     }
-  };
+  };*/}
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -302,6 +322,8 @@ function MainHome() {
               </span>
             </div>
           </div>
+            {/* 🎯 【大復活！】食事の成功お祝いメッセージを正しい場所に灯します！ */}
+            {mealSuccess && <p style={{ color: '#28a745', fontWeight: 'bold', textAlign: 'center', marginTop: '20px', margin: 0 }}>🎉 今日の食事を記録しました！</p>}          
         </div>
       )}
 
@@ -473,36 +495,56 @@ function MainHome() {
               <span style={{ fontSize: '20px' }}>⚙️</span>
               <span>設定・その他</span>
             </button>
-
           </div>
         </div>
       )}
 
   {/* 🎯 【ここに記述（大新設）します！】
       フッターの履歴ボタンと完全に連動し、画面中央にフワッと浮かび上がるカレンダーモーダルです！ */}
-  {isLoggedIn && isCalendarOpen && (
-    <>
-      {/* 背景の黒い半透明クッション（ここをタップしても優しく閉じます） */}
-      <div onClick={() => setIsCalendarOpen(false)} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1999 }}></div>
+      {isLoggedIn && isCalendarOpen && (
+        <>
+          {/* 🟢 背景のクッション：優しくカレンダーを浮かび上がらせる、少し緑を含んだ大安全な半透明マット */}
+          <div onClick={() => setIsCalendarOpen(false)} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(24, 48, 32, 0.4)', zIndex: 1999, backdropFilter: 'blur(4px)' }}></div>
+          
+          {/* 🟢 白い引き出し本体：ぷっくりとした超丸っこい角（32px）と、優しく包むkansoグリーン（#f4fbf7）の背景デザイン！ */}
+          <div style={{ position: 'fixed', top: '6%', bottom: '6%', left: '16px', right: '16px', background: '#f4fbf7', borderRadius: '32px', padding: '25px 20px', zIndex: 2000, boxShadow: '0 12px 36px rgba(40,167,69,0.12)', maxWidth: '650px', margin: '0 auto', overflowY: 'auto', border: '2px solid #d1ebd9', boxSizing: 'border-box' }}>
+            
+            {/* 🎀 上部のヘッダー：丸文字に合うように、文字間を少し優しく広げて丸っこい閉じるボタンとドッキング！ */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '2px dashed #13a54b', paddingBottom: '12px' }}>
+              <strong style={{ fontSize: '18px', color: '#510aa2', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                📅 <span style={{ letterSpacing: '0.5px' }}>振り返り履歴カレンダー</span>
+              </strong>
+              {/* 🟢 ×ボタン：カチッとした四角を廃止し、押しやすくてかわいい「ぷっくり丸いグリーン調ボタン」へ格上げ！ */}
+              <button onClick={() => setIsCalendarOpen(false)} style={{ background: '#08fe62', border: '1px solid #0ba53c', fontSize: '18px', cursor: 'pointer', color: '#e6f918', width: '36px', height: '32px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', transition: 'all 0.2s' }}>
+                ×
+              </button>
+            </div>
+            
+            {/* 🤍 内側の白いカード：FullCalendarの四角い枠を、kanso風の優しい丸っこい白背景（borderRadius: '24px'）でふんわり包み込みます！ */}
+            <div style={{ background: 'white', padding: '15px', borderRadius: '24px', border: '1px solid #4eee0a', boxShadow: '0 4px 12px rgba(95, 189, 27, 0.02)' }}>
+              <Calendar />
+            </div>
+          </div>
+        </>
+      )}
 
-      {/* カレンダーを包み込む、角丸の美しい白いポップアップ引き出し */}
-      <div style={{ position: 'fixed', top: '5%', bottom: '5%', left: '15px', right: '15px', background: 'white', borderRadius: '24px', padding: '25px 20px', zIndex: 2000, boxShadow: '0 10px 40px rgba(0,0,0,0.2)', maxWidth: '650px', margin: '0 auto', overflowY: 'auto' }}>
-
-        {/* 上部のタイトル ＆ 閉じるボタンエリア */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid #edf2f7', paddingBottom: '12px' }}>
-          <strong style={{ fontSize: '18px', color: '#2d3748', fontWeight: 'bold' }}>📅 振り返り履歴カレンダー</strong>
-          <button onClick={() => setIsCalendarOpen(false)} style={{ background: '#f1f5f9', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>×</button>
-        </div>
-
-        {/* 🧠 本物のデータ併記カレンダーが大降臨！ */}
-        <Calendar />
-      </div>
-    </>
-  )}
-
-</div> // 👈 MainHomeの1番最後にある大元の「</div>」です！
+    </div>
   );
 }
+
+{/*// 🗺️ ランディングページ（Top紹介ページ）の仮部屋です
+function Welcome() {
+  return (
+    <div style={{ padding: '60px 20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
+      <h1>kanso アプリへようこそ！</h1>
+      <p>「まだ大丈夫」を記録して、心に余白を作る場所。</p>
+      <button onClick={() => window.location.href = '/login'} style={{ padding: '12px 24px', background: '#28a745', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '20px' }}>
+        ログインしてはじめる
+      </button>
+    </div>
+  );
+}*/}
+
 
 export default function App() {
   return (

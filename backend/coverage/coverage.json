@@ -5,7 +5,7 @@
     "simplecov_version": "1.0.3",
     "command_name": "Minitest",
     "project_name": "App",
-    "timestamp": "2026-08-10T00:45:29.432+09:00",
+    "timestamp": "2026-08-11T01:04:23.457+09:00",
     "root": "/app",
     "commit": null,
     "primary_coverage": "line",
@@ -17,7 +17,7 @@
     "lines": {
       "covered": 151,
       "missed": 75,
-      "omitted": 434,
+      "omitted": 436,
       "total": 226,
       "percent": 66.8141592920354,
       "strength": 1.3008849557522124
@@ -216,7 +216,9 @@
         "            # 🟢少なすぎ / 🟡普通 / 🔴食べすぎ の文字（ステータス）を添えます",
         "            status: meal&.status,",
         "            # その日のリアルな体重の数字（例: 75.4）を、存在する場合のみ小数点を整えて添えます",
-        "            weight: weight_rec ? Number(weight_rec.weight).toFixed(1) : nil",
+        "            # weight: weight_rec ? Number(weight_rec.weight).toFixed(1) : nil",
+        "            weight: weight_rec ? weight_rec.weight.to_f.round(1) : nil",
+        "",
         "          }",
         "        end",
         "",
@@ -261,7 +263,9 @@
         null,
         null,
         null,
+        null,
         0,
+        null,
         null,
         null,
         null,
@@ -277,7 +281,7 @@
       "lines_covered_percent": 0.0,
       "covered_lines": 0,
       "missed_lines": 14,
-      "omitted_lines": 29,
+      "omitted_lines": 31,
       "total_lines": 14
     },
     "app/controllers/api/v1/meal_records_controller.rb": {
@@ -1504,7 +1508,7 @@
       "lines": {
         "covered": 81,
         "missed": 70,
-        "omitted": 272,
+        "omitted": 274,
         "total": 151,
         "percent": 53.64238410596027,
         "strength": 0.8278145695364238
