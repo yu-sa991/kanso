@@ -54,14 +54,16 @@ function MainHome() {
   // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
   const mealSectionRef = useRef(null);
   const weightSectionRef = useRef(null);
-  const calendarSectionRef = useRef(null);
+  //const calendarSectionRef = useRef(null);
 
   // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
   const [activeMenu, setActiveMenu] = useState('meal');
 
   // ⚙️ その他（設定）モーダルが「今開いているか（true）」「閉じているか（false）」を管理する箱！
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+ 
+  // 📅 【ここを記述（追加）！】カレンダーのポップアップが開いているかを管理するスイッチです！
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -142,6 +144,7 @@ function MainHome() {
 
       if (response.status === 201) {
         alert('今日の食事判定を記録しました！');
+        window.location.reload(); // カレンダーへ即時同期させる全自動リロードです！
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -186,8 +189,9 @@ function MainHome() {
       if (response.status === 201) {
         setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
         alert('今日の体重を記録しました！');
+         window.location.reload(); // 体重保存時にもカレンダーへ即時同期させます！
       }
-      } catch (err) {
+    } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         // 🎯 【ここをお直し！】
         // 体重側でも、届いたメッセージの先頭に余計な「Date 」という英語が混ざっていたら、一瞬で綺麗に消去します！
@@ -358,11 +362,11 @@ function MainHome() {
 
        {/*📅 【ここを記述（追加）！】
           固定フッターメニューの真上（大元のdivが閉じる直前）に、目印ピン（Ref）を添えた振り返りカレンダーを堂々ドッキングします！
-          これにより、フッターの「履歴カレンダー」ボタンを押した瞬間に、この場所へ一瞬で自動ワープできるようになります！  */}
+          これにより、フッターの「履歴カレンダー」ボタンを押した瞬間に、この場所へ一瞬で自動ワープできるようになります！  
       <div ref={calendarSectionRef}>
         <hr style={{ border: '0', height: '1px', background: '#e2e8f0', margin: '40px 0' }} />
         <Calendar />
-      </div>
+      </div>*/}
 
    {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (
@@ -453,6 +457,12 @@ function MainHome() {
               <span>体重記録</span>
             </button>
 
+             {/* 🎯 【ここをお直し完了！】履歴ボタンを押した瞬間、アラートではなくカレンダーポップアップ（isCalendarOpen）がフワッと大起動します！ */}
+            <button onClick={() => { setIsCalendarOpen(true); setActiveMenu('calendar'); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'calendar' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
+              <span style={{ fontSize: '20px' }}>📅</span>
+              <span>履歴カレンダー</span>
+            </button>
+
              {/* 🎯 【ここを記述（アップデート完了）！】履歴カレンダーボタンを押したそのコンマ1秒後に、上のカレンダーエリアへエレベーターのようにフワッと自動ワープ（スクロール）します！ 
             <button onClick={() => scrollToSection(calendarSectionRef, 'calendar')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'calendar' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
               <span style={{ fontSize: '20px' }}>📅</span><span>履歴カレンダー</span>
@@ -467,7 +477,30 @@ function MainHome() {
           </div>
         </div>
       )}
-    </div>
+
+  {/* 🎯 【ここに記述（大新設）します！】
+      フッターの履歴ボタンと完全に連動し、画面中央にフワッと浮かび上がるカレンダーモーダルです！ */}
+  {isLoggedIn && isCalendarOpen && (
+    <>
+      {/* 背景の黒い半透明クッション（ここをタップしても優しく閉じます） */}
+      <div onClick={() => setIsCalendarOpen(false)} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1999 }}></div>
+
+      {/* カレンダーを包み込む、角丸の美しい白いポップアップ引き出し */}
+      <div style={{ position: 'fixed', top: '5%', bottom: '5%', left: '15px', right: '15px', background: 'white', borderRadius: '24px', padding: '25px 20px', zIndex: 2000, boxShadow: '0 10px 40px rgba(0,0,0,0.2)', maxWidth: '650px', margin: '0 auto', overflowY: 'auto' }}>
+
+        {/* 上部のタイトル ＆ 閉じるボタンエリア */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid #edf2f7', paddingBottom: '12px' }}>
+          <strong style={{ fontSize: '18px', color: '#2d3748', fontWeight: 'bold' }}>📅 振り返り履歴カレンダー</strong>
+          <button onClick={() => setIsCalendarOpen(false)} style={{ background: '#f1f5f9', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#64748b', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>×</button>
+        </div>
+
+        {/* 🧠 本物のデータ併記カレンダーが大降臨！ */}
+        <Calendar />
+      </div>
+    </>
+  )}
+
+</div> // 👈 MainHomeの1番最後にある大元の「</div>」です！
   );
 }
 
