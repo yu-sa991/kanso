@@ -47,9 +47,10 @@ function MainHome() {
 
   //📅 本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
-
-// 🎯 【食事・体重のお祝い文字大復活のネジ！】保存状態をしっかりと管理します！
-  const [mealRecord, setMealRecord] = useState(null);
+  
+  // 🎯 【食事・体重のお祝い文字大復活のネジ！】保存状態をしっかりと管理します！
+  //const [mealRecord, setMealRecord] = useState(null);
+  const [, setMealRecord] = useState<any>(null); // 🎯 先頭の mealRecord を空文字（,）にして、お掃除完了です！
   const [mealSuccess, setMealSuccess] = useState(false);
 
 
@@ -68,7 +69,7 @@ function MainHome() {
   // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
   const mealSectionRef = useRef(null);
   const weightSectionRef = useRef(null);
-  const calendarSectionRef = useRef(null);
+  //const calendarSectionRef = useRef(null);
   
   useEffect(() => {
 
