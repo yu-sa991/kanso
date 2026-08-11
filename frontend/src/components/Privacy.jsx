@@ -1,3 +1,4 @@
+// 🔐 frontend/src/components/Privacy.jsx (正真正銘・全宇宙最終確定版のクリーンコード全文です！)
 import { Link } from 'react-router-dom';
 
 export default function Privacy() {
@@ -22,23 +23,40 @@ export default function Privacy() {
         3. ユーザーからの各種お問い合わせに回答するため
       </p>
 
-      {/* 🔒 【補足追加：第3条】暗号化通信（SSL/HTTPS）を行っていることを力強く明記して信頼性を爆上げします！ */}
       <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第3条（個人情報の安全管理・通信の暗号化について）</h3>
       <p style={{ fontSize: '14px', marginLeft: '5px' }}>
         当アプリは、入力された個人情報および身体データを不正アクセス、紛失、改ざん、漏洩から守るため、最新のハッシュ暗号化技術および強固なセキュリティ暗号化通信（SSL/HTTPS）を用いて、インターネットの電波からデータベース内へ至るまで厳重に管理を徹底いたします。
       </p>
 
+      {/* 🎯 【ここをお掃除完了！】重複していた昔の1行を綺麗に消去し、法律に基づいてデータを守る最強の第三者提供条項に一本化しました！ */}
       <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282' }}>第4条（個人情報の第三者提供）</h3>
-      <p style={{ fontSize: '14px', marginLeft: '5px' }}>
-        当アプリは、法令に基づく場合を除き、ユーザーの事前の承認を得ることなく、個人情報を第三者に提供・公開することは絶対にありません。
-      </p>
+      <div style={{ fontSize: '14px', marginLeft: '5px' }}>
+        <p style={{ margin: '0 0 10px 0' }}>当アプリは、ユーザーからお預かりした個人情報（メールアドレス、食事・体重データ等）を適切に管理し、次のいずれかに該当する場合を除き、個人情報を第三者に開示・提供することは絶対にありません。</p>
+        <ul style={{ paddingLeft: '20px', margin: 0, color: '#4a5568' }}>
+         <li style={{ marginBottom: '4px' }}>1. ユーザー本人の同意がある場合</li>
+         <li style={{ marginBottom: '4px' }}>2. 法令に基づき、裁判所や警察等の公的機関から公式に開示を求められた場合</li>
+        </ul>
+      </div>
 
-      {/* 🧼 【補足追加：第5条】法律（個人情報保護法）で義務づけられている、データの開示・削除の権利を明記します！ */}
+      {/* 🎯 【ここをお掃除完了！】重複して連続していた同じ文章を綺麗に引き算し、見やすく誠実な削除請求対応の段落に一本化しました！ */}
       <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第5条（個人情報の開示・訂正・利用停止・削除請求について）</h3>
-      <p style={{ fontSize: '14px', marginLeft: '5px', background: '#f0fff4', padding: '12px', borderRadius: '8px', borderLeft: '4px solid #38a169', fontWeight: '500' }}>
-        ユーザー本人から、当アプリの金庫に保管されているご自身の個人情報や、過去の体重・食事記録データの開示、訂正、利用停止、またはアカウント消去に伴うデータの「完全削除」の申し出があった場合には、ご本人であることを確認させていただいた上で、速やかに対応を行うものとします。
+      <p style={{ fontSize: '14px', marginLeft: '5px', background: '#f0fff4', padding: '12px', borderRadius: '8px', borderLeft: '4px solid #38a169', fontWeight: '500', margin: 0 }}>
+        ユーザー本人から、当アプリに保管されているご自身の個人情報や、過去の体重・食事記録データの開示、訂正、利用停止、またはアカウント消去に伴うデータの「完全削除」の申し出があった場合には、ご本人であることを確認させていただいた上で、速やかに対応を行うものとします。
       </p>
 
+       {/* 📁 frontend/src/components/Privacy.jsx の第5条のすぐ下に追記します */}
+      <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第6条（プライバシーポリシーの変更）</h3>
+      <p style={{ fontSize: '14px', marginLeft: '5px' }}>
+        1. 本ポリシーの内容は、ユーザーに通知することなく、いつでも変更することができるものとします。<br />
+        2. 当アプリが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載した瞬間から効力を生じるものとします。
+      </p>
+
+      <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第7条（お問い合わせ窓口）</h3>
+      <p style={{ fontSize: '14px', marginLeft: '5px' }}>
+        本ポリシーに関するお問い合わせ、または個人情報の取扱いに伴う各種のお問い合わせは、当アプリ内【お問合せ窓口】よりご連絡ください。
+      </p>
+
+      {/* 🏡 新規登録・ログイン画面への帰り道リンク */}
       <div style={{ borderTop: '1px solid #edf2f7', marginTop: '40px', paddingTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '20px' }}>
         <Link to="/register" style={{ color: '#38a169', textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>➔ 新規登録画面へ</Link>
         <span style={{ color: '#cbd5e0' }}>|</span>
@@ -47,4 +65,3 @@ export default function Privacy() {
     </div>
   );
 }
-
