@@ -27,6 +27,9 @@ Rails.application.routes.draw do
 
       #  体重記録の一覧（index）と保存（create）の通り道を完全開通！
       resources :weight_records, only: %i[index create]
+
+      # 📅 【ここを追記！】カレンダー画面専用のデータ一括一括取得ルートを大開通させます！
+      resources :calendar_data, only: [:index]
     end
   end
 

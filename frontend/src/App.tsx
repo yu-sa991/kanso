@@ -3,24 +3,29 @@ import { useState, useEffect, useRef } from 'react'; // 🚀 画面内の位置�
 //import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'; // 🚀 Link を優しく大復活！
 import axios from 'axios'; // 🚀 通信ツールを読み込みます！
+
+// 🎯 各種セキュリティ・快適画面パーツを一斉に公式読み込みします！
+import Calendar from './components/Calendar';
 import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
 import RequireAuth from './components/RequireAuth';
 // 新設したパスワード再設定画面をアプリに読み込みます！
 import PasswordReset from './components/PasswordReset';
-// 🔗 新設した2つの静的画面をアプリへ公式に読み込みます！
+import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
+
+
+// 🔗 各種静的画面・Top紹介ページを公式に読み込みます！
 import Terms from './components/Terms'; 
 import Privacy from './components/Privacy'; 
 // 🔗 新設した漆黒のストイック紹介ページをアプリへ公式に読み込みます！
 import Welcome from './components/Welcome'; 
-import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
 
 
 //🌟 1. ファイルの一番上のほうにこの自動切り替えスイッチをコピペします
 const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
-//🏠 トップページ兼マイページ（ヘッダー表示を追加！）
+// 🏡 【メインの記録部屋：MainHome】ログインに合格した本気の人だけが入れる専用のお部屋！
 //function Home() {
 function MainHome() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,19 +48,38 @@ function MainHome() {
   //📅 本日の日付（〇月〇日）を画面に優しく表示するための箱（ステート）
   const [displayDate, setDisplayDate] = useState('');
 
-  // 🎯 【今回の主役：画面移動させないためのアンカーリンク設定！】
-  // 画面内の「食事記録エリア」と「体重記録エリア」の場所を、システムに正確に指さして教えるためのピン（Ref）を用意します！
-  const mealSectionRef = useRef(null);
-  const weightSectionRef = useRef(null);
+// 🎯 【食事・体重のお祝い文字大復活のネジ！】保存状態をしっかりと管理します！
+  const [mealRecord, setMealRecord] = useState(null);
+  const [mealSuccess, setMealSuccess] = useState(false);
+
+
+  // 📅 【ここを記述（追加）！】カレンダーのポップアップが開いているかを管理するスイッチです！
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
 
   // 🟢 フッターメニューのどのボタンがピカッと点灯（アクティブ）しているかを管理する箱
   const [activeMenu, setActiveMenu] = useState('meal');
 
   // ⚙️ その他（設定）モーダルが「今開いているか（true）」「閉じているか（false）」を管理する箱！
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+ 
+  // 🎯 【画面内エレベーター連動のネジ配置！】
+  // 画面内の「食事記録エリア」「体重記録エリア」、そして新設する「カレンダーエリア」の場所を、
+  // システムに正確に指さして教えるためのピン（Ref）を一斉に用意します！
+  const mealSectionRef = useRef(null);
+  const weightSectionRef = useRef(null);
+  const calendarSectionRef = useRef(null);
+  
   useEffect(() => {
+
+    {/*// ブラウザに「絶対に自動翻訳させるな！」と強制命令を出す、無敵の防犯コードです。
+    // これにより、ブラウザの勘違いによるメッセージの消滅を一撃で完全完封します！
+    document.documentElement.lang = 'ja';
+    const meta = document.createElement('meta');
+    meta.name = 'google';
+    meta.content = 'notranslate';
+    document.head.appendChild(meta);*/}
+
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
 
@@ -115,6 +139,18 @@ function MainHome() {
     }
   }, []);
 
+   // 🚀 ヘッダーの固定分を考慮して、ターゲットの場所まで優しく自動ワープさせる関数です
+  const scrollToSection = (sectionRef, menuName) => {
+    setActiveMenu(menuName);
+    if (sectionRef && sectionRef.current) {
+      const yOffset = -110; 
+      const element = sectionRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+
   // 📥 🟢🟡🔴 巨大ボタンを押したときにRailsへ瞬時にデータを送信する関数
   const handleMealRecord = async (statusValue) => {
     setError('');
@@ -132,8 +168,12 @@ function MainHome() {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 201 ) {
+        setMealRecord(response.data.meal_record);
         alert('今日の食事判定を記録しました！');
+        // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
+        setTimeout(() => { setMealSuccess(false); window.location.reload(); }, 1500);
+        //window.location.reload(); 
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -175,11 +215,14 @@ function MainHome() {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 201 ) {
         setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
         alert('今日の体重を記録しました！');
+         // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
+        setTimeout(() => { setWeightSuccessMessage(''); window.location.reload(); }, 1500);
+        //window.location.reload();
       }
-      } catch (err) {
+    } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         // 🎯 【ここをお直し！】
         // 体重側でも、届いたメッセージの先頭に余計な「Date 」という英語が混ざっていたら、一瞬で綺麗に消去します！
@@ -192,7 +235,7 @@ function MainHome() {
     }
   };
 
-  // 📱 】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
+  {/*// 📱 】フッターメニューを押したときに、画面移動せずエレベーターのように滑らかに案内する関数
   const scrollToSection = (sectionRef, menuName) => {
     setActiveMenu(menuName); // 押しボタンの緑色をピカッと切り替える
 
@@ -204,7 +247,7 @@ function MainHome() {
       
       window.scrollTo({ top: y, behavior: 'smooth' }); // smooth を指定することで極上の滑らかさに！
     }
-  };
+  };*/}
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -290,6 +333,8 @@ function MainHome() {
               </span>
             </div>
           </div>
+            {/* 🎯 【大復活！】食事の成功お祝いメッセージを正しい場所に灯します！ */}
+            {mealSuccess && <p style={{ color: '#28a745', fontWeight: 'bold', textAlign: 'center', marginTop: '20px', margin: 0 }}>🎉 今日の食事を記録しました！</p>}          
         </div>
       )}
 
@@ -347,6 +392,14 @@ function MainHome() {
           </form>
         </div>
       )}
+
+       {/*📅 【ここを記述（追加）！】
+          固定フッターメニューの真上（大元のdivが閉じる直前）に、目印ピン（Ref）を添えた振り返りカレンダーを堂々ドッキングします！
+          これにより、フッターの「履歴カレンダー」ボタンを押した瞬間に、この場所へ一瞬で自動ワープできるようになります！  
+      <div ref={calendarSectionRef}>
+        <hr style={{ border: '0', height: '1px', background: '#e2e8f0', margin: '40px 0' }} />
+        <Calendar />
+      </div>*/}
 
    {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (
@@ -437,24 +490,72 @@ function MainHome() {
               <span>体重記録</span>
             </button>
 
-            {/* 3. 履歴ボタン（今後のカレンダードッキングへの布石！） */}
-            <button onClick={() => alert('Week 3の次のイシューで、ここに大感動の「カレンダーカレンダー履歴」がドッキングします！お楽しみに！')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#718096', fontWeight: 'bold', fontSize: '13px' }}>
+             {/* 🎯 【ここをお直し完了！】履歴ボタンを押した瞬間、アラートではなくカレンダーポップアップ（isCalendarOpen）がフワッと大起動します！ */}
+            <button onClick={() => { setIsCalendarOpen(true); setActiveMenu('calendar'); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'calendar' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
               <span style={{ fontSize: '20px' }}>📅</span>
               <span>履歴カレンダー</span>
             </button>
 
+             {/* 🎯 【ここを記述（アップデート完了）！】履歴カレンダーボタンを押したそのコンマ1秒後に、上のカレンダーエリアへエレベーターのようにフワッと自動ワープ（スクロール）します！ 
+            <button onClick={() => scrollToSection(calendarSectionRef, 'calendar')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'calendar' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px', transition: 'color 0.2s' }}>
+              <span style={{ fontSize: '20px' }}>📅</span><span>履歴カレンダー</span>
+            </button>*/}
+            
            {/* ⚙️ 【ここが大進化！】下から引き出しをフワッと出現させるトリガー */}
             <button onClick={() => { setIsModalOpen(!isModalOpen); setActiveMenu('settings'); }} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: activeMenu === 'settings' ? '#28a745' : '#718096', fontWeight: 'bold', fontSize: '13px' }}>
               <span style={{ fontSize: '20px' }}>⚙️</span>
               <span>設定・その他</span>
             </button>
-
           </div>
         </div>
       )}
+
+  {/* 🎯 【ここに記述（大新設）します！】
+      フッターの履歴ボタンと完全に連動し、画面中央にフワッと浮かび上がるカレンダーモーダルです！ */}
+      {isLoggedIn && isCalendarOpen && (
+        <>
+          {/* 🟢 背景のクッション：優しくカレンダーを浮かび上がらせる、少し緑を含んだ大安全な半透明マット */}
+          <div onClick={() => setIsCalendarOpen(false)} style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(24, 48, 32, 0.4)', zIndex: 1999, backdropFilter: 'blur(4px)' }}></div>
+          
+          {/* 🟢 白い引き出し本体：ぷっくりとした超丸っこい角（32px）と、優しく包むkansoグリーン（#f4fbf7）の背景デザイン！ */}
+          <div style={{ position: 'fixed', top: '6%', bottom: '6%', left: '16px', right: '16px', background: '#f4fbf7', borderRadius: '32px', padding: '25px 20px', zIndex: 2000, boxShadow: '0 12px 36px rgba(40,167,69,0.12)', maxWidth: '650px', margin: '0 auto', overflowY: 'auto', border: '2px solid #d1ebd9', boxSizing: 'border-box' }}>
+            
+            {/* 🎀 上部のヘッダー：丸文字に合うように、文字間を少し優しく広げて丸っこい閉じるボタンとドッキング！ */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '2px dashed #13a54b', paddingBottom: '12px' }}>
+              <strong style={{ fontSize: '18px', color: '#510aa2', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                📅 <span style={{ letterSpacing: '0.5px' }}>振り返り履歴カレンダー</span>
+              </strong>
+              {/* 🟢 ×ボタン：カチッとした四角を廃止し、押しやすくてかわいい「ぷっくり丸いグリーン調ボタン」へ格上げ！ */}
+              <button onClick={() => setIsCalendarOpen(false)} style={{ background: '#08fe62', border: '1px solid #0ba53c', fontSize: '18px', cursor: 'pointer', color: '#e6f918', width: '36px', height: '32px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', transition: 'all 0.2s' }}>
+                ×
+              </button>
+            </div>
+            
+            {/* 🤍 内側の白いカード：FullCalendarの四角い枠を、kanso風の優しい丸っこい白背景（borderRadius: '24px'）でふんわり包み込みます！ */}
+            <div style={{ background: 'white', padding: '15px', borderRadius: '24px', border: '1px solid #4eee0a', boxShadow: '0 4px 12px rgba(95, 189, 27, 0.02)' }}>
+              <Calendar />
+            </div>
+          </div>
+        </>
+      )}
+
     </div>
   );
 }
+
+{/*// 🗺️ ランディングページ（Top紹介ページ）の仮部屋です
+function Welcome() {
+  return (
+    <div style={{ padding: '60px 20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
+      <h1>kanso アプリへようこそ！</h1>
+      <p>「まだ大丈夫」を記録して、心に余白を作る場所。</p>
+      <button onClick={() => window.location.href = '/login'} style={{ padding: '12px 24px', background: '#28a745', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '20px' }}>
+        ログインしてはじめる
+      </button>
+    </div>
+  );
+}*/}
+
 
 export default function App() {
   return (

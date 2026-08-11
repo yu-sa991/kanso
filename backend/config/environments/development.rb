@@ -83,6 +83,9 @@ Rails.application.configure do
   # 100%全自動で流し込み、React（localhost:5173）への神架け橋URL
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.default_url_options = { host: 'localhost', port: 5173 }
+
+  # 🎯 【ここを追記！】Dockerコンテナの外部IPからのアクセスでも、better_errorsがパニックを起こさずに大作動するように許可します！
+  BetterErrors::Middleware.allow_ip! '0.0.0.0/0' if defined?(BetterErrors)
 end
 
 # 🎯 【ここを追加！】ファイルの一番最後にこの1行を書き足します！
