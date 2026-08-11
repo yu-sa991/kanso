@@ -53,7 +53,7 @@ export default function Privacy() {
 
       <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第7条（お問い合わせ窓口）</h3>
       <p style={{ fontSize: '14px', marginLeft: '5px' }}>
-        本ポリシーに関するお問い合わせ、または個人情報の取扱いに伴う各種ご請求は、当アプリ内【お問合せ窓口】よりご連絡ください。
+        本ポリシーに関するお問い合わせ、または個人情報の取扱いに伴う各種のお問い合わせは、当アプリ内【お問合せ窓口】よりご連絡ください。
       </p>
 
       {/* 🏡 新規登録・ログイン画面への帰り道リンク */}
