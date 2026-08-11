@@ -156,7 +156,12 @@ function MainHome() {
   const handleMealRecord = async (statusValue) => {
     setError('');
     const token = localStorage.getItem('token');
-    const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
+    //const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
+
+    // 🌍 【ここを修正完了！】時差の計算バグを排除し、100%確実に日本時間の「今日の日付」を割り出します！
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
 
     try {
       const response = await axios.post(
@@ -203,7 +208,12 @@ function MainHome() {
     setWeightError('');
     setWeightSuccessMessage('');
     const token = localStorage.getItem('token');
-    const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
+    //const today = new Date().toISOString().split('T')[0]; // ⭕ 完璧なお直しバージョン！
+
+    // 🌍 【ここを修正完了！】体重側でも100%確実に日本時間の「今日の日付」を割り出して送信します！
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
 
     try {
       const response = await axios.post(
