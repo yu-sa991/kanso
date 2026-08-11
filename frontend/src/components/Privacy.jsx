@@ -44,6 +44,18 @@ export default function Privacy() {
         ユーザー本人から、当アプリに保管されているご自身の個人情報や、過去の体重・食事記録データの開示、訂正、利用停止、またはアカウント消去に伴うデータの「完全削除」の申し出があった場合には、ご本人であることを確認させていただいた上で、速やかに対応を行うものとします。
       </p>
 
+       {/* 📁 frontend/src/components/Privacy.jsx の第5条のすぐ下に追記します */}
+      <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第6条（プライバシーポリシーの変更）</h3>
+      <p style={{ fontSize: '14px', marginLeft: '5px' }}>
+        1. 本ポリシーの内容は、ユーザーに通知することなく、いつでも変更することができるものとします。<br />
+        2. 当アプリが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載した瞬間から効力を生じるものとします。
+      </p>
+
+      <h3 style={{ fontSize: '16px', marginTop: '25px', color: '#2c5282', fontWeight: 'bold' }}>第7条（お問い合わせ窓口）</h3>
+      <p style={{ fontSize: '14px', marginLeft: '5px' }}>
+        本ポリシーに関するお問い合わせ、または個人情報の取扱いに伴う各種ご請求は、当アプリ内【お問合せ窓口】よりご連絡ください。
+      </p>
+
       {/* 🏡 新規登録・ログイン画面への帰り道リンク */}
       <div style={{ borderTop: '1px solid #edf2f7', marginTop: '40px', paddingTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '20px' }}>
         <Link to="/register" style={{ color: '#38a169', textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>➔ 新規登録画面へ</Link>
