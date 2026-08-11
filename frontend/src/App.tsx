@@ -71,6 +71,15 @@ function MainHome() {
   const calendarSectionRef = useRef(null);
   
   useEffect(() => {
+
+    {/*// ブラウザに「絶対に自動翻訳させるな！」と強制命令を出す、無敵の防犯コードです。
+    // これにより、ブラウザの勘違いによるメッセージの消滅を一撃で完全完封します！
+    document.documentElement.lang = 'ja';
+    const meta = document.createElement('meta');
+    meta.name = 'google';
+    meta.content = 'notranslate';
+    document.head.appendChild(meta);*/}
+
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
 
@@ -164,6 +173,7 @@ function MainHome() {
         alert('今日の食事判定を記録しました！');
         // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
         setTimeout(() => { setMealSuccess(false); window.location.reload(); }, 1500);
+        //window.location.reload(); 
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -210,6 +220,7 @@ function MainHome() {
         alert('今日の体重を記録しました！');
          // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
         setTimeout(() => { setWeightSuccessMessage(''); window.location.reload(); }, 1500);
+        //window.location.reload();
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
