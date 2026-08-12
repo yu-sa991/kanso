@@ -26,7 +26,8 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
     bubbleBg = '#feebc8'; // kansoパステルイエロー
   } else if (mealRecord?.status === 'overeating') {
     charEmoji = '🐹🐷';
-    charScale = 1.4;  // 🔴 物理的に横に膨らませて「ぷくぷく満腹体型」に巨大化！！
+    //charScale = 1.4;  // 🔴 物理的に横に膨らませて「ぷくぷく満腹体型」に巨大化！！
+    charScale ="1.7,1.2";  // 🔴 物理的に横に膨らませて「ぷくぷく満腹体型」に巨大化！
     charBubble = 'ぶ、ぶくぅ…！ちょっと食べすぎちゃったかも…！お腹のボタンがはじけそうだよぉ〜！っ、でも明日からがんばろ？あ、体重計るの、忘れてない…？おねだり…計ってぇ？⚖️🥺';
     bubbleBg = '#fce8e6'; // kansoパステルレッド
   }
@@ -43,7 +44,7 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
       <div style={{ 
         fontSize: '60px', 
         transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', // 動きをぷるるんと跳ねるようにかわいくします！
-        transform: `scale(${charScale})`, 
+        transform: `scale(${charScale})`,  // 🎯 10秒で横にデブっと潰れたかわいい体型に大変貌します！
         marginTop: '5px' 
       }}>
         {charEmoji}
@@ -52,3 +53,38 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
     </div>
   );
 }
+
+
+{/*画像用意したら
+    // 📁 frontend/src/components/OnedariCharacter.tsx (将来の画像切り替え版のイメージです！)
+import React from 'react';
+// 🍏 3枚のpng画像をあらかじめ公式に読み込んでおきます
+import dietHamster from '../assets/hamster-diet.png';
+import happyHamster from '../assets/hamster-happy.png';
+import fatHamster from '../assets/hamster-fat.png';
+
+export default function OnedariCharacter({ mealRecord }: any) {
+  let charImage = happyHamster; // 初期値は普通（ハッピー）
+  let charBubble = '記録を待ってるよ！🥺';
+
+  if (mealRecord?.status === 'not_enough') {
+    charImage = dietHamster; // 🟢 激ヤセ画像にチェンジ！
+    charBubble = 'お腹ペコペコだよぉ…🥺';
+  } else if (mealRecord?.status === 'normal') {
+    charImage = happyHamster; // 🟡 標準ハッピー画像！
+    charBubble = '今の私、最高にスッキリ綺麗でしょっ！🥰';
+  } else if (mealRecord?.status === 'overeating') {
+    charImage = fatHamster;  // 🔴 激太りぷくぷく画像にチェンジ！！
+    charBubble = 'ぶくぅ…！お腹のボタンがはじけそうだよぉ〜！🐷💦';
+  }
+
+  return (
+    <div style={{ margin: '30px auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ background: '#edf2f7', padding: '12px 18px', borderRadius: '20px', fontWeight: 'bold' }}>
+        {charBubble}
+      </div>
+      {/* 🎯 【絵文字から本物の画像タグへ！】これだけで512マスの最高にかわいいイラストが大出現します！ 
+      <img src={charImage} alt="おねだりキャラ" style={{ width: '120px', height: '120px', marginTop: '15px', objectFit: 'contain' }} />
+    </div>
+  );
+}*/}
