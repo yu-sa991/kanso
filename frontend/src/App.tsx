@@ -10,6 +10,8 @@ import Calendar from './components/Calendar';
 import OnedariCharacter from './components/OnedariCharacter';
 // 🎯 【ここを追記！】新設した体重入力パーツの部屋をインポートして呼び出します！
 import WeightRecorderView from './components/WeightRecorderView';
+// 🎯 【ここを追記！】新設した食事入力パーツの部屋をインポートして呼び出します！
+import MealRecorderView from './components/MealRecorderView';
 import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
@@ -317,7 +319,7 @@ function MainHome() {
       </div>
 
     
-      {/* 🌟 🌟 🌟 【食事記録エリア：ref でシステムに場所を教えます！】 */}
+      {/* 🌟 🌟 🌟 【食事記録エリア：ref でシステムに場所を教えます！】 
       {isLoggedIn && (
         <div ref={mealSectionRef} style={{ maxWidth: '600px', margin: '0 auto 30px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
           <h2 style={{ fontSize: '18px', marginBottom: '25px', color: '#2d3748', fontWeight: 'bold' }}>
@@ -352,11 +354,22 @@ function MainHome() {
               </span>
             </div>
           </div>
-            {/* 🎯 【大復活！】食事の成功お祝いメッセージを正しい場所に灯します！ */}
+            {/* 🎯 【大復活！】食事の成功お祝いメッセージを正しい場所に灯します！ 
             {mealSuccess && <p style={{ color: '#28a745', fontWeight: 'bold', textAlign: 'center', marginTop: '20px', margin: 0 }}>🎉 今日の食事を記録しました！</p>}          
         </div>
-      )}
+      )}*/}
 
+        {/*🎯 【（追加・食事ファイルのお引っ越し大成功！）】
+        「横並び食事記録エリア」が一番最上部にクリーンにドッキングします！ */}
+      {isLoggedIn && (
+        <MealRecorderView 
+          displayDate={displayDate}
+          mealRecord={mealRecord}
+          mealSuccess={mealSuccess}
+          handleMealRecord={handleMealRecord}
+          mealSectionRef={mealSectionRef}
+        />
+      )}
 
        {/*【ここを記述（追加）！】
           食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
