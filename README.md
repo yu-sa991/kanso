@@ -1870,6 +1870,7 @@ docker compose restart
 
 
 
+
 # 🌿 kansō (かんそ)
 
 > 「まだ大丈夫」を記録して、心に余白を作る場所。
