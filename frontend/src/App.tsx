@@ -6,6 +6,8 @@ import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 
 // 🎯 各種セキュリティ・快適画面パーツを一斉に公式読み込みします！
 import Calendar from './components/Calendar';
+// 🎯新設したおねだりハムスターの部屋をインポートして呼び出します！
+import OnedariCharacter from './components/OnedariCharacter';
 import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
@@ -50,7 +52,8 @@ function MainHome() {
 
 // 🎯 【食事・体重のお祝い文字大復活のネジ！】保存状態をしっかりと管理します！
   //const [mealRecord, setMealRecord] = useState(null);
-  const [, setMealRecord] = useState<any>(null); // 🎯 先頭の mealRecord を空文字（,）にして、お掃除完了です！
+  // 🎯 【ここをお直し完了！】先頭に「mealRecord」の名前をしっかりと大復活させて書き戻します！
+  const [mealRecord, setMealRecord] = useState<any>(null); // 🎯 先頭の mealRecord を空文字（,）にして、お掃除完了です！
   const [mealSuccess, setMealSuccess] = useState(false);
 
 
@@ -178,7 +181,8 @@ function MainHome() {
         setMealRecord(response.data.meal_record);
         alert('今日の食事判定を記録しました！');
         // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
-        setTimeout(() => { setMealSuccess(false); window.location.reload(); }, 1500);
+        // 5000（5秒）にたっぷり引き伸ばすことで、ポップアップ（アラート）を閉じたあとも 
+        setTimeout(() => { setMealSuccess(false); window.location.reload(); }, 10000);
         //window.location.reload(); 
       }
     } catch (err) {
@@ -230,7 +234,8 @@ function MainHome() {
         setWeightSuccessMessage(response.data.message || '今日の体重を記録しました！');
         alert('今日の体重を記録しました！');
          // 1.5秒間お祝い文字を出してから、裏のカレンダーへ数値を安全に同期させます！
-        setTimeout(() => { setWeightSuccessMessage(''); window.location.reload(); }, 1500);
+        // 5000（5秒）にたっぷり引き伸ばすことで、ポップアップ（アラート）を閉じたあとも
+        setTimeout(() => { setWeightSuccessMessage(''); window.location.reload(); }, 10000);
         //window.location.reload();
       }
     } catch (err) {
@@ -308,6 +313,11 @@ function MainHome() {
         {/* 🚨 エラー ＆ 成功メッセージ表示 */}
         {error && <p style={{ color: 'red', fontWeight: 'bold', marginBottom: '20px' }}>{error}</p>}
       </div>
+
+  🎯 {/*【ここを記述（追加）！】
+          食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
+          mealRecord={mealRecord} と添えることで、今日のデータをハムスターへ安全に手渡します。*/}
+      {isLoggedIn && <OnedariCharacter mealRecord={mealRecord} />}
 
       {/* 🌟 🌟 🌟 【食事記録エリア：ref でシステムに場所を教えます！】 */}
       {isLoggedIn && (
