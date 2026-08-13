@@ -357,6 +357,13 @@ function MainHome() {
         </div>
       )}
 
+
+       {/*【ここを記述（追加）！】
+          食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
+          mealRecord={mealRecord} と添えることで、今日のデータをハムスターへ安全に手渡します。*/}
+      {isLoggedIn && <OnedariCharacter mealRecord={mealRecord} />}
+
+
       {/* 🌟 🌟 🌟 【体重記録エリア：ref でシステムに場所を教えます！】 *
       {isLoggedIn && (
         <div ref={weightSectionRef} style={{ maxWidth: '600px', margin: '0 auto 40px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
@@ -436,11 +443,7 @@ function MainHome() {
         />
       )}
 
-      {/*【ここを記述（追加）！】
-          食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
-          mealRecord={mealRecord} と添えることで、今日のデータをハムスターへ安全に手渡します。*/}
-      {isLoggedIn && <OnedariCharacter mealRecord={mealRecord} />}
-
+     
 
    {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (

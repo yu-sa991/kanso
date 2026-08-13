@@ -71,7 +71,7 @@ interface OnedariCharacterProps {
 }
 
 export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) {
-  // 😿 【初期状態】涙を流して、寂しそうにBaraさんの記録を待っている悲しい猫ちゃん
+  // 😿 【初期状態】涙を流して、寂しそうに記録を待っている悲しい猫ちゃん
   let charEmoji = '😿';      
   let charScaleX = 1.0;      
   let charScaleY = 1.0;      
@@ -213,7 +213,7 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
     charBubble = 'にゃーお！腹八分目大成功！今の私、一番スタイリッシュで最高に綺麗だにゃん！🥰';
     bubbleBg = '#feebc8'; 
   } else if (mealRecord?.status === 'overeating') {
-    // 🎯 【Baraさんの最高の実験ネジ！】
+    // 🎯 【最高の実験ネジ！】
     // 食べすぎると、なんと可愛い猫ちゃんが「ライオン（🦁）」に変身し、
     // 横幅1.7倍、縦幅1.2倍のお餅のようにデブっとした巨大な姿へ大変貌を遂げます！！！
     charEmoji = '🦁🐷'; 
