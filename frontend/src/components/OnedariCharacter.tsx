@@ -1,4 +1,4 @@
-// 🔐 frontend/src/components/OnedariCharacter.tsx (おねだりキャラ専用アパート部屋の全文です！)
+{/*// 🔐 frontend/src/components/OnedariCharacter.tsx (おねだりキャラ専用アパート部屋の全文です！)
 //import React from 'react'; //最新では書かなくいい　
 
 // 💡 外部から「今日の食事データ(mealRecord)」を優しく受け取るための型（発注書）を定義します
@@ -44,12 +44,70 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
   return (
     <div style={{ margin: '30px auto 10px auto', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
       
-      {/* 💭 キャラクターのセリフ */}
+      {/* 💭 キャラクターのセリフ 
       <div style={{ background: bubbleBg, padding: '12px 18px', borderRadius: '20px', fontSize: '13px', fontWeight: 'bold', color: '#2d3748', boxShadow: '0 4px 12px rgba(0,0,0,0.02)', position: 'relative', border: '1px solid rgba(0,0,0,0.05)', lineHeight: '1.5', transition: 'all 0.3s' }}>
         {charBubble}
       </div>
 
-      {/* 🐹 キャラクター本体（XとYを個別に指定することで、最高のぷっくり激太りハムスターが画面に大出現します！） */}
+      {/* 🐹 キャラクター本体（XとYを個別に指定することで、最高のぷっくり激太りハムスターが画面に大出現します！） 
+      <div style={{ 
+        fontSize: '60px', 
+        transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', // 動きをぷるるんと跳ねるようにかわいくします！
+        transform: `scale(${charScaleX}, ${charScaleY})`, 
+        marginTop: '5px' 
+      }}>
+        {charEmoji}
+      </div>
+
+    </div>
+  );
+} */}
+
+
+// 🔐 frontend/src/components/OnedariCharacter.tsx (正真正銘・変幻自在猫ちゃん版の最終確定全文です！)
+
+interface OnedariCharacterProps {
+  mealRecord: any;
+}
+
+export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) {
+  let charEmoji = '🐱';      // 猫ちゃんの初期の見た目
+  let charScaleX = 1.0;      // 猫ちゃんの横の体型（大きさ）
+  let charScaleY = 1.0;      // 猫ちゃんの縦の体型（大きさ）
+  let charBubble = '記録を待ってるよ！お腹すいたにゃん…🥺'; // セリフ（吹き出し）
+  let bubbleBg = '#edf2f7';  // 吹き出しの優しい背景色
+
+  // 🎯 今日の食事ステータス（mealRecord?.status）とコンマ0秒で完全リアルタイム連動！
+  if (mealRecord?.status === 'not_enough') {
+    charEmoji = '🐱💦'; // 🟢 少なすぎ：お腹をすかせてシュッとしぼんだ細身の猫ちゃんに！
+    charScaleX = 0.75; 
+    charScaleY = 0.75;
+    charBubble = 'うにゃあ…ちょっと少なすぎて、お腹と背中がくくっつきそうだにゃん…でも、まだ大丈夫！🥺';
+    bubbleBg = '#e6f4ea'; // kansoパステルグリーン
+  } else if (mealRecord?.status === 'normal') {
+    charEmoji = '😻✨'; // 🟡 普通：腹八分目で目がハートになった最高にかわいいジャスト体型！
+    charScaleX = 1.0;  
+    charScaleY = 1.0;
+    charBubble = 'にゃーお！腹八分目、大成功！今の私、一番スッキリしてて最高にスタイリッシュでしょっ！🥰';
+    bubbleBg = '#feebc8'; // kansoパステルイエロー
+  } else if (mealRecord?.status === 'overeating') {
+    charEmoji = '😾🐷'; // 🔴 食べすぎ：ぷくーっとふてくされて激太りしたお餅のような猫ちゃんに！
+    // 縦は1.2倍、横幅だけを【1.7倍】に強烈に膨張させて、ぷくぷくの「激太り猫ちゃん体型」を物理的に完全再現！
+    charScaleX = 1.7; 
+    charScaleY = 1.2;
+    charBubble = 'ぶ、ぶにゃぁ…！ちょっと食べすぎちゃったにゃん…！お腹のボタンがはじけそうだにゃ〜！っ、でも明日からがんばろ？あ、体重計るの、忘れてない…？おねだり…計ってぇ？⚖️🥺';
+    bubbleBg = '#fce8e6'; // kansoパステルレッド
+  }
+
+  return (
+    <div style={{ margin: '30px auto 10px auto', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+      
+      {/* 💭 猫ちゃんのセリフ（上部にフワッと丸みのある吹き出しを配置！） */}
+      <div style={{ background: bubbleBg, padding: '12px 18px', borderRadius: '20px', fontSize: '13px', fontWeight: 'bold', color: '#2d3748', boxShadow: '0 4px 12px rgba(0,0,0,0.02)', position: 'relative', border: '1px solid rgba(0,0,0,0.05)', lineHeight: '1.5', transition: 'all 0.3s' }}>
+        {charBubble}
+      </div>
+
+      {/* 🐱 猫ちゃん本体（XとYの個別数値指定により、本番環境の型エラーを完全完封しつつ極上のぷっくり感を表現！） */}
       <div style={{ 
         fontSize: '60px', 
         transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', // 動きをぷるるんと跳ねるようにかわいくします！
@@ -62,6 +120,10 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
     </div>
   );
 }
+
+
+
+
 
 
 {/*画像用意したら
