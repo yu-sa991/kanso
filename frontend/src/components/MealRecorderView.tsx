@@ -27,7 +27,8 @@ export default function MealRecorderView({
         
         {/* 🟢 ① 少なすぎボタン部屋 */}
         <div style={{ width: '100%', maxWidth: '400px' }}>
-          <button onClick={() => handleMealRecord('light')} style={{ width: '100%', padding: '18px', fontSize: '20px', background: mealRecord?.status === 'light' ? '#c6f6d5' : '#28a745', color: mealRecord?.status === 'light' ? '#22543d' : 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.15)' }}>
+          {/* 🎯 【ここをお直し！】'light' ➔ 'not_enough' にカチッと書き換えます！ */}
+          <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '18px', fontSize: '20px', background: mealRecord?.status === 'not_enough' ? '#c6f6d5' : '#28a745', color: mealRecord?.status === 'not_enough' ? '#22543d' : 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.15)' }}>
             🟢 少なすぎ （まだ大丈夫）
           </button>
           <span style={{ display: 'block', marginTop: '6px', fontSize: '13px', color: '#718096', textAlign: 'center' }}>
@@ -47,7 +48,8 @@ export default function MealRecorderView({
 
         {/* 🔴 ③ 食べすぎボタン部屋 */}
         <div style={{ width: '100%', maxWidth: '400px' }}>
-          <button onClick={() => handleMealRecord('heavy')} style={{ width: '100%', padding: '20px', fontSize: '20px', background: mealRecord?.status === 'heavy' ? '#fed7d7' : '#dc3545', color: mealRecord?.status === 'heavy' ? '#742a2a' : 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.15)' }}>
+          {/* 🎯 【ここをお直し！】'heavy' ➔ 'overeating' にカチッと書き換えます！ */}
+          <button onClick={() => handleMealRecord('overeating')} style={{ width: '100%', padding: '20px', fontSize: '20px', background: mealRecord?.status === 'overeating' ? '#fed7d7' : '#dc3545', color: mealRecord?.status === 'overeating' ? '#742a2a' : 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(220,53,69,0.15)' }}>
             🔴 食 べ す ぎ（やばい）
           </button>
           <span style={{ display: 'block', marginTop: '6px', fontSize: '13px', color: '#718096', textAlign: 'center' }}>
