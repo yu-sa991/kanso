@@ -1,5 +1,5 @@
 // 🔐 frontend/src/components/OnedariCharacter.tsx (おねだりキャラ専用アパート部屋の全文です！)
-//import React from 'react'; //最新では書かなくいい
+//import React from 'react'; //最新では書かなくいい　
 
 // 💡 外部から「今日の食事データ(mealRecord)」を優しく受け取るための型（発注書）を定義します
 interface OnedariCharacterProps {
