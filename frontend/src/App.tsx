@@ -8,6 +8,8 @@ import axios from 'axios'; // 🚀 通信ツールを読み込みます！
 import Calendar from './components/Calendar';
 // 🎯新設したおねだりハムスターの部屋をインポートして呼び出します！
 import OnedariCharacter from './components/OnedariCharacter';
+// 🎯 【ここを追記！】新設した体重入力パーツの部屋をインポートして呼び出します！
+import WeightRecorderView from './components/WeightRecorderView';
 import Register from './components/Register';
 import Login from './components/Login';
 import ProfileSetup from './components/ProfileSetup';
@@ -314,11 +316,7 @@ function MainHome() {
         {error && <p style={{ color: 'red', fontWeight: 'bold', marginBottom: '20px' }}>{error}</p>}
       </div>
 
-  🎯 {/*【ここを記述（追加）！】
-          食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
-          mealRecord={mealRecord} と添えることで、今日のデータをハムスターへ安全に手渡します。*/}
-      {isLoggedIn && <OnedariCharacter mealRecord={mealRecord} />}
-
+    
       {/* 🌟 🌟 🌟 【食事記録エリア：ref でシステムに場所を教えます！】 */}
       {isLoggedIn && (
         <div ref={mealSectionRef} style={{ maxWidth: '600px', margin: '0 auto 30px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
@@ -359,7 +357,14 @@ function MainHome() {
         </div>
       )}
 
-      {/* 🌟 🌟 🌟 【体重記録エリア：ref でシステムに場所を教えます！】 */}
+
+       {/*【ここを記述（追加）！】
+          食事記録カードのすぐ真上に、今日の判定と連動して体型が変わるおねだりキャラが着地します！
+          mealRecord={mealRecord} と添えることで、今日のデータをハムスターへ安全に手渡します。*/}
+      {isLoggedIn && <OnedariCharacter mealRecord={mealRecord} />}
+
+
+      {/* 🌟 🌟 🌟 【体重記録エリア：ref でシステムに場所を教えます！】 *
       {isLoggedIn && (
         <div ref={weightSectionRef} style={{ maxWidth: '600px', margin: '0 auto 40px auto', padding: '25px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #edf2f7' }}>
           <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#2d3748', fontWeight: 'bold' }}>
@@ -370,11 +375,11 @@ function MainHome() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', maxWidth: '400px', justifyContent: 'center' }}>
               <button type="button" onClick={() => handleAdjustWeight(-1.0)} style={{ padding: '12px 18px', fontSize: '16px', background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569' }}>
                 ー 1 kg
-              </button>
+              </button>*/}
 
                            {/* 🎯 【TypeScript型チェック完全大合格仕様！】
                   as HTMLInputElement を添えることで、型エラー(TS2339)を一撃で100%完全に完封します！
-                  これにより、ドットを含めて5桁を超えるタイピングを、本番環境でも物理的に完全ストップさせます！ */}
+                  これにより、ドットを含めて5桁を超えるタイピングを、本番環境でも物理的に完全ストップさせます！ 
               <div style={{ textAlign: 'left', position: 'relative' }}>
                 <input 
                   type="number" 
@@ -412,7 +417,7 @@ function MainHome() {
             {weightSuccessMessage && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '10px', margin: 0 }}>🎉 {weightSuccessMessage}</p>}
           </form>
         </div>
-      )}
+      )}*/}
 
        {/*📅 【ここを記述（追加）！】
           固定フッターメニューの真上（大元のdivが閉じる直前）に、目印ピン（Ref）を添えた振り返りカレンダーを堂々ドッキングします！
@@ -421,6 +426,24 @@ function MainHome() {
         <hr style={{ border: '0', height: '1px', background: '#e2e8f0', margin: '40px 0' }} />
         <Calendar />
       </div>*/}
+
+        {/*🎯 【ここを記述（追加・大お引っ越し大成功！）】
+          Baraさんの理想の配置！食事記録やハムスターのすぐ真上に、
+          新しくファイルを独立させた「体重記録エリア」がクリーンにドッキングします！*/}
+      {isLoggedIn && (
+        <WeightRecorderView 
+          displayDate={displayDate}
+          weightInput={weightInput}
+          setWeightInput={setWeightInput}
+          handleWeightSubmit={handleWeightSubmit}
+          handleAdjustWeight={handleAdjustWeight}
+          weightError={weightError}
+          weightSuccessMessage={weightSuccessMessage}
+          weightSectionRef={weightSectionRef}
+        />
+      )}
+
+     
 
    {/* ⚙️ 👥 🔒 📝 🛡️ 【メールアドレス変更・規約・ポリシーがガチッと合体した無敵のモーダル！】 */}
       {isLoggedIn && isModalOpen && (
