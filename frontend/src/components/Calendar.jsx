@@ -74,12 +74,12 @@ export default function Calendar() {
         gap: '4px', 
         padding: '6px 4px', 
         borderRadius: '12px', // マス目の中身をぷっくり丸いかわいい角丸にします
-        background: bgContainerColor, // 🎯 【ここが進化！】マス目を全面的にカラーで染め上げます！
+        background: bgContainerColor, // 🎯 マス目を全面的にカラーで染め上げます！
         boxSizing: 'border-box',
-        marginTop: '-16px', // 日付の数字の邪魔をせず、綺麗に下に収めるマジックマージンです
+        marginTop: '2px', // 日付の数字の邪魔をせず、綺麗に下に収めるマジックマージンです
         minHeight: '60px'
       }}>
-        {/* ① 行動ステータスの文字と小さな丸いドット */}
+        {/* 行動ステータスの文字と小さな丸いドット */}
         {status && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
             <span style={{ width: '6px', height: '6px', backgroundColor: dotColor, borderRadius: '50%', display: 'inline-block' }}></span>
@@ -87,7 +87,7 @@ export default function Calendar() {
           </div>
         )}
         
-        {/* ② 体重の数字（kansoのメイン画面に合わせた、より馴染む洗練されたデザインに変更しました！） */}
+        {/* 体重の数字（kansoのメイン画面に合わせた、より馴染む洗練されたデザインに変更しました！） */}
         {weight && (
           <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#4a5568', background: 'rgba(255,255,255,0.7)', padding: '2px 8px', borderRadius: '20px', width: '85%', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
             {weight} <small style={{ fontSize: '9px', color: '#718096' }}>kg</small>
@@ -99,7 +99,7 @@ export default function Calendar() {
 
   return (
     <div style={{ 
-      // 🎨 【ここが進化！】カレンダーのバックの背景色を、kansoの優しくてかわいい「超淡いミルキーグリーン（#f9fdfa）」へ完全刷新します！
+      // 🎨 カレンダーのバックの背景色を、kansoの優しくてかわいい「超淡いミルキーグリーン（#f9fdfa）」へ完全刷新します！
       background: '#f9fdfa', 
       padding: '15px', 
       borderRadius: '24px', 
