@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :password_resets, only: %i[create update]
 
       # プロフィールの保存（create）と確認（show）の通り道を完全開通！
-      resource :profile, only: %i[create show]
+      resource :profile, only: %i[create show update]
 
       # 食事記録の一覧（index）と保存（create）の通り道を完全開通！
       resources :meal_records, only: %i[index create]

@@ -42,12 +42,44 @@ module Api
           render json: { registered: false }, status: :ok
         end
       end
+          
+      # 📁 backend/app/controllers/api/v1/profiles_controller.rb の中に追記します
+
+     #  プロフィールや目標設定を上書き保存する窓口
+      def update
+      #  スコープ制限の鉄壁防犯　JWT認証を突破した、この本人（@current_user）のプロフィールしか絶対に書き換えない
+        profile = @current_user.profile
+
+        if profile.nil?
+          render json: { error: 'プロフィールが登録されていません。' }, status: :not_found
+        return
+      end
+
+   # 📥 フロント（React）から届いた最新の活動レベル（activity_level）などのデータを一度仮セット！
+        profile.assign_attributes(profile_params)
+
+        # 🍏 4. 【自動再計算大開通！】Baraさんがモデルから発見した本物の関数を使って、最新値へ全自動上書き更新！
+        profile.standard_weight = profile.calc_standard_weight
+        profile.target_calories = profile.calc_target_calories
+
+        # 🧱 物理的な引き出しへ、最新の再計算データを安全に格納（save）します！
+        if profile.save
+          render json: {
+            message: 'プロフィールと目標設定を更新しました！',
+            profile: profile,
+            target_calories: profile.target_calories,
+            standard_weight: profile.standard_weight
+          }, status: :ok
+        else
+          render json: { errors: profile.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
 
       private
 
       #  ストロングパラメーター：Reactから届いたデータのハッキング・改ざんを水際でブロックする防犯設定です
       def profile_params
-        params.require(:profile).permit(:gender, :age, :height, :weight)
+        params.require(:profile).permit(:gender, :age, :height, :weight, :activity_level)
       end
 
       #  デジタル会員証（JWT）を解読して「今だれがログインしているか」を突き止めるセキュリティプログラムです

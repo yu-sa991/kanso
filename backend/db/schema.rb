@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_07_131635) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_16_123301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_131635) do
     t.float "weight", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "activity_level"
+    t.float "standard_weight"
+    t.integer "target_calories"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
