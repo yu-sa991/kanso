@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 export default function ProfileEdit() {
   const [height, setHeight] = useState('');
@@ -14,6 +14,14 @@ export default function ProfileEdit() {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
+
+   // 👤 初期登録時のデータを保持する箱
+  const [initialHeight, setInitialHeight] = useState('');
+  const [initialWeight, setInitialWeight] = useState('');
+
+  // ⚖️ メイン画面で更新している「最新の体重」を保持する箱
+  const [latestWeight, setLatestWeight] = useState('');
+
 
   // 📥 1. 画面が開いた瞬間に、現在金庫に登録されている数値を全自動でダウンロードして入力欄に灯します！
   useEffect(() => {
@@ -34,6 +42,10 @@ export default function ProfileEdit() {
         setAge(p.age ? p.age.toString() : '');
         setGender(p.gender || 'male');
         setActivityLevel(p.activity_level || 'low');
+
+         // 初回データを記録
+        setInitialHeight(p.height ? p.height.toString() : '---');
+        setInitialWeight(p.weight ? p.weight.toString() : '---');
       }
     })
     .catch(error => {
