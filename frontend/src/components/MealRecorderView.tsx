@@ -27,7 +27,7 @@ export default function MealRecorderView({
         
         {/* 🟢 ① 少なすぎボタン部屋 */}
         <div style={{ width: '100%', maxWidth: '400px' }}>
-          {/* 🎯 【ここをお直し！】'light' ➔ 'not_enough' にカチッと書き換えます！ */}
+          {/* 🎯'light' ➔ 'not_enough' にカチッと書き換えます！ */}
           <button onClick={() => handleMealRecord('not_enough')} style={{ width: '100%', padding: '18px', fontSize: '20px', background: mealRecord?.status === 'not_enough' ? '#c6f6d5' : '#28a745', color: mealRecord?.status === 'not_enough' ? '#22543d' : 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(40,167,69,0.15)' }}>
             🟢 少なすぎ （まだ大丈夫）
           </button>
