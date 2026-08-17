@@ -30,7 +30,8 @@ export default function ProfileEdit() {
       navigate('/login');
       return;
     }
-
+    
+      // 🍏 A. プロフィール金庫から初期データをダウンロード！
     axios.get(`${API_BASE_URL}/api/v1/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -43,7 +44,7 @@ export default function ProfileEdit() {
         setGender(p.gender || 'male');
         setActivityLevel(p.activity_level || 'low');
 
-         // 初回データを記録
+        // 🎯 初回登録時の数値を記憶ノートに書き写します！
         setInitialHeight(p.height ? p.height.toString() : '---');
         setInitialWeight(p.weight ? p.weight.toString() : '---');
       }
@@ -52,7 +53,33 @@ export default function ProfileEdit() {
       console.error('現在のプロフィールの引き出しに失敗しました', error);
       setError('データの読み込みに失敗しました。');
     });
+
+    // ⚖️ B. 体重記録の履歴金庫から、メイン画面で保存した「最新の体重」をロードします！
+    axios.get(`${API_BASE_URL}/api/v1/weight_records`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(response => {
+      if (response.data && response.data.length > 0) {
+        // 履歴の一番最後（一番最新の体重レコード）をピンポイントで引っ張り出します！
+        const latestRecord = response.data[response.data.length - 1];
+        setLatestWeight(latestRecord.weight.toString());
+      } else {
+        // もし体重履歴がまだ1件もない場合は、プロフィールの数値を優しく代入してお留守番させます
+        axios.get(`${API_BASE_URL}/api/v1/profile`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }).then(res => {
+          if (res.data && res.data.profile?.weight) {
+            setLatestWeight(res.data.profile.weight.toString());
+          }
+        });
+      }
+    })
+    .catch(error => {
+      console.error('最新の体重データの引き出しに失敗しました', error);
+    });
+
   }, [navigate]);
+  
 
   // 🚀 2. 「変更を保存する」ボタンを押した瞬間に、Railsのupdate窓口へ上書き電波を発射します！
   const handleSubmit = async (e: React.FormEvent) => {
@@ -200,6 +227,34 @@ export default function ProfileEdit() {
             <button type="button" onClick={() => navigate('/home')} style={{ width: '100%', padding: '14px', fontSize: '14px', background: 'none', color: '#718096', border: '1px solid #cbd5e1', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s' }}>
               キャンセルして戻る
             </button>
+          </div>
+
+
+          {/* 📊 【現在の記録データ確認カードエリア】 */}
+          <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '2px dashed #e2e8f0' }}>
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#a0aec0', display: 'block', marginBottom: '12px', letterSpacing: '0.5px' }}>YOUR CURRENT RECORDS</span>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              
+              {/* ⚖️ メイン画面の最新体重カード */}
+              <div style={{ padding: '12px 15px', background: '#f4fbf7', borderRadius: '14px', border: '1px solid #d1ebd9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#276749' }}>⚖️ メインの最新体重</span>
+                <strong style={{ fontSize: '16px', color: '#22543d' }}>{latestWeight ? `${latestWeight} kg` : '未記録'}</strong>
+              </div>
+
+              {/* ⏳ 初回登録の体重カード */}
+              <div style={{ padding: '12px 15px', background: '#f7fafc', borderRadius: '14px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#4a5568' }}>⏳ 初回登録時の体重</span>
+                <strong style={{ fontSize: '15px', color: '#2d3748' }}>{initialWeight} kg</strong>
+              </div>
+
+              {/* 📏 初回登録の身長カード */}
+              <div style={{ padding: '12px 15px', background: '#f7fafc', borderRadius: '14px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#4a5568' }}>📏 初回登録時の身長</span>
+                <strong style={{ fontSize: '15px', color: '#2d3748' }}>{initialHeight} cm</strong>
+              </div>
+
+            </div>
           </div>
 
         </form>
