@@ -35,20 +35,42 @@ export default function ProfileEdit() {
     axios.get(`${API_BASE_URL}/api/v1/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    .then(response => {
+
+   {/*} .then(response => {
       if (response.data.registered) {
         const p = response.data.profile;
         setHeight(p.height ? p.height.toString() : '');
-        setWeight(p.weight ? p.weight.toString() : '');
+        //setWeight(p.weight ? p.weight.toString() : '');
         setAge(p.age ? p.age.toString() : '');
         setGender(p.gender || 'male');
         setActivityLevel(p.activity_level || 'low');
 
         // 🎯 初回登録時の数値を記憶ノートに書き写します！
         setInitialHeight(p.height ? p.height.toString() : '---');
-        setInitialWeight(p.weight ? p.weight.toString() : '---');
-      }
+        setInitialWeight(p.weight ? p.weight.toString() : '---');*/}
+          // 🍏 A. プロフィール金庫から初期登録データをダウンロード！
+    axios.get(`${API_BASE_URL}/api/v1/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
+    .then(response => {
+      // 🎯 【ここをお直し大成功！】
+      // Railsから届いた response.data (生の箱) から、ダイレクトに数値を引き出す形にガチ合わせします！
+      const data = response.data;
+      
+      if (data.registered) {
+        // 🚀 これにより、お留守番状態になっていた身長・年齢・性別・活動レベルのすべてが
+        // 金庫の数値と100%完全に合流し、二度とエラーを起こさずに入力欄へピカピカに自動で灯り続けます！！！
+        setHeight(data.profile?.height ? data.profile.height.toString() : '');
+        setAge(data.profile?.age ? data.profile.age.toString() : '');
+        setGender(data.profile?.gender || 'male');
+        setActivityLevel(data.profile?.activity_level || 'low');
+
+        // ✨ 下部の確認カード用にも、初回登録時の数値を大切にメモして残します！
+        setInitialHeight(data.profile?.height ? data.profile.height.toString() : '---');
+        setInitialWeight(data.profile?.weight ? data.profile.weight.toString() : '---');
+      }
+    }) 
+    
     .catch(error => {
       console.error('現在のプロフィールの引き出しに失敗しました', error);
       setError('データの読み込みに失敗しました。');
@@ -63,6 +85,9 @@ export default function ProfileEdit() {
         // 履歴の一番最後（一番最新の体重レコード）をピンポイントで引っ張り出します！
         const latestRecord = response.data[response.data.length - 1];
         setLatestWeight(latestRecord.weight.toString());
+        // 体重の入力フィールド（weight）の中に、初回体重ではなく、メイン画面で日々更新している
+        // 最新のリアルな現在地の数値を最初から全自動でパッと灯す
+        setWeight(latestRecord.weight.toString());
       } else {
         // もし体重履歴がまだ1件もない場合は、プロフィールの数値を優しく代入してお留守番させます
         axios.get(`${API_BASE_URL}/api/v1/profile`, {
@@ -70,6 +95,7 @@ export default function ProfileEdit() {
         }).then(res => {
           if (res.data && res.data.profile?.weight) {
             setLatestWeight(res.data.profile.weight.toString());
+            setWeight(res.data.profile.weight.toString());
           }
         });
       }
@@ -138,22 +164,60 @@ export default function ProfileEdit() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
           
-          {/* ① 身長入力欄 */}
+          {/* ① 身長入力欄 【🎯 最大5桁（例: 165.5）まででフリーズロックをかけます！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>📏 身長 (cm)</label>
-            <input type="number" step="0.1" value={height} onChange={(e) => setHeight(e.target.value)} required style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} />
+            <input 
+              type="number" 
+              step="0.1" 
+              min="1"
+              max="300"
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target.value.length > 5) target.value = target.value.slice(0, 5);
+              }}
+              value={height} 
+              onChange={(e) => setHeight(e.target.value)} 
+              required 
+              style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} 
+            />
           </div>
 
-          {/* ② 体重入力欄 */}
+          {/* ② 体重入力欄 【🎯 最大5桁（例: 55.45）まででフリーズロックをかけます！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>⚖️ 現在の体重 (kg)</label>
-            <input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} required style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} />
+            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>⚖️ 基準の体重 (kg)</label>
+            <input 
+              type="number" 
+              step="0.1" 
+              min="1"
+              max="300"
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target.value.length > 5) target.value = target.value.slice(0, 5);
+              }}
+              value={weight} 
+              onChange={(e) => setWeight(e.target.value)} 
+              required 
+              style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} 
+            />
           </div>
 
-          {/* ③ 年齢入力欄 */}
+          {/* ③ 年齢入力欄 【🎯 年齢は最大3桁（例: 120）までで完全にフリーズロックします！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>🎂 年齢 (歳)</label>
-            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} required style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} />
+            <input 
+              type="number" 
+              min="1"
+              max="150"
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target.value.length > 3) target.value = target.value.slice(0, 3);
+              }}
+              value={age} 
+              onChange={(e) => setAge(e.target.value)} 
+              required 
+              style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', transition: 'all 0.2s' }} 
+            />
           </div>
 
           {/* ④ 性別選択 【🎯 ここが初期設定画面と100%同期した巨大2連プッシュボタンエリアです！】 */}
