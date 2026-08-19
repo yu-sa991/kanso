@@ -36,29 +36,13 @@ export default function ProfileEdit() {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-   {/*} .then(response => {
-      if (response.data.registered) {
-        const p = response.data.profile;
-        setHeight(p.height ? p.height.toString() : '');
-        //setWeight(p.weight ? p.weight.toString() : '');
-        setAge(p.age ? p.age.toString() : '');
-        setGender(p.gender || 'male');
-        setActivityLevel(p.activity_level || 'low');
-
-        // 🎯 初回登録時の数値を記憶ノートに書き写します！
-        setInitialHeight(p.height ? p.height.toString() : '---');
-        setInitialWeight(p.weight ? p.weight.toString() : '---');*/}
-          // 🍏 A. プロフィール金庫から初期登録データをダウンロード！
-    axios.get(`${API_BASE_URL}/api/v1/profile`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
     .then(response => {
       // 🎯 【ここをお直し大成功！】
       // Railsから届いた response.data (生の箱) から、ダイレクトに数値を引き出す形にガチ合わせします！
       const data = response.data;
       
       if (data.registered) {
-        // 🚀 これにより、お留守番状態になっていた身長・年齢・性別・活動レベルのすべてが
+        {/*// 🚀 これにより、お留守番状態になっていた身長・年齢・性別・活動レベルのすべてが
         // 金庫の数値と100%完全に合流し、二度とエラーを起こさずに入力欄へピカピカに自動で灯り続けます！！！
         setHeight(data.profile?.height ? data.profile.height.toString() : '');
         setAge(data.profile?.age ? data.profile.age.toString() : '');
@@ -69,8 +53,27 @@ export default function ProfileEdit() {
         setInitialHeight(data.profile?.height ? data.profile.height.toString() : '---');
         setInitialWeight(data.profile?.weight ? data.profile.weight.toString() : '---');
       }
-    }) 
-    
+        }) */}
+
+        // 🎯 【二重救護網のネジ締め！】
+        // Baraさんがスマートに磨き直した Rails の show 窓口から届く生のデータ構造と、
+        // もし古いカラムデータが残っていた場合の両方から、1文字もすれ違わずに数値を引き出します！
+        const hVal = data.height || data.profile?.height;
+        const aVal = data.age || data.profile?.age;
+        const gVal = data.gender || data.profile?.gender || 'male';
+        const acVal = data.activity_level || data.profile?.activity_level || 'low';
+        const wVal = data.weight || data.profile?.weight;
+
+        setHeight(hVal ? hVal.toString() : '');
+        setAge(aVal ? aVal.toString() : '');
+        setGender(gVal);
+        setActivityLevel(acVal);
+
+        // ✨ 下部の確認カード用にも、初回登録時の体重・身長を大切にメモして残します！
+        setInitialHeight(hVal ? hVal.toString() : '---');
+        setInitialWeight(wVal ? wVal.toString() : '---');
+      }
+    })
     .catch(error => {
       console.error('現在のプロフィールの引き出しに失敗しました', error);
       setError('データの読み込みに失敗しました。');
@@ -85,6 +88,7 @@ export default function ProfileEdit() {
         // 履歴の一番最後（一番最新の体重レコード）をピンポイントで引っ張り出します！
         const latestRecord = response.data[response.data.length - 1];
         setLatestWeight(latestRecord.weight.toString());
+
         // 体重の入力フィールド（weight）の中に、初回体重ではなく、メイン画面で日々更新している
         // 最新のリアルな現在地の数値を最初から全自動でパッと灯す
         setWeight(latestRecord.weight.toString());
@@ -93,9 +97,15 @@ export default function ProfileEdit() {
         axios.get(`${API_BASE_URL}/api/v1/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         }).then(res => {
-          if (res.data && res.data.profile?.weight) {
+          {/*if (res.data && res.data.profile?.weight) {
             setLatestWeight(res.data.profile.weight.toString());
             setWeight(res.data.profile.weight.toString());
+          }*/}
+          const data = res.data;
+          const wVal = data.weight || data.profile?.weight;
+          if (wVal) {
+            setLatestWeight(wVal.toString());
+            setWeight(wVal.toString());
           }
         });
       }
@@ -132,7 +142,7 @@ export default function ProfileEdit() {
         setSuccessMessage('🎉 プロフィールと目標設定を更新しました！');
         alert('🎉 プロフィールと目標設定を新しく更新しました！メイン画面に戻ります。');
         
-        // ⏱️ 10秒おもてなしタイマーの心地よさをここでも採用！1.5秒後にメイン部屋へ自動ワープ！
+         // ⏱️ 1.5秒間お祝い文字を灯してからメイン部屋へ自動ワープ！
         setTimeout(() => {
           navigate('/home');
           window.location.reload(); // メインの固定ヘッダー数値を全自動で再計算同期させます
@@ -147,7 +157,7 @@ export default function ProfileEdit() {
     }
   };
 
-  return (
+ return (
     <div style={{ padding: '40px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '500px', margin: '0 auto', padding: '30px', background: 'white', borderRadius: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #edf2f7', textAlign: 'left' }}>
         
@@ -164,11 +174,14 @@ export default function ProfileEdit() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
           
-          {/* ① 身長入力欄 【🎯 最大5桁（例: 165.5）まででフリーズロックをかけます！】 */}
+          {/* ① 身長入力欄 【🎯 edit-height という名前の赤い糸で文字と入力欄を100%結びました！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>📏 身長 (cm)</label>
+            <label htmlFor="edit-height" style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568', cursor: 'pointer' }}>📏 身長 (cm)</label>
             <input 
               type="number" 
+              id="edit-height"
+              name="height"
+              autoComplete="off"
               step="0.1" 
               min="1"
               max="300"
@@ -183,11 +196,14 @@ export default function ProfileEdit() {
             />
           </div>
 
-          {/* ② 体重入力欄 【🎯 最大5桁（例: 55.45）まででフリーズロックをかけます！】 */}
+          {/* ② 体重入力欄 【🎯 edit-weight という名前の赤い糸で文字と入力欄を100%結びました！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>⚖️ 基準の体重 (kg)</label>
+            <label htmlFor="edit-weight" style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568', cursor: 'pointer' }}>⚖️ 基準の体重 (kg)</label>
             <input 
               type="number" 
+              id="edit-weight"
+              name="weight"
+              autoComplete="off"
               step="0.1" 
               min="1"
               max="300"
@@ -202,11 +218,14 @@ export default function ProfileEdit() {
             />
           </div>
 
-          {/* ③ 年齢入力欄 【🎯 年齢は最大3桁（例: 120）までで完全にフリーズロックします！】 */}
+          {/* ③ 年齢入力欄 【🎯 edit-age という名前の赤い糸で文字と入力欄を100%結びました！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>🎂 年齢 (歳)</label>
+            <label htmlFor="edit-age" style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568', cursor: 'pointer' }}>🎂 年齢 (歳)</label>
             <input 
               type="number" 
+              id="edit-age"
+              name="age"
+              autoComplete="off"
               min="1"
               max="150"
               onInput={(e) => {
@@ -220,62 +239,37 @@ export default function ProfileEdit() {
             />
           </div>
 
-          {/* ④ 性別選択 【🎯 ここが初期設定画面と100%同期した巨大2連プッシュボタンエリアです！】 */}
+          {/* ④ 性別選択 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>👤 性別</label>
+            <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>👤 性別</span>
             <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
-              
-              {/* 🙋‍♂️ 男性ボタン */}
               <button
                 type="button"
                 onClick={() => setGender('male')}
                 style={{
-                  flex: 1,
-                  padding: '16px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  borderRadius: '14px',
-                  border: '2px solid',
-                  borderColor: gender === 'male' ? '#3182ce' : '#cbd5e1',
-                  background: gender === 'male' ? '#ebf8ff' : 'white',
-                  color: gender === 'male' ? '#2b6cb0' : '#4a5568',
-                  transition: 'all 0.2s ease-in-out',
-                  boxShadow: gender === 'male' ? '0 4px 12px rgba(49,130,206,0.15)' : 'none'
+                  flex: 1, padding: '16px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', borderRadius: '14px', border: '2px solid',
+                  borderColor: gender === 'male' ? '#3182ce' : '#cbd5e1', background: gender === 'male' ? '#ebf8ff' : 'white', color: gender === 'male' ? '#2b6cb0' : '#4a5568', transition: 'all 0.2s ease-in-out', boxShadow: gender === 'male' ? '0 4px 12px rgba(49,130,206,0.15)' : 'none'
                 }}
               >
                 🙋‍♂️ 男性
               </button>
-
-              {/* 🙋‍♀️ 女性ボタン */}
               <button
                 type="button"
                 onClick={() => setGender('female')}
                 style={{
-                  flex: 1,
-                  padding: '16px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  borderRadius: '14px',
-                  border: '2px solid',
-                  borderColor: gender === 'female' ? '#e53e3e' : '#cbd5e1',
-                  background: gender === 'female' ? '#fff5f5' : 'white',
-                  color: gender === 'female' ? '#c53030' : '#4a5568',
-                  transition: 'all 0.2s ease-in-out',
-                  boxShadow: gender === 'female' ? '0 4px 12px rgba(229,62,62,0.15)' : 'none'
+                  flex: 1, padding: '16px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', borderRadius: '14px', border: '2px solid',
+                  borderColor: gender === 'female' ? '#e53e3e' : '#cbd5e1', background: gender === 'female' ? '#fff5f5' : 'white', color: gender === 'female' ? '#c53030' : '#4a5568', transition: 'all 0.2s ease-in-out', boxShadow: gender === 'female' ? '0 4px 12px rgba(229,62,62,0.15)' : 'none'
                 }}
               >
                 🙋‍♀️ 女性
               </button>
-
             </div>
           </div>
 
-          {/* ⑤ 活動レベル選択 */}
+          {/* ⑤ 活動レベル選択 【🎯 edit-activity という名前の赤い糸で文字とセレクトを100%結びました！】 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568' }}>🏃‍♂️ 日常の活動レベル</label>
-            <select value={activityLevel} onChange={(e) => setActivityLevel(e.target.value)} style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', background: 'white', cursor: 'pointer' }}>
+            <label htmlFor="edit-activity" style={{ fontSize: '14px', fontWeight: 'bold', color: '#4a5568', cursor: 'pointer' }}>🏃‍♂️ 日常の活動レベル</label>
+            <select id="edit-activity" name="activityLevel" value={activityLevel} onChange={(e) => setActivityLevel(e.target.value)} style={{ padding: '14px', fontSize: '16px', border: '2px solid #cbd5e1', borderRadius: '12px', outline: 'none', fontWeight: 'bold', background: 'white', cursor: 'pointer' }}>
               <option value="low">低い（デスクワーク中心・あまり動かない）</option>
               <option value="normal">普通（立ち仕事や軽い運動を定期的に行う）</option>
               <option value="high">高い（活発な運動、またはハードな肉体労働）</option>
@@ -283,11 +277,10 @@ export default function ProfileEdit() {
           </div>
 
           {/* 💾 保存 ＆ 戻るボタン */}
-          <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <button type="submit" style={{ width: '100%', padding: '16px', fontSize: '16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 14px rgba(40,167,69,0.25)', transition: 'background 0.2s' }}>
               👤 変更内容を安全に保存する
             </button>
-
             <button type="button" onClick={() => navigate('/home')} style={{ width: '100%', padding: '14px', fontSize: '14px', background: 'none', color: '#718096', border: '1px solid #cbd5e1', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s' }}>
               キャンセルして戻る
             </button>

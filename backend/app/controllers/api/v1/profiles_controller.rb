@@ -33,10 +33,12 @@ module Api
           # }, status: :ok
           # 🎯 【これで100%大合格！】カッコ ( の直後で綺麗に改行を挟むことで、
           # 関数の行数（10行以内）も、横幅の長さ（120文字以内）も同時に完璧にクリアさせます！
+           # 出荷お荷物の中に、身長(height)と年齢(age)も漏れなくガチッと積み込んで React へプレゼント
+         
           render json: (
-            { registered: true, target_calories: profile.calc_target_calories,
-              standard_weight: profile.calc_standard_weight, weight: profile.weight, user_name: @current_user.name }
-          )
+             { registered: true, target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight,
+              weight: profile.weight, height: profile.height, age: profile.age, user_name: @current_user.name }
+           )
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok
