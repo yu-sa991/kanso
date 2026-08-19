@@ -33,31 +33,31 @@ module Api
           # }, status: :ok
           # 🎯 【これで100%大合格！】カッコ ( の直後で綺麗に改行を挟むことで、
           # 関数の行数（10行以内）も、横幅の長さ（120文字以内）も同時に完璧にクリアさせます！
-           # 出荷お荷物の中に、身長(height)と年齢(age)も漏れなくガチッと積み込んで React へプレゼント
-         
+          # 出荷お荷物の中に、身長(height)と年齢(age)も漏れなくガチッと積み込んで React へプレゼント
+
           render json: (
-             { registered: true, target_calories: profile.calc_target_calories, standard_weight: profile.calc_standard_weight,
-              weight: profile.weight, height: profile.height, age: profile.age, user_name: @current_user.name }
-           )
+            { registered: true, target_calories: profile.calc_target_calories,
+              standard_weight: profile.calc_standard_weight, weight: profile.weight, height: profile.height, age: profile.age, user_name: @current_user.name }
+          )
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
           render json: { registered: false }, status: :ok
         end
       end
-          
+
       # 📁 backend/app/controllers/api/v1/profiles_controller.rb の中に追記します
 
-     #  プロフィールや目標設定を上書き保存する窓口
+      #  プロフィールや目標設定を上書き保存する窓口
       def update
-      #  スコープ制限の鉄壁防犯　JWT認証を突破した、この本人（@current_user）のプロフィールしか絶対に書き換えない
+        #  スコープ制限の鉄壁防犯　JWT認証を突破した、この本人（@current_user）のプロフィールしか絶対に書き換えない
         profile = @current_user.profile
 
         if profile.nil?
           render json: { error: 'プロフィールが登録されていません。' }, status: :not_found
-        return
-      end
+          return
+        end
 
-   # 📥 フロント（React）から届いた最新の活動レベル（activity_level）などのデータを一度仮セット！
+        # 📥 フロント（React）から届いた最新の活動レベル（activity_level）などのデータを一度仮セット！
         profile.assign_attributes(profile_params)
 
         # 🍏 4. 【自動再計算大開通！】Baraさんがモデルから発見した本物の関数を使って、最新値へ全自動上書き更新！
