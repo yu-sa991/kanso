@@ -305,6 +305,65 @@
           null,
           null,
           null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          null,
           0,
           0,
           null,
@@ -314,8 +373,6 @@
           0,
           null,
           null,
-          null,
-          0,
           null,
           null,
           0,
@@ -354,28 +411,34 @@
             "[:then, 1, 16, 10, 16, 125]": 0,
             "[:else, 2, 18, 10, 18, 94]": 0
           },
-          "[:if, 3, 27, 8, 43, 11]": {
-            "[:then, 4, 36, 10, 39, 11]": 0,
-            "[:else, 5, 42, 10, 42, 57]": 0
+          "[:if, 3, 27, 8, 46, 11]": {
+            "[:then, 4, 38, 10, 42, 11]": 0,
+            "[:else, 5, 45, 10, 45, 57]": 0
           },
-          "[:if, 6, 57, 8, 57, 44]": {
-            "[:then, 7, 57, 8, 57, 34]": 0,
-            "[:else, 8, 57, 8, 57, 44]": 0
+          "[:if, 6, 95, 8, 102, 11]": {
+            "[:then, 7, 96, 10, 99, 24]": 0,
+            "[:else, 8, 101, 10, 101, 94]": 0
           },
-          "[:if, 9, 67, 10, 67, 149]": {
-            "[:then, 10, 67, 10, 67, 84]": 0,
-            "[:else, 11, 67, 10, 67, 149]": 0
+          "[:if, 9, 114, 8, 114, 44]": {
+            "[:then, 10, 114, 8, 114, 34]": 0,
+            "[:else, 11, 114, 8, 114, 44]": 0
           },
-          "[:\"&.\", 12, 67, 104, 67, 127]": {
-            "[:then, 13, 67, 104, 67, 127]": 0,
-            "[:else, 14, 67, 104, 67, 127]": 0
+          "[:if, 12, 124, 10, 124, 149]": {
+            "[:then, 13, 124, 10, 124, 84]": 0,
+            "[:else, 14, 124, 10, 124, 149]": 0
+          },
+          "[:\"&.\", 15, 124, 104, 124, 127]": {
+            "[:then, 16, 124, 104, 124, 127]": 0,
+            "[:else, 17, 124, 104, 124, 127]": 0
           }
         },
         "methods": {
           "[\"ProfilesController\", :create, 11, 6, 20, 9]": 0,
-          "[\"ProfilesController\", :show, 24, 6, 44, 9]": 0,
-          "[\"ProfilesController\", :profile_params, 49, 6, 51, 9]": 0,
-          "[\"ProfilesController\", :authenticate_user, 55, 6, 75, 9]": 0
+          "[\"ProfilesController\", :show, 24, 6, 47, 9]": 0,
+          "[\"ProfilesController\", :update, 52, 6, 86, 9]": 0,
+          "[\"ProfilesController\", :save_and_respond, 91, 6, 103, 9]": 0,
+          "[\"ProfilesController\", :profile_params, 106, 6, 108, 9]": 0,
+          "[\"ProfilesController\", :authenticate_user, 112, 6, 132, 9]": 0
         }
       },
       "/app/app/controllers/api/v1/weight_records_controller.rb": {
@@ -763,6 +826,6 @@
         ]
       }
     },
-    "timestamp": 1786626982
+    "timestamp": 1787330987
   }
 }

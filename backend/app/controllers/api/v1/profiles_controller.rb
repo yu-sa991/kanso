@@ -38,7 +38,7 @@ module Api
           render json: (
             { registered: true, target_calories: profile.calc_target_calories,
               standard_weight: profile.calc_standard_weight, weight: profile.weight,
-               height: profile.height, age: profile.age, user_name: @current_user.name }
+              height: profile.height, age: profile.age, user_name: @current_user.name }
           )
         else
           #  まだ未登録（初回ユーザー）の場合は、「登録してないよ！」とReactへ教えて強制誘導のトリガーにします！
@@ -53,30 +53,30 @@ module Api
         #  スコープ制限の鉄壁防犯　JWT認証を突破した、この本人（@current_user）のプロフィールしか絶対に書き換えない
         profile = @current_user.profile
 
-        #if profile.nil?
-         # render json: { error: 'プロフィールが登録されていません。' }, status: :not_found
-          #return
-        #end
+        # if profile.nil?
+        # render json: { error: 'プロフィールが登録されていません。' }, status: :not_found
+        # return
+        # end
 
         # 📥 フロント（React）から届いた最新の活動レベル（activity_level）などのデータを一度仮セット！
         profile.assign_attributes(profile_params)
 
         # 🍏 4. 【自動再計算大開通！】Baraさんがモデルから発見した本物の関数を使って、最新値へ全自動上書き更新！
-        #profile.standard_weight = profile.calc_standard_weight
-       # profile.target_calories = profile.calc_target_calories
+        # profile.standard_weight = profile.calc_standard_weight
+        # profile.target_calories = profile.calc_target_calories
 
         # 🧱 物理的な引き出しへ、最新の再計算データを安全に格納（save）します！
-        #if profile.save
-         # render json: {
-          #  message: 'プロフィールと目標設定を更新しました！',
-           # profile: profile,
-            #target_calories: profile.target_calories,
-            #standard_weight: profile.standard_weight
-         # }, status: :ok
-        #else
-         # render json: { errors: profile.errors.full_messages }, status: :unprocessable_entity
-        #end
-      #end
+        # if profile.save
+        # render json: {
+        #  message: 'プロフィールと目標設定を更新しました！',
+        # profile: profile,
+        # target_calories: profile.target_calories,
+        # standard_weight: profile.standard_weight
+        # }, status: :ok
+        # else
+        # render json: { errors: profile.errors.full_messages }, status: :unprocessable_entity
+        # end
+        # end
 
         # 🍏 4. 【行数削減の魔法！】
         # 1行が10行を超えて怒られていたため、データの再計算・格納・成功レスポンスの処理を、
@@ -96,12 +96,11 @@ module Api
           render json: {
             message: 'プロフィールと目標設定を更新しました！', profile: profile,
             target_calories: profile.target_calories, standard_weight: profile.standard_weight
-        }, status: :ok
+          }, status: :ok
         else
           render json: { errors: profile.errors.full_messages }, status: :unprocessable_entity
         end
       end
-
 
       #  ストロングパラメーター：Reactから届いたデータのハッキング・改ざんを水際でブロックする防犯設定です
       def profile_params
