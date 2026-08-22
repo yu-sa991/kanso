@@ -19,6 +19,8 @@ import RequireAuth from './components/RequireAuth';
 // 新設したパスワード再設定画面をアプリに読み込みます！
 import PasswordReset from './components/PasswordReset';
 import ForgotPassword from './components/ForgotPassword'; // 🎯 これを上部に追加！
+// 👤 【ここを追記！】新設したプロフィール編集専用画面を公式にドッキングします！
+import ProfileEdit from './components/ProfileEdit';
 
 
 // 🔗 各種静的画面・Top紹介ページを公式に読み込みます！
@@ -61,7 +63,7 @@ function MainHome() {
   const [mealSuccess, setMealSuccess] = useState(false);
 
 
-  // 📅 【ここを記述（追加）！】カレンダーのポップアップが開いているかを管理するスイッチです！
+  // 📅カレンダーのポップアップが開いているかを管理するスイッチです！
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
 
@@ -474,8 +476,11 @@ function MainHome() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {/* 🔧 1. アカウント設定グループ */}
               <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#a0aec0', paddingLeft: '10px', marginTop: '5px' }}>ACCOUNT SETTINGS</span>
-              <button onClick={() => alert('ここに「👤 プロフィール編集画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
-                👤 プロフィール・目標設定の編集
+             {/* 🎯 【ここをお直し大開通！】プロフィール編集へのワープボタンをアラートから本物の画面遷移（navigate）へ接続！ */}
+             <button onClick={() => { setIsModalOpen(false); navigate('/profile-edit'); }} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+              👤 プロフィール・目標設定の編集 
+             {/*<button onClick={() => alert('ここに「👤 プロフィール編集画面」が合流します！')} style={{ width: '100%', padding: '12px 10px', background: 'none', border: 'none', textAlign: 'left', fontSize: '14px', cursor: 'pointer', color: '#4a5568', borderRadius: '8px', fontWeight: '500' }}>
+                👤 プロフィール・目標設定の編集*/}
               </button>
               
               {/* 📧 メールアドレスの再設定ボタン */}
@@ -641,6 +646,8 @@ export default function App() {
         {/* 🗺️ 4. 【今回のMVPの主役：ログイン前の初めての人が一番最初に来る「Top紹介ページ」を開通！】 */}
         {/* (※RequireAuth の外側に独立させ、専用の通り道を開いたため、未ログインの初めての人でも絶対にフリーズしません！) */}
         {/*<Route path="/welcome" element={<Welcome />} />*/}
+         {/* 末尾に「 /> 」の閉じネジをガチッと締め直したことで、すべてのTS構文エラーを完全完封消滅させます！ */}
+        <Route path="/profile-edit" element={<RequireAuth><ProfileEdit /></RequireAuth>} />
      </Routes>
     </Router>
   );
