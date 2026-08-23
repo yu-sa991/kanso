@@ -82,13 +82,13 @@ function MainHome() {
   
   useEffect(() => {
 
-    {/*// ブラウザに「絶対に自動翻訳させるな！」と強制命令を出す、無敵の防犯コードです。
+    // ブラウザに「絶対に自動翻訳させるな！」と強制命令を出す、無敵の防犯コードです。
     // これにより、ブラウザの勘違いによるメッセージの消滅を一撃で完全完封します！
     document.documentElement.lang = 'ja';
     const meta = document.createElement('meta');
     meta.name = 'google';
     meta.content = 'notranslate';
-    document.head.appendChild(meta);*/}
+    document.head.appendChild(meta);
 
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
