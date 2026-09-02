@@ -64,13 +64,49 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
 } */}
 
 
-// 🔐 frontend/src/components/OnedariCharacter.tsx (正真正銘・全宇宙最終確定の完全大合格コードです！)
+// 🔐 frontend/src/components/OnedariCharacter.tsx (第1部：4連続普通を裏舞台でスキャンするパトロール脳みそ部屋！)
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : 'https://kanso-8m4l.onrender.com';
 
 interface OnedariCharacterProps {
   mealRecord: any;
 }
 
 export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) {
+  // 😾 【新設！】4連続「普通🟡」のアラートモーダルが今画面に開いているか（true/false）を管理する箱！
+  const [showNormalAlert, setShowNormalAlert] = useState(false);
+
+  // 📥 1. 画面が開いた瞬間に、食事履歴金庫（meal_records）をシュッと全自動スキャンパトロールします！
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    axios.get(`${API_BASE_URL}/api/v1/meal_records`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(response => {
+      const records = response.data;
+      if (records && records.length >= 4) {
+        // 📊 履歴の「直近4件」の食事レコードだけを綺麗に切り出します！
+        const lastFour = records.slice(-4);
+        
+        // 🕵️‍♂️ 【核心のパトロール隊！】直近4件のステータスが「すべて『normal（普通）』」であるか運命の判定！
+        const isAllNormal = lastFour.every((r: any) => r.status === 'normal');
+        
+        // 🚨 もし4日連続で普通を選んでサボっていたら、ジト目猫ちゃんアラートのトリガーをONにします！！！
+        if (isAllNormal) {
+          setShowNormalAlert(true);
+        }
+      }
+    })
+    .catch(error => {
+      console.error('ジト目パトロールのための食事履歴引き出しに失敗しました', error);
+    });
+  }, [mealRecord]); // 今日の記録ボタンが新しく押されたときにも再スキャンを走らせます！
+
+ 
   // 😿 【初期状態】涙を流して、寂しそうに記録を待っている悲しい猫ちゃん
   let charEmoji = '😿';      
   let charScaleX = 1.0;      
@@ -122,9 +158,61 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
         {charEmoji}
       </div>
 
+      {/* 🚨 4連続「普通🟡」自動検知ジト目アラートポップアップ！ */}
+      {showNormalAlert && (
+        <>
+          {/* 背景の優しいおもてなしすりガラス（バックドロップ） */}
+          <div 
+            onClick={() => setShowNormalAlert(false)} 
+            style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, background: 'rgba(40, 50, 44, 0.3)', zIndex: 2999, backdropFilter: 'blur(4px)', transition: 'all 0.3s' }}
+          ></div>
+          
+          {/* 😾🔍 ジト目パトロールモーダル本体 */}
+          <div style={{ 
+            position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
+            background: '#fffdf6', border: '3px dashed #ecc94b', padding: '30px 25px', borderRadius: '28px', 
+            zIndex: 3000, boxShadow: '0 12px 32px rgba(236,201,75,0.2)', textAlign: 'center', 
+            width: '90%', maxWidth: '360px', boxSizing: 'border-box', animation: 'fadeIn 0.3s' 
+          }}>
+            <span style={{ fontSize: '50px', display: 'block', marginBottom: '10px' }}>😾🔍</span>
+            <strong style={{ fontSize: '16px', color: '#b7791f', display: 'block', marginBottom: '12px', lineHeight: '1.4' }}>
+              「ちょっと待つにゃ！<br />4日連続で『普通🟡』になってるにゃ！？」
+            </strong>
+            <p style={{ fontSize: '13px', color: '#4a5568', margin: '0 0 20px 0', lineHeight: '1.6', fontWeight: 'bold' }}>
+              本当に腹八分目だったにゃん？<br />
+              面倒くさくて全部『普通』に<br />
+              しちゃってないにゃ？猫は見ているにゃ…！
+            </p>
+            
+            {/* コミカルな愛嬌2択ボタンエリア */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <button 
+                onClick={() => {
+                  setShowNormalAlert(false);
+                  alert('😸「正直でよろしいにゃ！明日からはもっと心に余白を持って記録するにゃん！」');
+                }} 
+                style={{ width: '100%', padding: '12px', background: '#dd6b20', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(221,107,32,0.2)', transition: 'all 0.2s' }}
+              >
+                😅 ギクッ！明日から正直に生きます
+              </button>
+              <button 
+                onClick={() => {
+                  setShowNormalAlert(false);
+                  alert('🐈✨「うにゃお！それなら素晴らしいにゃん！完璧な自己管理能力、尊敬しちゃうにゃ！」');
+                }} 
+                style={{ width: '100%', padding: '12px', background: 'white', color: '#718096', border: '1px solid #cbd5e1', borderRadius: '12px', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer', transition: 'all 0.2s' }}
+              >
+                😤 本当に4日連続で普通だったにゃ！
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
     </div>
   );
 }
+
 
 
 
