@@ -10,7 +10,7 @@ module Api
 
       def setup
         @mock_user = create(:user, email: "test_bot_#{Time.now.to_i}@example.com", jwt_salt: SecureRandom.hex(16))
-        
+
         # 🛟 【初期データの紐付け】
         @mock_user.profile&.destroy
         @mock_user.create_profile!(gender: 'male', age: 30, height: 170.0, weight: 60.0, activity_level: 'low')
