@@ -65,37 +65,59 @@ export default function Calendar() {
       labelText = '食べすぎ'; 
     }
 
-    return (
+      return (
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 
         width: '100%', 
-        gap: '4px', 
-        padding: '6px 4px', 
-        borderRadius: '12px', // マス目の中身をぷっくり丸いかわいい角丸にします
-        background: bgContainerColor, // 🎯 マス目を全面的にカラーで染め上げます！
+        gap: '2px', 
+        // 🎯 スマホの時は左右の padding を 1px に限界まで縮めて、文字のための内側のスペースを最優先で確保します！
+        padding: '4px 1px', 
+        borderRadius: '8px', 
+        background: bgContainerColor, 
         boxSizing: 'border-box',
-        marginTop: '2px', // 日付の数字の邪魔をせず、綺麗に下に収めるマジックマージンです
-        minHeight: '60px'
+        marginTop: '2px', 
+        minHeight: '52px'
       }}>
         {/* 行動ステータスの文字と小さな丸いドット */}
         {status && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
-            <span style={{ width: '6px', height: '6px', backgroundColor: dotColor, borderRadius: '50%', display: 'inline-block' }}></span>
-            <span style={{ fontSize: '11px', fontWeight: 'bold', color: textColor }}>{labelText}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2px', justifyContent: 'center', width: '100%' }}>
+            <span style={{ width: '4px', height: '4px', backgroundColor: dotColor, borderRadius: '50%', display: 'inline-block', flexShrink: 0 }}></span>
+            {/* 🎯 フォントサイズに clamp の魔法を採用！スマホなら 9px、画面が広いPCなら 11px へ全自動可変！ */}
+            <span style={{ fontSize: 'clamp(9px, 2.3vw, 11px)', fontWeight: 'bold', color: textColor, whiteSpace: 'nowrap' }}>
+              {labelText}
+            </span>
           </div>
         )}
         
-        {/* 体重の数字（kansoのメイン画面に合わせた、より馴染む洗練されたデザインに変更しました！） */}
+        {/* 体重の数字（はみ出しの最大の原因だった width: '85%' や固定 padding を完全に解体・修復！） */}
         {weight && (
-          <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#4a5568', background: 'rgba(255,255,255,0.7)', padding: '2px 8px', borderRadius: '20px', width: '85%', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
-            {weight} <small style={{ fontSize: '9px', color: '#718096' }}>kg</small>
+          <div style={{ 
+            // 🎯 文字サイズをスマホ用（9.5px〜11px）にコンパクト化し、絶対に不自然な改行をさせません！
+            fontSize: 'clamp(9.5px, 2.4vw, 11px)', 
+            fontWeight: 'bold', 
+            color: '#4a5568', 
+            background: 'rgba(255,255,255,0.85)', 
+            padding: '2px 1px', 
+            borderRadius: '6px', 
+            width: '95%', // 🎯 マス目の横幅いっぱいにピッタリ寄り添わせます
+            textAlign: 'center', 
+            boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+            whiteSpace: 'nowrap',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'baseline',
+            gap: '1px'
+          }}>
+            {weight}
+            <small style={{ fontSize: 'clamp(8px, 2vw, 9px)', color: '#718096', fontWeight: 'normal' }}>kg</small>
           </div>
         )}
       </div>
     );
   };
+  
 
   return (
     <div style={{ 
