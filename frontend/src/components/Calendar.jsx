@@ -73,60 +73,90 @@ export default function Calendar() {
         width: '100%', 
         gap: '2px', 
         // 🎯 スマホの時は左右の padding を 1px に限界まで縮めて、文字のための内側のスペースを最優先で確保します！
-        padding: '4px 1px', 
-        borderRadius: '8px', 
+        padding: '3px 0px', 
+        borderRadius: '6px', 
         background: bgContainerColor, 
         boxSizing: 'border-box',
-        marginTop: '2px', 
-        minHeight: '52px'
+        marginTop: '1px', 
+        minHeight: '48px'
       }}>
-        {/* 行動ステータスの文字と小さな丸いドット */}
+           {/* 行動ステータスの文字と小さな丸いドット */}
         {status && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '2px', justifyContent: 'center', width: '100%' }}>
             <span style={{ width: '4px', height: '4px', backgroundColor: dotColor, borderRadius: '50%', display: 'inline-block', flexShrink: 0 }}></span>
-            {/* 🎯 フォントサイズに clamp の魔法を採用！スマホなら 9px、画面が広いPCなら 11px へ全自動可変！ */}
-            <span style={{ fontSize: 'clamp(9px, 2.3vw, 11px)', fontWeight: 'bold', color: textColor, whiteSpace: 'nowrap' }}>
+            {/* 🎯 実機用に最小サイズを「8.5px」まで引き下げ、絶対に改行させません！ */}
+            <span style={{ fontSize: 'clamp(8.5px, 2.2vw, 11px)', fontWeight: 'bold', color: textColor, whiteSpace: 'nowrap' }}>
               {labelText}
             </span>
           </div>
         )}
-        
-        {/* 体重の数字（はみ出しの最大の原因だった width: '85%' や固定 padding を完全に解体・修復！） */}
+
+        {/* 体重の数字（実機はみ出しの真犯人を100%完全修復！） */}
         {weight && (
           <div style={{ 
-            // 🎯 文字サイズをスマホ用（9.5px〜11px）にコンパクト化し、絶対に不自然な改行をさせません！
-            fontSize: 'clamp(9.5px, 2.4vw, 11px)', 
+            // 🎯 実機の極小幅に完全フィットするよう、フォントと内側余白をミリ単位で最適化！
+            fontSize: 'clamp(9px, 2.3vw, 11px)', 
             fontWeight: 'bold', 
             color: '#4a5568', 
             background: 'rgba(255,255,255,0.85)', 
-            padding: '2px 1px', 
-            borderRadius: '6px', 
-            width: '95%', // 🎯 マス目の横幅いっぱいにピッタリ寄り添わせます
+            padding: '2px 0', 
+            borderRadius: '4px', 
+            width: '98%', 
             textAlign: 'center', 
-            boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.01)',
             whiteSpace: 'nowrap',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'baseline',
-            gap: '1px'
+            gap: '0.5px'
           }}>
             {weight}
-            <small style={{ fontSize: 'clamp(8px, 2vw, 9px)', color: '#718096', fontWeight: 'normal' }}>kg</small>
+            {/* 🎯 kg の文字サイズを 7.5px にコンパクト化して数字の隣に綺麗に寄り添わせます */}
+            <span style={{ fontSize: '7.5px', color: '#718096', fontWeight: 'normal' }}>kg</span>
           </div>
         )}
       </div>
     );
   };
-  
 
+
+
+
+  
   return (
     <div style={{ 
-      // 🎨 カレンダーのバックの背景色を、kansoの優しくてかわいい「超淡いミルキーグリーン（#f9fdfa）」へ完全刷新します！
       background: '#f9fdfa', 
-      padding: '15px', 
+      padding: '10px', // スマホ用に周囲の余白を少しだけ引き締めます
       borderRadius: '24px', 
       border: '1px solid #e6f4ea' 
     }}>
+      
+      {/* 🎯 【これぞ実機はみ出し完全完封の最終決戦バリア！】
+           FullCalendarが自動生成するイベント外枠の「余計なパディングやマージン」を
+           !important 命令で力づくで完全に削ぎ落とし、セルの幅を100%文字のために開放します！ */}
+      <style>{`
+        .fc-daygrid-day-frame {
+          padding: 1px !important;
+        }
+        .fc-daygrid-event-harness {
+          margin: 1px 0 !important;
+        }
+        .fc-event {
+          padding: 0 !important;
+          margin: 0 !important;
+          background: transparent !important;
+          border: none !important;
+        }
+        .fc-event-main {
+          padding: 0 !important;
+        }
+        /* スマホの日付の数字も少しだけコンパクトにして美しく収めます */
+        .fc-col-header-cell-cushion, .fc-daygrid-day-number {
+          font-size: 11px !important;
+          padding: 2px 4px !important;
+        }
+      `}</style>
+
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
