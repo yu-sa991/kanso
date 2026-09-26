@@ -80,6 +80,12 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
 
   // 📥 1. 画面が開いた瞬間に、食事履歴金庫（meal_records）をシュッと全自動スキャンパトロールします！
   useEffect(() => {
+    // 画面が開いた最初の未入力状態（mealRecordが空っぽ、または今日まだボタンを押していない時）は、
+    // 過去のデータが金庫にあっても絶対にアラートをフライング起動させず、安全に return（お留守番）させます！！！
+    if (!mealRecord || !mealRecord.status) {
+      return;
+    }
+
     const token = localStorage.getItem('token');
     if (!token) return;
 
@@ -88,19 +94,24 @@ export default function OnedariCharacter({ mealRecord }: OnedariCharacterProps) 
     })
     .then(response => {
       const records = response.data;
+     
+      // もし履歴データ（records）がそもそも存在しない時、または配列が空っぽ（0件）の時は、
+     //if (!records || records.length === 0) return;
+
       if (records && records.length >= 4) {
         // 📊 履歴の「直近4件」の食事レコードだけを綺麗に切り出します！
         const lastFour = records.slice(-4);
         
-        // 🕵️‍♂️ 【核心のパトロール隊！】直近4件のステータスが「すべて『normal（普通）』」であるか運命の判定！
+        // 🕵️‍♂️ 直近4件のステータスが「すべて『normal（普通）』」であるか運命の判定！
         const isAllNormal = lastFour.every((r: any) => r.status === 'normal');
         
-        // 🚨 もし4日連続で普通を選んでサボっていたら、ジト目猫ちゃんアラートのトリガーをONにします！！！
-        if (isAllNormal) {
-          setShowNormalAlert(true);
+       // 🚨 【今日新しく普通を押した、まさにその瞬間】かつ【4連続普通】の場合にのみ、大出現のトリガーを引きます！
+      if (isAllNormal && mealRecord.status === 'normal') {
+        setShowNormalAlert(true);
         }
       }
     })
+
     .catch(error => {
       console.error('ジト目パトロールのための食事履歴引き出しに失敗しました', error);
     });
