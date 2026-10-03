@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/kosugi-maru": "^5.3.0",
     "@fullcalendar/daygrid": "^6.1.21",
     "@fullcalendar/react": "^6.1.21",
     "@tailwindcss/vite": "^4.3.2",

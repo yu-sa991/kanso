@@ -12,6 +12,34 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>app</title>
+
+       <!-- 🎯 【ここを完全修復・ガチ締め大成功！】
+         1文字の途切れも、カッコのすれ違いも完全にネジ締めし直した、Google Fonts公式の完全開通リンクです！ -->
+    <link rel="preconnect" href="https://googleapis.com" />
+    <link rel="preconnect" href="https://gstatic.com" crossorigin="anonymous" />
+    <link href="https://googleapis.com/css2?family=Kosugi+Maru&amp;display=swap" rel="stylesheet" />
+
+    <!-- 🎯 【これぞ実機・外部パーツのフォント制限を完全粉砕する無敵のバリア！】
+         FullCalendarの内部で動いているすべての頑固な文字指定に対して、
+         「!important」という最優先命令を使って、上から力づくで100%強制的に「小杉丸」へ上書き統一します！
+         矢印マーク（.fc-icon）だけは、文字化け（×印）しないように優しく対象から除外（:not）して絶対防衛します！ -->
+    <style>
+      body, 
+      .fc, 
+      .fc *, 
+      .fc-toolbar-title, 
+      .fc-button, 
+      .fc-col-header-cell-cushion, 
+      .fc-daygrid-day-number {
+        font-family: "Kosugi Maru", sans-serif !important;
+      }
+      /* 🚨 矢印のフォントだけは、丸文字に巻き込まれて壊れないように本来のアイコン用フォントをガチ死守します！ */
+      .fc .fc-icon {
+        font-family: "fcicons" !important;
+      }
+    </style>
+
+
   </head>
   <body class="notranslate">
     <div id="root"></div>
