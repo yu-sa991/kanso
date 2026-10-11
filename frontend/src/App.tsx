@@ -582,16 +582,46 @@ function MainHome() {
           {/* 🟢 白い引き出し本体：ぷっくりとした超丸っこい角（32px）と、優しく包むkansoグリーン（#f4fbf7）の背景デザイン！ */}
           <div style={{ position: 'fixed', top: '6%', bottom: '6%', left: '16px', right: '16px', background: '#f4fbf7', borderRadius: '32px', padding: '25px 20px', zIndex: 2000, boxShadow: '0 12px 36px rgba(40,167,69,0.12)', maxWidth: '650px', margin: '0 auto', overflowY: 'auto', border: '2px solid #d1ebd9', boxSizing: 'border-box' }}>
             
-            {/* 🎀 上部のヘッダー：丸文字に合うように、文字間を少し優しく広げて丸っこい閉じるボタンとドッキング！ */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '2px dashed #13a54b', paddingBottom: '12px' }}>
-              <strong style={{ fontSize: '18px', color: '#510aa2', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                📅 <span style={{ letterSpacing: '0.5px' }}>振り返り履歴カレンダー</span>
+                   {/* 🌿 【Baraさん大天才の超絶アップデート！】
+                 上部のヘッダー：文字の形からボタンの配色まで、すべてをキウイ丸もこもこ世界観へ完全大合流させました！ */}
+            <div style={{ 
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
+              marginBottom: '20px', borderBottom: '2px dashed #cbd5e1', paddingBottom: '14px',
+              fontFamily: '"Kiwi Maru", serif'
+            }}>
+              {/* 📋 タイトルの文字色を、kansoに最も馴染む深みのあるマカロングリーンへ格上げ！ */}
+              <strong style={{ 
+                fontSize: '18px', color: '#2b7a63', fontWeight: 'bold', 
+                display: 'flex', alignItems: 'center', gap: '8px',
+                fontFamily: '"Kiwi Maru", serif', letterSpacing: '0.5px'
+              }}>
+                📋 かれんだー
               </strong>
-              {/* 🟢 ×ボタン：カチッとした四角を廃止し、押しやすくてかわいい「ぷっくり丸いグリーン調ボタン」へ格上げ！ */}
-              <button onClick={() => setIsCalendarOpen(false)} style={{ background: '#08fe62', border: '1px solid #0ba53c', fontSize: '18px', cursor: 'pointer', color: '#e6f918', width: '36px', height: '32px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', transition: 'all 0.2s' }}>
-                ×
+              
+              {/* 🟢 ×閉じるボタン：トゲトゲしい蛍光色を完全廃止し、
+                   マカロンのようにぷっくり丸くて優しいパステルミント調（#eaf6f2）の極上ボタンへ大進化！ */}
+              <button 
+                onClick={() => setIsCalendarOpen(false)} 
+                style={{ 
+                  background: '#eaf6f2', border: '2px solid #2b7a63', fontSize: '15px', 
+                  cursor: 'pointer', color: '#2b7a63', width: '32px', height: '32px', 
+                  borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                  fontWeight: 'bold', transition: 'all 0.2s ease-in-out',
+                  fontFamily: '"Kiwi Maru", serif', boxShadow: '0 2px 6px rgba(43,122,99,0.06)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#2b7a63';
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#eaf6f2';
+                  e.currentTarget.style.color = '#2b7a63';
+                }}
+              >
+                ✕
               </button>
             </div>
+
             
             {/* 🤍 内側の白いカード：FullCalendarの四角い枠を、kanso風の優しい丸っこい白背景（borderRadius: '24px'）でふんわり包み込みます！ */}
             <div style={{ background: 'white', padding: '15px', borderRadius: '24px', border: '1px solid #4eee0a', boxShadow: '0 4px 12px rgba(95, 189, 27, 0.02)' }}>
