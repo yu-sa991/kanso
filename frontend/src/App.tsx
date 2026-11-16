@@ -287,8 +287,62 @@ function MainHome() {
 
   return (
     // 📱 外側の枠組み：フッターが最下部に固定されるため、お尻にゆとり（paddingBottom）を持たせます
-    <div style={{ padding: '90px 20px 100px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>
+    /*<div style={{ padding: '90px 20px 100px 20px', textAlign: 'center', fontFamily: 'sans-serif', background: '#fafafa', minHeight: '100vh', boxSizing: 'border-box' }}>*/
+    // 📱 外側の枠組み：フォントを「キウイ丸」に、背景を「パステルミルキーグリーン」に変更！
+    <div style={{ padding: '90px 20px 100px 20px', textAlign: 'center', fontFamily: '"Kiwi Maru", serif', background: '#f4faf6', minHeight: '100vh', boxSizing: 'border-box' }}>
       
+      {/* 🎨 【メイン画面専用・レイアウト維持＆もこもこパステル装飾CSS】 */}
+      <style>{`
+        /* 1. 画面全体の文字・ボタン・入力欄をすべて「キウイ丸」へ統一！ */
+        body, div, span, button, input, select, strong, h1, h2, h3, p, label {
+          font-family: "Kiwi Maru", serif !important;
+        }
+
+        /* 2. 背景全体を優しいパステルミルキーグリーンに染め上げます */
+        body {
+          background-color: #f4faf6 !important;
+          color: #2d3748 !important;
+        }
+
+        /* 3. カードや白背景エリアの角を、お菓子の缶のようにぷっくり丸くします */
+        div[style*="background: white"],
+        div[style*="background: #fff"],
+        div[style*="background-color: white"],
+        div[style*="background-color: #fff"] {
+          border-radius: 28px !important;
+          border: 2px solid #d8ede6 !important;
+          box-shadow: 0 10px 28px rgba(43, 122, 99, 0.05) !important;
+        }
+
+        /* 4. ボタン類をマシュマロのようにぷっくり丸くし、押したときに可愛く弾む動きを追加！ */
+        button {
+          border-radius: 20px !important;
+          box-shadow: 0 4px 12px rgba(43, 122, 99, 0.06) !important;
+          transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease !important;
+        }
+        button:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 18px rgba(43, 122, 99, 0.1) !important;
+        }
+        button:active {
+          transform: scale(0.97) !important;
+        }
+
+        /* 5. 体重などの数字入力欄を優しいミントグリーンの枠線で囲みます */
+        input[type="number"], input[type="text"], input[type="email"], input[type="password"], select {
+          border-radius: 16px !important;
+          border: 2px solid #cceadd !important;
+          background-color: #ffffff !important;
+          color: #2b7a63 !important;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        }
+        input:focus, select:focus {
+          outline: none !important;
+          border-color: #2b7a63 !important;
+          box-shadow: 0 0 0 3px rgba(43, 122, 99, 0.12) !important;
+        }
+      `}</style>
+
       {/* 👑 👑 👑 【上部固定ヘッダーエリア：position: fixed で画面上にガチッと固定！】 */}
       {isLoggedIn && targetCalories && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #e2e8f0', padding: '10px 15px', zIndex: 1000, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
